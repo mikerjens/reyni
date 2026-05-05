@@ -4,914 +4,828 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Reyni Service · Production Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500&display=swap');
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --lip:    #C8193C;
+  --lip2:   #E8294C;
+  --orange: #F4622A;
+  --gold:   #F0A500;
+  --cream:  #FFF6EE;
+  --sand:   #F9E8D4;
+  --shell:  #EDD4BC;
+  --ink:    #1A0A10;
+  --wine:   #2E0A1A;
+  --muted:  #9A7080;
+  --bdr:    rgba(200,25,60,0.14);
+  --bdr2:   rgba(200,25,60,0.07);
+}
 
-  :root {
-    --red: #C0392B;
-    --red-dark: #922B21;
-    --carbon: #141414;
-    --carbon-mid: #1e1e1e;
-    --carbon-light: #272727;
-    --text: #f0f0f0;
-    --muted: #777;
-    --accent: #E74C3C;
-    --gold: #D4AC0D;
-    --green: #27AE60;
-    --border: rgba(255,255,255,0.07);
-  }
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  -webkit-tap-highlight-color: transparent;
+}
 
-  body {
-    background: var(--carbon);
-    color: var(--text);
-    font-family: 'Barlow', sans-serif;
-    min-height: 100vh;
-  }
+/* ── HEADER ── */
+.header {
+  background: var(--ink);
+  position: relative;
+  overflow: hidden;
+}
 
-  /* HEADER */
-  .header {
-    background: linear-gradient(to right, #0a0a0a 0%, #1a1a1a 100%);
-    border-bottom: 3px solid var(--red);
-    padding: 0 28px;
-    display: flex;
+.header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(-60deg, transparent 0, transparent 18px, rgba(200,25,60,0.07) 18px, rgba(200,25,60,0.07) 36px);
+  pointer-events: none;
+}
+
+.header::after {
+  content: '';
+  position: absolute;
+  top: -40px; right: -60px;
+  width: 340px; height: 210px;
+  background: radial-gradient(ellipse at center, rgba(244,98,42,0.22) 0%, transparent 68%);
+  pointer-events: none;
+}
+
+.header-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  padding: 0 32px;
+  min-height: 80px;
+}
+
+.logo-block {
+  padding: 20px 28px 20px 0;
+  border-right: 1px solid rgba(200,25,60,0.28);
+  margin-right: 28px;
+  flex-shrink: 0;
+}
+
+.logo-eyebrow {
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 5px;
+}
+
+.logo-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 30px;
+  font-weight: 900;
+  color: var(--cream);
+  line-height: 1;
+}
+
+.logo-sub {
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 5px;
+}
+
+.header-meta {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  flex: 1;
+}
+
+.meta-item { display: flex; flex-direction: column; gap: 4px; flex-shrink: 0; }
+
+.meta-key {
+  font-size: 8px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.meta-val {
+  font-size: 13px;
+  font-weight: 500;
+  color: #F0D4BE;
+}
+
+.status-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--lip);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 8px 20px 8px 14px;
+  clip-path: polygon(12px 0%, 100% 0%, 100% 100%, 0% 100%);
+  margin-left: auto;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #fff;
+  opacity: 0.85;
+  animation: blink 2s infinite;
+  flex-shrink: 0;
+}
+
+@keyframes blink { 0%,100%{opacity:.85} 50%{opacity:.25} }
+
+/* ── ACCENT LINE ── */
+.lip-line {
+  height: 3px;
+  background: linear-gradient(to right, var(--lip), var(--orange), var(--gold));
+}
+
+/* ── NAV ── */
+.nav-wrap {
+  background: var(--wine);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  border-bottom: 1px solid rgba(200,25,60,0.22);
+}
+.nav-wrap::-webkit-scrollbar { display: none; }
+
+.nav-inner {
+  display: flex;
+  padding: 0 28px;
+  white-space: nowrap;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.nav-tab {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(240,212,190,0.72);
+  padding: 14px 16px 12px;
+  cursor: pointer;
+  border: none;
+  border-bottom: 2px solid transparent;
+  background: none;
+  transition: color .18s, border-color .18s;
+  white-space: nowrap;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.nav-tab:hover { color: #F0D4BE; }
+.nav-tab.active { color: var(--cream); border-bottom-color: var(--lip); }
+
+/* ── PAGE ── */
+.page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 32px;
+}
+
+/* ── SECTION LABEL ── */
+.sl {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 28px 0 16px;
+}
+.sl:first-child { margin-top: 0; }
+.sl span {
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--lip);
+  white-space: nowrap;
+}
+.sl i { flex: 1; height: 1px; background: var(--bdr); }
+
+/* ── CARD ── */
+.card {
+  background: #fff;
+  border: 1px solid var(--bdr);
+  border-top: 3px solid var(--lip);
+  border-radius: 2px;
+  padding: 20px 22px;
+  margin-bottom: 12px;
+}
+
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.ctitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.csub { font-size: 11px; color: var(--muted); margin-top: 3px; }
+
+/* ── TAGS ── */
+.tag {
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 1px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.t-lip    { background: var(--lip);    color: #fff; }
+.t-orange { background: var(--orange); color: #fff; }
+.t-gold   { background: rgba(240,165,0,0.13); border: 1px solid rgba(240,165,0,0.38); color: #966500; }
+.t-green  { background: rgba(30,140,80,0.1);  border: 1px solid rgba(30,140,80,0.32); color: #1a6a3a; }
+.t-sand   { background: var(--sand); border: 1px solid var(--shell); color: var(--muted); }
+
+/* ── INFO ROW ── */
+.ir { display: flex; gap: 20px; flex-wrap: wrap; }
+.ii { display: flex; flex-direction: column; gap: 3px; min-width: 80px; }
+.ik { font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+.iv { font-size: 13px; color: var(--ink); }
+.iv a { color: var(--lip); text-decoration: none; }
+
+.divider { height: 1px; background: var(--bdr); margin: 14px 0; }
+
+/* ── NOTICE ── */
+.notice {
+  background: var(--sand);
+  border-left: 3px solid var(--orange);
+  padding: 11px 14px;
+  font-size: 12px;
+  color: var(--ink);
+  line-height: 1.6;
+  margin-bottom: 20px;
+  border-radius: 0 2px 2px 0;
+}
+.notice.lip { border-left-color: var(--lip); background: rgba(200,25,60,0.05); }
+
+/* ── COUNTERS ── */
+.cg {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.cnt {
+  background: var(--ink);
+  border-top: 3px solid var(--lip);
+  padding: 16px 12px;
+  text-align: center;
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+.cnt::after {
+  content: '';
+  position: absolute;
+  bottom: -10px; right: -10px;
+  width: 60px; height: 60px;
+  background: radial-gradient(circle, rgba(200,25,60,0.12) 0%, transparent 70%);
+}
+
+.cnt-n {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--cream);
+  line-height: 1;
+  position: relative;
+}
+
+.cnt-l {
+  font-size: 8px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 6px;
+  line-height: 1.4;
+  position: relative;
+}
+
+/* ── FORMAT TAGS ── */
+.ftags { display: flex; gap: 7px; flex-wrap: wrap; }
+.ftag {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--sand);
+  border: 1px solid var(--shell);
+  color: var(--ink);
+  padding: 5px 10px;
+  border-radius: 1px;
+}
+
+/* ── PERSON CARD ── */
+.pcard {
+  background: #fff;
+  border: 1px solid var(--bdr);
+  border-left: 4px solid var(--lip);
+  border-radius: 0 2px 2px 0;
+  padding: 16px 18px;
+  margin-bottom: 10px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.av {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+
+.av-l { background: var(--lip);    color: #fff; }
+.av-o { background: var(--orange); color: #fff; }
+.av-g { background: var(--gold);   color: var(--ink); }
+.av-w { background: var(--wine);   color: var(--cream); }
+
+.pb { flex: 1; min-width: 0; }
+
+.pt {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.pn {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.pr { font-size: 11px; color: var(--muted); margin-top: 2px; line-height: 1.4; }
+
+.contacts { display: flex; gap: 14px; flex-wrap: wrap; }
+.cl { font-size: 12px; color: var(--lip); text-decoration: none; font-weight: 400; }
+.cl:hover { text-decoration: underline; }
+
+/* ── SCHEDULE EMPTY ── */
+.se {
+  border: 1px dashed var(--shell);
+  border-radius: 2px;
+  padding: 26px;
+  text-align: center;
+  margin-bottom: 10px;
+  background: #fff;
+}
+.se-t {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--shell);
+  margin-bottom: 5px;
+}
+.se-s { font-size: 11px; color: var(--shell); letter-spacing: 0.04em; }
+
+/* ── ACTOR ROW ── */
+.arow {
+  background: #fff;
+  border: 1px solid var(--bdr);
+  border-left: 4px solid var(--gold);
+  border-radius: 0 2px 2px 0;
+  padding: 13px 16px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.an { font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 700; color: var(--ink); }
+.as { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+/* ── DOCUMENTS ── */
+.drow {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--bdr2);
+}
+.drow:last-child { border-bottom: none; }
+.dicon {
+  width: 32px; height: 32px;
+  background: var(--sand);
+  border: 1px solid var(--shell);
+  border-radius: 2px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.dname { font-size: 13px; color: var(--ink); flex: 1; min-width: 0; }
+
+/* ── MESSAGES ── */
+.msg {
+  background: #fff;
+  border: 1px solid var(--bdr);
+  border-top: 3px solid var(--lip);
+  border-radius: 0 0 2px 2px;
+  padding: 14px 18px;
+  margin-bottom: 10px;
+}
+.mf {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--lip);
+  margin-bottom: 7px;
+}
+.mt { font-size: 13px; color: var(--ink); line-height: 1.65; }
+.mm { font-size: 10px; color: var(--muted); margin-top: 7px; letter-spacing: 0.08em; }
+
+/* ── PANEL VISIBILITY ── */
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* ══════════════════════════════
+   RESPONSIVE
+══════════════════════════════ */
+
+@media (max-width: 780px) {
+  .header-inner { padding: 0 20px; }
+  .logo-block { padding: 16px 20px 16px 0; margin-right: 20px; }
+  .logo-title { font-size: 24px; }
+  .header-meta { gap: 18px; }
+  .meta-item:nth-child(2) { display: none; }
+  .page { padding: 24px 20px; }
+  .nav-inner { padding: 0 16px; }
+}
+
+@media (max-width: 600px) {
+  .header-inner {
+    flex-direction: column;
     align-items: stretch;
+    padding: 16px;
+    min-height: auto;
     gap: 0;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .header::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: repeating-linear-gradient(
-      -55deg,
-      transparent,
-      transparent 24px,
-      rgba(255,255,255,0.015) 24px,
-      rgba(255,255,255,0.015) 48px
-    );
-    pointer-events: none;
   }
 
   .logo-block {
-    padding: 20px 28px 20px 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-width: 200px;
-    border-right: 1px solid var(--border);
-    margin-right: 28px;
-    position: relative;
-  }
-
-  .logo-eyebrow {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--red);
-    margin-bottom: 4px;
-  }
-
-  .logo-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 28px;
-    font-weight: 900;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #fff;
-    line-height: 1;
-  }
-
-  .logo-sub {
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-top: 5px;
-    font-weight: 400;
-  }
-
-  .header-meta {
-    display: flex;
-    align-items: center;
-    gap: 28px;
-    flex: 1;
-  }
-
-  .meta-item {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-  }
-
-  .meta-key {
-    font-size: 9px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--muted);
-    font-weight: 500;
-  }
-
-  .meta-val {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    color: #ddd;
-    letter-spacing: 0.05em;
-  }
-
-  .status-pill {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    background: rgba(192,57,43,0.15);
-    border: 1px solid rgba(192,57,43,0.3);
-    color: #e88;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    padding: 5px 14px;
-    border-radius: 2px;
-    margin-left: auto;
-  }
-
-  .status-dot {
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: var(--gold);
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-  }
-
-  /* NAV */
-  .nav-tabs {
-    display: flex;
-    gap: 0;
-    padding: 0 28px;
-    background: #111;
-    border-bottom: 1px solid var(--border);
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-
-  .nav-tabs::-webkit-scrollbar { display: none; }
-
-  .nav-tab {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--muted);
-    padding: 14px 20px 12px;
-    cursor: pointer;
-    border-bottom: 3px solid transparent;
-    border-top: none;
-    border-left: none;
     border-right: none;
-    background: none;
-    transition: color 0.15s, border-color 0.15s;
-    white-space: nowrap;
-    user-select: none;
-  }
-
-  .nav-tab:hover { color: #bbb; }
-  .nav-tab.active { color: #fff; border-bottom-color: var(--red); }
-
-  /* CONTENT */
-  .content {
-    padding: 28px;
-    max-width: 860px;
-  }
-
-  .section-label {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--red);
-    margin-bottom: 14px;
+    border-bottom: 1px solid rgba(200,25,60,0.18);
+    margin-right: 0;
+    padding: 0 0 14px 0;
+    margin-bottom: 12px;
     display: flex;
-    align-items: center;
+    justify-content: space-between;
+    align-items: flex-end;
     gap: 12px;
   }
 
-  .section-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
+  .logo-title { font-size: 22px; }
+  .logo-eyebrow { font-size: 7px; }
+  .logo-sub { font-size: 8px; }
 
-  .card {
-    background: var(--carbon-mid);
-    border: 1px solid var(--border);
-    border-radius: 3px;
-    padding: 18px 20px;
-    margin-bottom: 12px;
-  }
-
-  .card-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 12px;
-  }
-
-  .card-name {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: 0.07em;
-    color: #fff;
-    text-transform: uppercase;
-  }
-
-  .card-role {
-    font-size: 12px;
-    color: var(--muted);
-    margin-top: 3px;
-    letter-spacing: 0.04em;
-  }
-
-  .tag {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    padding: 3px 10px;
-    border-radius: 2px;
+  /* Mobile badge inline with logo */
+  .mbadge {
+    clip-path: none !important;
+    padding: 6px 12px !important;
+    border-radius: 1px;
+    font-size: 8px !important;
     flex-shrink: 0;
+    align-self: flex-start;
+    margin-top: 4px;
   }
 
-  .tag-red { background: rgba(192,57,43,0.18); border: 1px solid rgba(192,57,43,0.4); color: #e88; }
-  .tag-green { background: rgba(39,174,96,0.15); border: 1px solid rgba(39,174,96,0.35); color: #6dbb7a; }
-  .tag-amber { background: rgba(212,172,13,0.13); border: 1px solid rgba(212,172,13,0.35); color: #d4ac0d; }
-  .tag-blue { background: rgba(52,152,219,0.15); border: 1px solid rgba(52,152,219,0.35); color: #7ab5d9; }
+  /* Hide desktop badge and meta */
+  .dbadge { display: none !important; }
+  .header-meta { display: none; }
 
-  .info-row {
-    display: flex;
-    gap: 24px;
-    flex-wrap: wrap;
-  }
+  .nav-inner { padding: 0 8px; }
+  .nav-tab { font-size: 11px; padding: 12px 10px 10px; letter-spacing: 0.12em; }
 
-  .info-item {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-  }
+  .page { padding: 16px; }
 
-  .info-key {
-    font-size: 9px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--muted);
-    font-weight: 500;
-  }
+  .cg { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .cnt-n { font-size: 24px; }
+  .cnt { padding: 14px 10px; }
 
-  .info-val {
-    font-size: 13px;
-    color: #ddd;
-  }
+  .card { padding: 14px 16px; }
+  .card-head { flex-wrap: wrap; }
 
-  .info-val a {
-    color: #7ab5d9;
-    text-decoration: none;
-  }
+  .pcard { padding: 13px 14px; gap: 10px; }
+  .pt { flex-wrap: wrap; gap: 6px; }
+  .contacts { gap: 10px; }
+  .cl { font-size: 13px; }
 
-  .divider { height: 1px; background: var(--border); margin: 14px 0; }
+  .ir { gap: 14px; }
+  .ii { min-width: 44%; }
 
-  .notice-box {
-    border-left: 3px solid var(--red);
-    background: rgba(192,57,43,0.07);
-    padding: 12px 16px;
-    margin-bottom: 18px;
-    font-size: 13px;
-    color: #bbb;
-    line-height: 1.6;
-  }
+  .arow { gap: 8px; }
+}
 
-  .notice-box.amber {
-    border-left-color: var(--gold);
-    background: rgba(212,172,13,0.06);
-  }
-
-  .notice-box.green {
-    border-left-color: var(--green);
-    background: rgba(39,174,96,0.06);
-  }
-
-  .counter-row {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    margin-bottom: 26px;
-  }
-
-  .counter {
-    background: var(--carbon-mid);
-    border: 1px solid var(--border);
-    border-radius: 3px;
-    padding: 16px;
-    text-align: center;
-  }
-
-  .counter-num {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 30px;
-    font-weight: 900;
-    color: #fff;
-    line-height: 1;
-  }
-
-  .counter-label {
-    font-size: 9px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-top: 5px;
-    font-weight: 500;
-  }
-
-  .person-card {
-    background: var(--carbon-mid);
-    border: 1px solid var(--border);
-    border-radius: 3px;
-    padding: 16px 20px;
-    margin-bottom: 10px;
-  }
-
-  .person-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 12px;
-  }
-
-  .initials {
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    flex-shrink: 0;
-  }
-
-  .init-red { background: rgba(192,57,43,0.2); color: #e88; border: 1px solid rgba(192,57,43,0.3); }
-  .init-blue { background: rgba(52,152,219,0.15); color: #7ab5d9; border: 1px solid rgba(52,152,219,0.3); }
-  .init-green { background: rgba(39,174,96,0.13); color: #6dbb7a; border: 1px solid rgba(39,174,96,0.3); }
-  .init-amber { background: rgba(212,172,13,0.13); color: #d4ac0d; border: 1px solid rgba(212,172,13,0.3); }
-
-  .person-info { flex: 1; }
-
-  .contact-row {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    margin-top: 10px;
-  }
-
-  .contact-item {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    font-size: 13px;
-    color: #bbb;
-  }
-
-  .contact-icon {
-    font-size: 11px;
-    color: var(--muted);
-  }
-
-  .schedule-empty {
-    border: 1px dashed rgba(255,255,255,0.1);
-    border-radius: 3px;
-    padding: 32px;
-    text-align: center;
-    margin-bottom: 12px;
-  }
-
-  .empty-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: #333;
-    margin-bottom: 6px;
-  }
-
-  .empty-sub {
-    font-size: 12px;
-    color: #444;
-    letter-spacing: 0.05em;
-  }
-
-  .doc-row {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .doc-row:last-child { border-bottom: none; }
-
-  .doc-icon {
-    width: 34px; height: 34px;
-    background: var(--carbon-light);
-    border: 1px solid var(--border);
-    border-radius: 3px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 15px;
-    flex-shrink: 0;
-  }
-
-  .doc-name {
-    font-size: 13px;
-    color: #ccc;
-    flex: 1;
-  }
-
-  .doc-type {
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-
-  .msg {
-    background: var(--carbon-light);
-    border: 1px solid var(--border);
-    border-radius: 3px;
-    padding: 14px 16px;
-    margin-bottom: 10px;
-  }
-
-  .msg-from {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--red);
-    margin-bottom: 6px;
-  }
-
-  .msg-text {
-    font-size: 13px;
-    color: #bbb;
-    line-height: 1.65;
-  }
-
-  .msg-time {
-    font-size: 10px;
-    color: #444;
-    margin-top: 6px;
-    letter-spacing: 0.08em;
-  }
-
-  .format-tags {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-top: 8px;
-  }
-
-  .format-tag {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    background: var(--carbon-light);
-    border: 1px solid var(--border);
-    color: #999;
-    padding: 4px 10px;
-    border-radius: 2px;
-  }
-
-  .panel { display: none; }
-  .panel.active { display: block; }
-
-  .actor-suggestion {
-    background: var(--carbon-mid);
-    border: 1px solid var(--border);
-    border-left: 3px solid rgba(212,172,13,0.5);
-    border-radius: 3px;
-    padding: 14px 16px;
-    margin-bottom: 8px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .actor-name {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: #fff;
-  }
-
-  .actor-gender {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 2px;
-    letter-spacing: 0.05em;
-  }
-
-  @media (max-width: 600px) {
-    .counter-row { grid-template-columns: repeat(2, 1fr); }
-    .header-meta { display: none; }
-    .content { padding: 16px; }
-  }
+@media (max-width: 380px) {
+  .logo-title { font-size: 19px; }
+  .nav-tab { font-size: 9px; padding: 11px 8px 9px; }
+  .cnt-n { font-size: 20px; }
+}
 </style>
 </head>
 <body>
 
+<!-- HEADER -->
 <div class="header">
-  <div class="logo-block">
-    <div class="logo-eyebrow">Production Portal</div>
-    <div class="logo-title">Reyni Service</div>
-    <div class="logo-sub">Toyota C-HR+ · Film Commercial</div>
+  <div class="header-inner">
+
+    <!-- Logo block — on mobile shows badge inline -->
+    <div class="logo-block">
+      <div>
+        <div class="logo-eyebrow">Production Portal</div>
+        <div class="logo-title">Reyni Service</div>
+        <div class="logo-sub">Toyota C-HR+ · Film Commercial</div>
+      </div>
+      <!-- Mobile-only badge -->
+      <div class="status-badge mbadge"><div class="dot"></div>Pre-production</div>
+    </div>
+
+    <!-- Desktop meta row -->
+    <div class="header-meta">
+      <div class="meta-item">
+        <span class="meta-key">Produktionsselskab</span>
+        <span class="meta-val">Kovboy Film</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-key">Format</span>
+        <span class="meta-val">TV · Cinema · Social</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-key">Optagelsesdato</span>
+        <span class="meta-val">TBD</span>
+      </div>
+      <!-- Desktop-only badge -->
+      <div class="status-badge dbadge"><div class="dot"></div>Pre-production</div>
+    </div>
+
   </div>
-  <div class="header-meta">
-    <div class="meta-item">
-      <span class="meta-key">Produktionsselskab</span>
-      <span class="meta-val">Kovboy Film</span>
-    </div>
-    <div class="meta-item">
-      <span class="meta-key">Format</span>
-      <span class="meta-val">TV · Cinema · Social</span>
-    </div>
-    <div class="meta-item">
-      <span class="meta-key">Optagelsesdato</span>
-      <span class="meta-val">TBD</span>
-    </div>
-    <div class="status-pill">
-      <div class="status-dot"></div>
-      Pre-production
-    </div>
+</div>
+<div class="lip-line"></div>
+
+<!-- NAV -->
+<div class="nav-wrap">
+  <div class="nav-inner">
+    <button class="nav-tab active" onclick="showTab('overblik',this)">Overblik</button>
+    <button class="nav-tab" onclick="showTab('schedule',this)">Schedule</button>
+    <button class="nav-tab" onclick="showTab('crew',this)">Crew</button>
+    <button class="nav-tab" onclick="showTab('cast',this)">Cast</button>
+    <button class="nav-tab" onclick="showTab('klient',this)">Klient</button>
+    <button class="nav-tab" onclick="showTab('dokumenter',this)">Dokumenter</button>
+    <button class="nav-tab" onclick="showTab('beskeder',this)">Beskeder</button>
   </div>
 </div>
 
-<div class="nav-tabs">
-  <button class="nav-tab active" onclick="showTab('overblik')">Overblik</button>
-  <button class="nav-tab" onclick="showTab('schedule')">Schedule</button>
-  <button class="nav-tab" onclick="showTab('crew')">Crew</button>
-  <button class="nav-tab" onclick="showTab('cast')">Cast</button>
-  <button class="nav-tab" onclick="showTab('klient')">Klient</button>
-  <button class="nav-tab" onclick="showTab('dokumenter')">Dokumenter</button>
-  <button class="nav-tab" onclick="showTab('beskeder')">Beskeder</button>
-</div>
-
-<div class="content">
+<!-- CONTENT -->
+<div class="page">
 
   <!-- OVERBLIK -->
   <div class="panel active" id="panel-overblik">
-    <div class="notice-box amber">
-      Portalen er aktiv og under opbygning. Optagelsesdatoer og call sheets tilføjes løbende.
+    <div class="notice">Portalen er aktiv og under opbygning. Optagelsesdatoer og call sheets tilføjes løbende.</div>
+
+    <div class="cg">
+      <div class="cnt"><div class="cnt-n" style="color:var(--gold);font-size:20px;padding-top:5px;">TBD</div><div class="cnt-l">Optagelsesdato</div></div>
+      <div class="cnt"><div class="cnt-n">3</div><div class="cnt-l">Crew</div></div>
+      <div class="cnt"><div class="cnt-n">3</div><div class="cnt-l">Cast krævet</div></div>
+      <div class="cnt"><div class="cnt-n" style="color:var(--lip2)">1</div><div class="cnt-l">Film</div></div>
     </div>
 
-    <div class="counter-row">
-      <div class="counter">
-        <div class="counter-num" style="color:var(--gold)">TBD</div>
-        <div class="counter-label">Optagelsesdato</div>
-      </div>
-      <div class="counter">
-        <div class="counter-num">3</div>
-        <div class="counter-label">Crew</div>
-      </div>
-      <div class="counter">
-        <div class="counter-num">3</div>
-        <div class="counter-label">Cast (krævet)</div>
-      </div>
-      <div class="counter">
-        <div class="counter-num" style="color:var(--red)">1</div>
-        <div class="counter-label">Film</div>
-      </div>
-    </div>
-
-    <div class="section-label">Projektoverblik</div>
+    <div class="sl"><span>Projektoverblik</span><i></i></div>
     <div class="card">
       <div class="card-head">
         <div>
-          <div class="card-name">Toyota C-HR+ Commercial</div>
-          <div class="card-role">Kunde: Reyni Service · Kovboy Film</div>
+          <div class="ctitle">Toyota C-HR+ Commercial</div>
+          <div class="csub">Kunde: Reyni Service · Kovboy Film</div>
         </div>
-        <div class="tag tag-amber">Pre-production</div>
+        <span class="tag t-gold">Pre-production</span>
       </div>
-      <div class="info-row">
-        <div class="info-item">
-          <span class="info-key">Filmtype</span>
-          <span class="info-val">Kommerciel reklame</span>
-        </div>
-        <div class="info-item">
-          <span class="info-key">Antal film</span>
-          <span class="info-val">1 (lang + kort version)</span>
-        </div>
-        <div class="info-item">
-          <span class="info-key">Lokation</span>
-          <span class="info-val">Færøerne (TBD)</span>
-        </div>
+      <div class="ir">
+        <div class="ii"><span class="ik">Filmtype</span><span class="iv">Kommerciel reklame</span></div>
+        <div class="ii"><span class="ik">Antal film</span><span class="iv">1 (lang + kort version)</span></div>
+        <div class="ii"><span class="ik">Lokation</span><span class="iv">Færøerne (TBD)</span></div>
       </div>
       <div class="divider"></div>
-      <div style="font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); margin-bottom:8px;">Formater</div>
-      <div class="format-tags">
-        <span class="format-tag">TV</span>
-        <span class="format-tag">Cinema</span>
-        <span class="format-tag">Facebook</span>
-        <span class="format-tag">Instagram Portrait</span>
-        <span class="format-tag">Instagram Landscape</span>
+      <div class="ik" style="margin-bottom:8px;">Formater</div>
+      <div class="ftags">
+        <span class="ftag">TV</span>
+        <span class="ftag">Cinema</span>
+        <span class="ftag">Facebook</span>
+        <span class="ftag">Instagram Portrait</span>
+        <span class="ftag">Instagram Landscape</span>
       </div>
     </div>
 
-    <div class="section-label">Produktionsledelse</div>
+    <div class="sl"><span>Produktionsledelse</span><i></i></div>
     <div class="card">
-      <div style="display:flex; gap:20px; flex-wrap:wrap;">
-        <div class="info-item">
-          <span class="info-key">Producer</span>
-          <span class="info-val">Michael Koba</span>
-        </div>
-        <div class="info-item">
-          <span class="info-key">Tlf</span>
-          <span class="info-val"><a href="tel:+298591011">+298 591011</a></span>
-        </div>
-        <div class="info-item">
-          <span class="info-key">Email</span>
-          <span class="info-val"><a href="mailto:michael@kovboyfilm.com">michael@kovboyfilm.com</a></span>
-        </div>
-        <div class="info-item">
-          <span class="info-key">Instruktør</span>
-          <span class="info-val">Thomas Koba</span>
-        </div>
-        <div class="info-item">
-          <span class="info-key">Tlf</span>
-          <span class="info-val"><a href="tel:+298213457">+298 213457</a></span>
-        </div>
+      <div class="ir">
+        <div class="ii"><span class="ik">Producer</span><span class="iv">Michael Koba</span></div>
+        <div class="ii"><span class="ik">Tlf</span><span class="iv"><a href="tel:+298591011">+298 591011</a></span></div>
+        <div class="ii"><span class="ik">Email</span><span class="iv"><a href="mailto:michael@kovboyfilm.com">michael@kovboyfilm.com</a></span></div>
+        <div class="ii"><span class="ik">Instruktør</span><span class="iv">Thomas Koba</span></div>
+        <div class="ii"><span class="ik">Tlf</span><span class="iv"><a href="tel:+298213457">+298 213457</a></span></div>
       </div>
     </div>
   </div>
 
   <!-- SCHEDULE -->
   <div class="panel" id="panel-schedule">
-    <div class="notice-box amber">
-      Optagelsesdato er endnu ikke fastsat. Schedule og call sheet tilføjes her, når datoerne er bekræftet.
-    </div>
-    <div class="schedule-empty">
-      <div class="empty-title">Ingen schedule endnu</div>
-      <div class="empty-sub">Call times og dagsoversigt tilføjes her dag for dag</div>
-    </div>
-    <div class="schedule-empty" style="margin-top:8px;">
-      <div class="empty-title">Call sheet · Dag 1</div>
-      <div class="empty-sub">Ikke klar · Du får besked, når den uploades</div>
-    </div>
+    <div class="notice">Optagelsesdato er endnu ikke fastsat. Schedule og call sheet tilføjes her, når datoerne er bekræftet.</div>
+    <div class="se"><div class="se-t">Ingen schedule endnu</div><div class="se-s">Call times og dagsoversigt tilføjes her dag for dag</div></div>
+    <div class="se" style="margin-top:8px;"><div class="se-t">Call sheet · Dag 1</div><div class="se-s">Ikke klar · Du får besked, når den uploades</div></div>
   </div>
 
   <!-- CREW -->
   <div class="panel" id="panel-crew">
-    <div class="section-label">Crew · Kovboy Film</div>
+    <div class="sl"><span>Crew · Kovboy Film</span><i></i></div>
 
-    <div class="person-card">
-      <div class="person-head">
-        <div class="initials init-red">MK</div>
-        <div class="person-info">
-          <div class="card-name" style="font-size:16px;">Michael Koba</div>
-          <div class="card-role">Film Producer</div>
-          <div class="contact-row">
-            <div class="contact-item"><span class="contact-icon">📞</span><a href="tel:+298591011" style="color:#7ab5d9; text-decoration:none;">+298 591011</a></div>
-            <div class="contact-item"><span class="contact-icon">✉</span><a href="mailto:michael@kovboyfilm.com" style="color:#7ab5d9; text-decoration:none;">michael@kovboyfilm.com</a></div>
-          </div>
+    <div class="pcard">
+      <div class="av av-l">MK</div>
+      <div class="pb">
+        <div class="pt">
+          <div><div class="pn">Michael Koba</div><div class="pr">Film Producer</div></div>
+          <span class="tag t-green">Bekræftet</span>
         </div>
-        <div class="tag tag-green">Bekræftet</div>
+        <div class="contacts">
+          <a href="tel:+298591011" class="cl">📞 +298 591011</a>
+          <a href="mailto:michael@kovboyfilm.com" class="cl">✉ michael@kovboyfilm.com</a>
+        </div>
       </div>
     </div>
 
-    <div class="person-card">
-      <div class="person-head">
-        <div class="initials init-blue">TK</div>
-        <div class="person-info">
-          <div class="card-name" style="font-size:16px;">Thomas Koba</div>
-          <div class="card-role">Filmmaker · Instruktør · Creative Director · Editor</div>
-          <div class="contact-row">
-            <div class="contact-item"><span class="contact-icon">📞</span><a href="tel:+298213457" style="color:#7ab5d9; text-decoration:none;">+298 213457</a></div>
-            <div class="contact-item"><span class="contact-icon">✉</span><a href="mailto:thomas@kovboyfilm.com" style="color:#7ab5d9; text-decoration:none;">thomas@kovboyfilm.com</a></div>
-          </div>
+    <div class="pcard">
+      <div class="av av-o">TK</div>
+      <div class="pb">
+        <div class="pt">
+          <div><div class="pn">Thomas Koba</div><div class="pr">Filmmaker · Instruktør · Creative Director · Editor</div></div>
+          <span class="tag t-green">Bekræftet</span>
         </div>
-        <div class="tag tag-green">Bekræftet</div>
+        <div class="contacts">
+          <a href="tel:+298213457" class="cl">📞 +298 213457</a>
+          <a href="mailto:thomas@kovboyfilm.com" class="cl">✉ thomas@kovboyfilm.com</a>
+        </div>
       </div>
     </div>
 
-    <div class="person-card">
-      <div class="person-head">
-        <div class="initials init-amber">HP</div>
-        <div class="person-info">
-          <div class="card-name" style="font-size:16px;">Hans Petur Hansen</div>
-          <div class="card-role">Gaffer</div>
-          <div class="contact-row">
-            <div class="contact-item"><span class="contact-icon">📞</span><a href="tel:+298296652" style="color:#7ab5d9; text-decoration:none;">+298 296652</a></div>
-            <div class="contact-item"><span class="contact-icon">✉</span><a href="mailto:hph@kringvarp.fo" style="color:#7ab5d9; text-decoration:none;">hph@kringvarp.fo</a></div>
-          </div>
+    <div class="pcard">
+      <div class="av av-g">HP</div>
+      <div class="pb">
+        <div class="pt">
+          <div><div class="pn">Hans Petur Hansen</div><div class="pr">Gaffer</div></div>
+          <span class="tag t-green">Bekræftet</span>
         </div>
-        <div class="tag tag-green">Bekræftet</div>
+        <div class="contacts">
+          <a href="tel:+298296652" class="cl">📞 +298 296652</a>
+          <a href="mailto:hph@kringvarp.fo" class="cl">✉ hph@kringvarp.fo</a>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- CAST -->
   <div class="panel" id="panel-cast">
-    <div class="notice-box amber">
-      Cast er ikke endeligt bekræftet. Nedenfor ses forslag til casting.
-    </div>
+    <div class="notice">Cast er ikke endeligt bekræftet. Nedenfor ses forslag til casting.</div>
 
-    <div class="section-label">Krav</div>
+    <div class="sl"><span>Krav</span><i></i></div>
     <div class="card">
-      <div class="info-row">
-        <div class="info-item">
-          <span class="info-key">Krævet</span>
-          <span class="info-val">1 mand + 2 kvinder</span>
-        </div>
-        <div class="info-item">
-          <span class="info-key">Status</span>
-          <span class="info-val" style="color:var(--gold)">Casting pågår</span>
-        </div>
+      <div class="ir">
+        <div class="ii"><span class="ik">Krævet</span><span class="iv">1 mand + 2 kvinder</span></div>
+        <div class="ii"><span class="ik">Status</span><span class="iv" style="color:var(--orange);font-weight:500;">Casting pågår</span></div>
       </div>
     </div>
 
-    <div class="section-label">Forslag</div>
+    <div class="sl"><span>Forslag</span><i></i></div>
 
-    <div class="actor-suggestion">
-      <div>
-        <div class="actor-name">Tom Newbold</div>
-        <div class="actor-gender">Mand · Forslag</div>
-      </div>
-      <div style="display:flex; gap:8px; align-items:center;">
-        <div class="tag tag-amber">Forslag</div>
-        <a href="https://www.facebook.com/tom.newbold.1485" target="_blank" style="font-size:11px; color:#7ab5d9; text-decoration:none; letter-spacing:0.08em;">Facebook ↗</a>
+    <div class="arow">
+      <div><div class="an">Tom Newbold</div><div class="as">Mand · Forslag</div></div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <span class="tag t-gold">Forslag</span>
+        <a href="https://www.facebook.com/tom.newbold.1485" target="_blank" style="font-size:11px;color:var(--lip);text-decoration:none;font-weight:500;">Facebook ↗</a>
       </div>
     </div>
 
-    <div class="actor-suggestion">
-      <div>
-        <div class="actor-name">Bjørn Ulvedal</div>
-        <div class="actor-gender">Mand · Forslag</div>
-      </div>
-      <div>
-        <div class="tag tag-amber">Forslag</div>
+    <div class="arow">
+      <div><div class="an">Bjørn Ulvedal</div><div class="as">Mand · Forslag</div></div>
+      <span class="tag t-gold">Forslag</span>
+    </div>
+
+    <div class="arow">
+      <div><div class="an">Lív Reynheim</div><div class="as">Kvinde · Forslag</div></div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <span class="tag t-gold">Forslag</span>
+        <a href="https://www.facebook.com/liv.reynheim" target="_blank" style="font-size:11px;color:var(--lip);text-decoration:none;font-weight:500;">Facebook ↗</a>
       </div>
     </div>
 
-    <div class="actor-suggestion">
-      <div>
-        <div class="actor-name">Lív Reynheim</div>
-        <div class="actor-gender">Kvinde · Forslag</div>
-      </div>
-      <div style="display:flex; gap:8px; align-items:center;">
-        <div class="tag tag-amber">Forslag</div>
-        <a href="https://www.facebook.com/liv.reynheim" target="_blank" style="font-size:11px; color:#7ab5d9; text-decoration:none; letter-spacing:0.08em;">Facebook ↗</a>
-      </div>
-    </div>
-
-    <div style="margin-top:16px;">
-      <div class="notice-box">
-        1 kvindelig rolle mangler stadig forslag. Tilføjes her, når casting er færdigt.
-      </div>
-    </div>
+    <div class="notice lip" style="margin-top:16px;">1 kvindelig rolle mangler stadig forslag. Tilføjes her, når casting er færdigt.</div>
   </div>
 
   <!-- KLIENT -->
   <div class="panel" id="panel-klient">
-    <div class="section-label">Klient</div>
+    <div class="sl"><span>Klient</span><i></i></div>
     <div class="card">
       <div class="card-head">
-        <div>
-          <div class="card-name">Reyni Service</div>
-          <div class="card-role">Toyota forhandler · Færøerne</div>
-        </div>
-        <div class="tag tag-green">Aktiv</div>
+        <div><div class="ctitle">Reyni Service</div><div class="csub">Toyota forhandler · Færøerne</div></div>
+        <span class="tag t-green">Aktiv</span>
       </div>
     </div>
 
-    <div class="section-label">Repræsentanter</div>
+    <div class="sl"><span>Repræsentanter</span><i></i></div>
 
-    <div class="person-card">
-      <div class="person-head">
-        <div class="initials init-blue">FJ</div>
-        <div class="person-info">
-          <div class="card-name" style="font-size:16px;">Fríðrikur Jakobsen</div>
-          <div class="card-role">Repræsentant · Reyni Service</div>
-          <div class="contact-row">
-            <div class="contact-item"><span class="contact-icon">📞</span><a href="tel:+298793047" style="color:#7ab5d9; text-decoration:none;">+298 793047</a></div>
-            <div class="contact-item"><span class="contact-icon">✉</span><a href="mailto:fj@rs.fo" style="color:#7ab5d9; text-decoration:none;">fj@rs.fo</a></div>
-          </div>
+    <div class="pcard">
+      <div class="av av-l">FJ</div>
+      <div class="pb">
+        <div class="pt"><div><div class="pn">Fríðrikur Jakobsen</div><div class="pr">Repræsentant · Reyni Service</div></div></div>
+        <div class="contacts">
+          <a href="tel:+298793047" class="cl">📞 +298 793047</a>
+          <a href="mailto:fj@rs.fo" class="cl">✉ fj@rs.fo</a>
         </div>
       </div>
     </div>
 
-    <div class="person-card">
-      <div class="person-head">
-        <div class="initials init-green">SR</div>
-        <div class="person-info">
-          <div class="card-name" style="font-size:16px;">Sámal av Reyni</div>
-          <div class="card-role">Repræsentant · Reyni Service</div>
-          <div class="contact-row">
-            <div class="contact-item"><span class="contact-icon">📞</span><a href="tel:+298222500" style="color:#7ab5d9; text-decoration:none;">+298 222500</a></div>
-            <div class="contact-item"><span class="contact-icon">✉</span><a href="mailto:sr@rs.fo" style="color:#7ab5d9; text-decoration:none;">sr@rs.fo</a></div>
-          </div>
+    <div class="pcard">
+      <div class="av av-w">SR</div>
+      <div class="pb">
+        <div class="pt"><div><div class="pn">Sámal av Reyni</div><div class="pr">Repræsentant · Reyni Service</div></div></div>
+        <div class="contacts">
+          <a href="tel:+298222500" class="cl">📞 +298 222500</a>
+          <a href="mailto:sr@rs.fo" class="cl">✉ sr@rs.fo</a>
         </div>
       </div>
     </div>
 
-    <div class="section-label" style="margin-top:20px;">Produkt</div>
+    <div class="sl" style="margin-top:24px;"><span>Produkt</span><i></i></div>
     <div class="card">
-      <div class="info-row">
-        <div class="info-item">
-          <span class="info-key">Bil</span>
-          <span class="info-val">Toyota C-HR+</span>
-        </div>
-        <div class="info-item">
-          <span class="info-key">Type</span>
-          <span class="info-val">EV (elektrisk)</span>
-        </div>
+      <div class="ir">
+        <div class="ii"><span class="ik">Bil</span><span class="iv">Toyota C-HR+</span></div>
+        <div class="ii"><span class="ik">Type</span><span class="iv">EV (elektrisk)</span></div>
       </div>
     </div>
   </div>
 
   <!-- DOKUMENTER -->
   <div class="panel" id="panel-dokumenter">
-    <div class="section-label">Filer & dokumenter</div>
+    <div class="sl"><span>Filer &amp; dokumenter</span><i></i></div>
     <div class="card">
-      <div class="doc-row">
-        <div class="doc-icon">📋</div>
-        <div class="doc-name">Call Sheet · Dag 1</div>
-        <div class="tag tag-amber" style="font-size:9px; padding:2px 8px;">Ikke klar</div>
-      </div>
-      <div class="doc-row">
-        <div class="doc-icon">📄</div>
-        <div class="doc-name">Script / Storyboard</div>
-        <div class="tag tag-red" style="font-size:9px; padding:2px 8px;">Ikke uploadet</div>
-      </div>
-      <div class="doc-row">
-        <div class="doc-icon">🗺️</div>
-        <div class="doc-name">Location Map</div>
-        <div class="tag tag-red" style="font-size:9px; padding:2px 8px;">TBD</div>
-      </div>
-      <div class="doc-row">
-        <div class="doc-icon">📑</div>
-        <div class="doc-name">Kontrakter</div>
-        <div class="tag tag-red" style="font-size:9px; padding:2px 8px;">Ikke klar</div>
-      </div>
-      <div class="doc-row">
-        <div class="doc-icon">🚗</div>
-        <div class="doc-name">Toyota C-HR+ Spec sheet</div>
-        <div class="tag tag-red" style="font-size:9px; padding:2px 8px;">Ikke uploadet</div>
-      </div>
+      <div class="drow"><div class="dicon">📋</div><div class="dname">Call Sheet · Dag 1</div><span class="tag t-gold">Ikke klar</span></div>
+      <div class="drow"><div class="dicon">📄</div><div class="dname">Script / Storyboard</div><span class="tag t-sand">Ikke uploadet</span></div>
+      <div class="drow"><div class="dicon">🗺️</div><div class="dname">Location Map</div><span class="tag t-sand">TBD</span></div>
+      <div class="drow"><div class="dicon">📑</div><div class="dname">Kontrakter</div><span class="tag t-sand">Ikke klar</span></div>
+      <div class="drow"><div class="dicon">🚗</div><div class="dname">Toyota C-HR+ Spec sheet</div><span class="tag t-sand">Ikke uploadet</span></div>
     </div>
   </div>
 
   <!-- BESKEDER -->
   <div class="panel" id="panel-beskeder">
-    <div class="section-label">Produktionsmeddelelser</div>
+    <div class="sl"><span>Produktionsmeddelelser</span><i></i></div>
     <div class="msg">
-      <div class="msg-from">Kovboy Film · Produktion</div>
-      <div class="msg-text">Portalen for Toyota C-HR+ produktionen er nu aktiv. Alle crew og klient kan følge med her. Schedule og call sheets tilføjes løbende.</div>
-      <div class="msg-time">Pre-production · 2025</div>
+      <div class="mf">Kovboy Film · Produktion</div>
+      <div class="mt">Portalen for Toyota C-HR+ produktionen er nu aktiv. Alle crew og klient kan følge med her. Schedule og call sheets tilføjes løbende.</div>
+      <div class="mm">Pre-production · 2026</div>
     </div>
-    <div class="notice-box" style="margin-top:16px;">
-      Yderligere produktionsbeskeder tilføjes her undervejs. Alle crew og klientrepræsentanter modtager opdateringer via denne portal.
-    </div>
+    <div class="notice">Yderligere produktionsbeskeder tilføjes her undervejs. Alle crew og klientrepræsentanter modtager opdateringer via denne portal.</div>
   </div>
 
 </div>
 
 <script>
-function showTab(id) {
+function showTab(id, el) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
   document.getElementById('panel-' + id).classList.add('active');
-  event.target.classList.add('active');
+  el.classList.add('active');
 }
 </script>
 </body>
