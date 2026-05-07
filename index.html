@@ -192,12 +192,83 @@ body {
 .nav-tab:hover { color: #F0D4BE; }
 .nav-tab.active { color: var(--cream); border-bottom-color: var(--lip); }
 
+/* ── MATERIAL BAR ── */
+.matbar {
+  background: var(--ink);
+  border-bottom: 1px solid rgba(200,25,60,0.2);
+}
+.matbar-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.matbar-label {
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+  padding: 11px 0;
+  flex-shrink: 0;
+}
+.matbar-sep { width: 1px; height: 18px; background: rgba(200,25,60,0.22); flex-shrink: 0; }
+.matbtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(200,25,60,0.14);
+  border: 1px solid rgba(200,25,60,0.32);
+  color: var(--cream);
+  text-decoration: none;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 7px 14px;
+  border-radius: 1px;
+  transition: background .16s, border-color .16s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.matbtn:hover { background: rgba(200,25,60,0.28); border-color: rgba(200,25,60,0.5); }
+.matbtn.mb-orange { background: rgba(244,98,42,0.14); border-color: rgba(244,98,42,0.32); }
+.matbtn.mb-orange:hover { background: rgba(244,98,42,0.26); border-color: rgba(244,98,42,0.5); }
+
 /* ── PAGE ── */
 .page {
   max-width: 960px;
   margin: 0 auto;
   padding: 32px;
 }
+
+/* ── DOC LINK ROW ── */
+.dlink {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--bdr2);
+  text-decoration: none;
+  color: inherit;
+}
+.dlink:last-child { border-bottom: none; }
+.dlink:hover .dlname { color: var(--lip); }
+.dlink-icon {
+  width: 42px; height: 42px;
+  background: var(--ink);
+  border-radius: 2px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.dlname { font-size: 14px; font-weight: 500; color: var(--ink); transition: color .14s; flex: 1; }
+.dlsub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.dlarrow { font-size: 14px; color: var(--lip); flex-shrink: 0; }
 
 /* ── SECTION LABEL ── */
 .sl {
@@ -485,6 +556,7 @@ body {
   .meta-item:nth-child(2) { display: none; }
   .page { padding: 24px 20px; }
   .nav-inner { padding: 0 16px; }
+  .matbar-inner { padding: 0 16px; }
 }
 
 @media (max-width: 600px) {
@@ -529,6 +601,10 @@ body {
 
   .nav-inner { padding: 0 8px; }
   .nav-tab { font-size: 11px; padding: 12px 10px 10px; letter-spacing: 0.12em; }
+  .matbar-inner { padding: 0 10px; gap: 7px; }
+  .matbar-label { display: none; }
+  .matbar-sep { display: none; }
+  .matbtn { font-size: 9px; padding: 6px 11px; }
 
   .page { padding: 16px; }
 
@@ -606,6 +682,20 @@ body {
     <button class="nav-tab" onclick="showTab('klient',this)">Klient</button>
     <button class="nav-tab" onclick="showTab('dokumenter',this)">Dokumenter</button>
     <button class="nav-tab" onclick="showTab('beskeder',this)">Beskeder</button>
+  </div>
+</div>
+
+<!-- MATERIAL BAR — always visible -->
+<div class="matbar">
+  <div class="matbar-inner">
+    <span class="matbar-label">Materiale</span>
+    <div class="matbar-sep"></div>
+    <a href="https://drive.google.com/file/d/1FM9kDN2YTCPDWHF4zvH9QClzsmxPqmGL/view?usp=sharing" target="_blank" class="matbtn">
+      <span>📄</span> Script
+    </a>
+    <a href="https://drive.google.com/file/d/1ASJGM3jLkzdcjWBqkAp2ed8N6uWsjVpS/view?usp=drive_link" target="_blank" class="matbtn mb-orange">
+      <span>🎨</span> Moodboard
+    </a>
   </div>
 </div>
 
@@ -726,7 +816,7 @@ body {
       </div>
     </div>
 
-    <div class="sl"><span>Forslag</span><i></i></div>
+    <div class="sl"><span>Forslag — Mænd</span><i></i></div>
 
     <div class="arow">
       <div><div class="an">Tom Newbold</div><div class="as">Mand · Forslag</div></div>
@@ -741,6 +831,8 @@ body {
       <span class="tag t-gold">Forslag</span>
     </div>
 
+    <div class="sl"><span>Forslag — Kvinder</span><i></i></div>
+
     <div class="arow">
       <div><div class="an">Lív Reynheim</div><div class="as">Kvinde · Forslag</div></div>
       <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
@@ -749,7 +841,17 @@ body {
       </div>
     </div>
 
-    <div class="notice lip" style="margin-top:16px;">1 kvindelig rolle mangler stadig forslag. Tilføjes her, når casting er færdigt.</div>
+    <div class="arow">
+      <div><div class="an">Astrid Gullborgardóttir</div><div class="as">Kvinde · Forslag</div></div>
+      <span class="tag t-gold">Forslag</span>
+    </div>
+
+    <div class="arow">
+      <div><div class="an">Hanna Flóvinsdóttir</div><div class="as">Kvinde · Forslag</div></div>
+      <span class="tag t-gold">Forslag</span>
+    </div>
+
+    <div class="notice" style="margin-top:16px;">Endelig casting bekræftes og opdateres her.</div>
   </div>
 
   <!-- KLIENT -->
@@ -799,11 +901,54 @@ body {
   <div class="panel" id="panel-dokumenter">
     <div class="sl"><span>Filer &amp; dokumenter</span><i></i></div>
     <div class="card">
-      <div class="drow"><div class="dicon">📋</div><div class="dname">Call Sheet · Dag 1</div><span class="tag t-gold">Ikke klar</span></div>
-      <div class="drow"><div class="dicon">📄</div><div class="dname">Script / Storyboard</div><span class="tag t-sand">Ikke uploadet</span></div>
-      <div class="drow"><div class="dicon">🗺️</div><div class="dname">Location Map</div><span class="tag t-sand">TBD</span></div>
-      <div class="drow"><div class="dicon">📑</div><div class="dname">Kontrakter</div><span class="tag t-sand">Ikke klar</span></div>
-      <div class="drow"><div class="dicon">🚗</div><div class="dname">Toyota C-HR+ Spec sheet</div><span class="tag t-sand">Ikke uploadet</span></div>
+
+      <a href="https://drive.google.com/file/d/1FM9kDN2YTCPDWHF4zvH9QClzsmxPqmGL/view?usp=sharing" target="_blank" class="dlink">
+        <div class="dlink-icon">📄</div>
+        <div style="flex:1;min-width:0;">
+          <div class="dlname">Script</div>
+          <div class="dlsub">Google Drive · Klik for at åbne</div>
+        </div>
+        <span class="tag t-green" style="margin-right:6px;">Tilgængelig</span>
+        <span class="dlarrow">↗</span>
+      </a>
+
+      <a href="https://drive.google.com/file/d/1ASJGM3jLkzdcjWBqkAp2ed8N6uWsjVpS/view?usp=drive_link" target="_blank" class="dlink">
+        <div class="dlink-icon">🎨</div>
+        <div style="flex:1;min-width:0;">
+          <div class="dlname">Moodboard</div>
+          <div class="dlsub">Google Drive · Klik for at åbne</div>
+        </div>
+        <span class="tag t-green" style="margin-right:6px;">Tilgængelig</span>
+        <span class="dlarrow">↗</span>
+      </a>
+
+      <div class="dlink" style="cursor:default;opacity:0.5;">
+        <div class="dlink-icon">📋</div>
+        <div style="flex:1;min-width:0;">
+          <div class="dlname">Call Sheet · Dag 1</div>
+          <div class="dlsub">Ikke klar endnu</div>
+        </div>
+        <span class="tag t-gold">Pending</span>
+      </div>
+
+      <div class="dlink" style="cursor:default;opacity:0.5;">
+        <div class="dlink-icon">🗺️</div>
+        <div style="flex:1;min-width:0;">
+          <div class="dlname">Location Map</div>
+          <div class="dlsub">TBD</div>
+        </div>
+        <span class="tag t-sand">TBD</span>
+      </div>
+
+      <div class="dlink" style="cursor:default;opacity:0.5;">
+        <div class="dlink-icon">📑</div>
+        <div style="flex:1;min-width:0;">
+          <div class="dlname">Kontrakter</div>
+          <div class="dlsub">Ikke klar endnu</div>
+        </div>
+        <span class="tag t-sand">Ikke klar</span>
+      </div>
+
     </div>
   </div>
 
