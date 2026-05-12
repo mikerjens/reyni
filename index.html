@@ -947,7 +947,7 @@ function handleSelect(val) {
   }
 
   // Switch to Min Schedule tab
-  showTab('schedule', document.querySelector('.nav-tab'));
+  showTab('min-schedule', document.querySelector('[onclick="showTab(\'min-schedule\',this)"]'));
 }
 
 function goHome() {
@@ -957,14 +957,21 @@ function goHome() {
   document.getElementById('my-name').textContent = '—';
   document.getElementById('my-role').textContent = '—';
   document.getElementById('my-events').innerHTML = '<div class="sched-event"><div class="se-title" style="color:var(--muted);">Vælg dit navn ovenfor for at se din schedule</div></div>';
-  showTab('schedule', document.querySelector('.nav-tab'));
+  showTab('schedule', null);
 }
 
 function showTab(id, el) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('panel-' + id).classList.add('active');
-  el.classList.add('active');
+  var panel = document.getElementById('panel-' + id);
+  if (panel) panel.classList.add('active');
+  if (el) el.classList.add('active');
+  // Also activate by matching onclick if el not passed correctly
+  document.querySelectorAll('.nav-tab').forEach(t => {
+    if (t.getAttribute('onclick') && t.getAttribute('onclick').indexOf("'" + id + "'") !== -1) {
+      t.classList.add('active');
+    }
+  });
 }
 </script>
 </body>
