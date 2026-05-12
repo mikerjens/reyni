@@ -550,9 +550,9 @@ body {
 <!-- NAV -->
 <div class="nav-wrap">
   <div class="nav-inner">
-    <button class="nav-tab active" onclick="showTab('min-schedule',this)">Min Schedule</button>
+    <button class="nav-tab active" onclick="showTab('schedule',this)">Fuld Schedule</button>
+    <button class="nav-tab" onclick="showTab('min-schedule',this)">Min Schedule</button>
     <button class="nav-tab" onclick="showTab('overblik',this)">Overblik</button>
-    <button class="nav-tab" onclick="showTab('schedule',this)">Fuld Schedule</button>
     <button class="nav-tab" onclick="showTab('crew',this)">Crew</button>
     <button class="nav-tab" onclick="showTab('cast',this)">Cast</button>
     <button class="nav-tab" onclick="showTab('klient',this)">Klient</button>
@@ -576,7 +576,7 @@ body {
 <div class="page">
 
   <!-- MIN SCHEDULE -->
-  <div class="panel active" id="panel-min-schedule">
+  <div class="panel" id="panel-min-schedule">
 
     <div class="my-schedule-card">
       <div class="msc-eyebrow">Din personlige schedule</div>
@@ -645,7 +645,7 @@ body {
   </div>
 
   <!-- FULD SCHEDULE -->
-  <div class="panel" id="panel-schedule">
+  <div class="panel active" id="panel-schedule">
     <div class="notice">Eksteriørscene optages tidligst efter 18. maj 2026.</div>
 
     <div class="sl"><span>Prep — Tirsdag 19. maj</span><i></i></div>
@@ -947,7 +947,7 @@ function handleSelect(val) {
   }
 
   // Switch to Min Schedule tab
-  showTab('min-schedule', document.querySelector('.nav-tab'));
+  showTab('schedule', document.querySelector('.nav-tab'));
 }
 
 function goHome() {
@@ -957,7 +957,7 @@ function goHome() {
   document.getElementById('my-name').textContent = '—';
   document.getElementById('my-role').textContent = '—';
   document.getElementById('my-events').innerHTML = '<div class="sched-event"><div class="se-title" style="color:var(--muted);">Vælg dit navn ovenfor for at se din schedule</div></div>';
-  showTab('min-schedule', document.querySelector('.nav-tab'));
+  showTab('schedule', document.querySelector('.nav-tab'));
 }
 
 function showTab(id, el) {
