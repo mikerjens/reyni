@@ -208,7 +208,11 @@ body {
   border-right: 1px solid rgba(200,25,60,0.28);
   margin-right: 28px;
   flex-shrink: 0;
+  cursor: pointer;
+  transition: opacity .18s;
 }
+
+.logo-block:hover { opacity: 0.82; }
 
 .logo-eyebrow {
   font-size: 8px;
@@ -881,7 +885,7 @@ body {
 <!-- HEADER -->
 <div class="header">
   <div class="header-inner">
-    <div class="logo-block">
+    <div class="logo-block" onclick="location.reload()" style="cursor:pointer;" title="Tilbage til start">
       <div>
         <div class="logo-eyebrow">Production Portal</div>
         <div class="logo-title">Reyni Service</div>
@@ -1060,8 +1064,15 @@ body {
   <!-- SCHEDULE -->
   <div class="panel active" id="panel-schedule">
 
-    <!-- Produktionsmøde -->
-    <div class="day-block">
+    <!-- Personal welcome banner (hidden by default) -->
+    <div id="schedule-welcome" style="display:none;" class="notice green" style="margin-bottom:20px;"></div>
+    <!-- No-name prompt -->
+    <div id="schedule-prompt" class="notice" style="border-left-color:var(--gold);background:rgba(240,165,0,0.07);">
+      👆 Vælg dit navn i rullemenuen øverst for at se dit personlige program.
+    </div>
+
+    <!-- Produktionsmøde — alle er med -->
+    <div class="day-block" data-persons="alle">
       <div class="day-header">
         <div>
           <div class="day-title">Produktionsmøde</div>
@@ -1086,8 +1097,8 @@ body {
       </div>
     </div>
 
-    <!-- Dag 1 Exterior -->
-    <div class="day-block">
+    <!-- Dag 1 Exterior — crew + Bjørn -->
+    <div class="day-block" data-persons="Michael Koba,Thomas Koba,Hans Petur Hansen,Bjørn Ulvedal Simonsen,Fríðrikur Jakobsen,Sámal av Reyni">
       <div class="day-header">
         <div>
           <div class="day-title">Dag 1 · Eksteriør scene</div>
@@ -1130,8 +1141,8 @@ body {
       </div>
     </div>
 
-    <!-- Dag 2 Interior -->
-    <div class="day-block">
+    <!-- Dag 2 Interior — crew + Hanna + Astrið -->
+    <div class="day-block" data-persons="Michael Koba,Thomas Koba,Hans Petur Hansen,Anna Kristin Bæk,Hanna Flóvinsdóttir,Astrið Gullborgardóttir,Fríðrikur Jakobsen,Sámal av Reyni">
       <div class="day-header">
         <div>
           <div class="day-title">Dag 2 · Interiør scene</div>
@@ -1407,32 +1418,27 @@ function toggleDropdown() {
   document.getElementById('udw').classList.toggle('open');
 }
 
-// Close dropdown when clicking outside
 document.addEventListener('click', function(e) {
   const udw = document.getElementById('udw');
-  if (udw && !udw.contains(e.target)) {
-    udw.classList.remove('open');
-  }
+  if (udw && !udw.contains(e.target)) udw.classList.remove('open');
 });
 
 function selectUser(name, role, isProducer) {
-  // Update chip appearance
+  // Update chip
   const chip = document.getElementById('user-chip');
-  const pre = document.getElementById('uc-pre');
-  const label = document.getElementById('user-label');
-  const dot = document.getElementById('uc-dot');
+  const pre  = document.getElementById('uc-pre');
+  const lbl  = document.getElementById('user-label');
+  const dot  = document.getElementById('uc-dot');
 
   pre.textContent = role;
-  pre.style.opacity = '0.6';
-  label.textContent = name;
-  label.style.display = 'inline';
-  label.style.fontWeight = '600';
+  pre.style.opacity = '0.65';
+  lbl.textContent = name;
+  lbl.style.display = 'inline';
+  lbl.style.fontWeight = '600';
   dot.classList.add('active');
   chip.classList.add('named');
 
   document.getElementById('udw').classList.remove('open');
-
-  // Mark selected
   document.querySelectorAll('.um-item').forEach(el => el.classList.remove('selected'));
   event.currentTarget.classList.add('selected');
 
@@ -1440,6 +1446,29 @@ function selectUser(name, role, isProducer) {
   document.querySelectorAll('.producer-only').forEach(el => {
     el.style.display = isProducer ? 'block' : 'none';
   });
+
+  // ── SCHEDULE FILTERING ──
+  const prompt  = document.getElementById('schedule-prompt');
+  const welcome = document.getElementById('schedule-welcome');
+  const blocks  = document.querySelectorAll('.day-block[data-persons]');
+
+  prompt.style.display = 'none';
+
+  let count = 0;
+  blocks.forEach(block => {
+    const persons = block.getAttribute('data-persons');
+    const visible = persons === 'alle' || persons.split(',').map(s=>s.trim()).includes(name);
+    block.style.display = visible ? 'block' : 'none';
+    if (visible) count++;
+  });
+
+  // Welcome message
+  const dayWord = count === 1 ? 'dag' : 'dage';
+  welcome.innerHTML = `<strong>${name}</strong> — dit program viser ${count} ${dayWord} du er med på.`;
+  welcome.style.display = 'block';
+
+  // Switch to schedule tab so they see it immediately
+  showTabById('schedule');
 }
 
 function showTab(id, el) {
@@ -1447,6 +1476,14 @@ function showTab(id, el) {
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
   document.getElementById('panel-' + id).classList.add('active');
   el.classList.add('active');
+}
+
+function showTabById(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  const tab = document.querySelector(`.nav-tab[onclick*="'${id}'"]`);
+  if (tab) tab.classList.add('active');
 }
 
 function toggleTodo(el) {
