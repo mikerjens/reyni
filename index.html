@@ -33,10 +33,7 @@ body {
 }
 
 /* ── USER DROPDOWN ── */
-.user-dropdown-wrap {
-  position: relative;
-  flex-shrink: 0;
-}
+.user-dropdown-wrap { position: relative; flex-shrink: 0; }
 
 .user-chip {
   display: flex;
@@ -54,13 +51,12 @@ body {
   white-space: nowrap;
   transition: background .15s;
   user-select: none;
-  box-shadow: 0 2px 12px rgba(200,25,60,0.4);
   animation: chipglow 2.5s ease-in-out infinite;
 }
 
 @keyframes chipglow {
-  0%, 100% { box-shadow: 0 2px 12px rgba(200,25,60,0.4); }
-  50% { box-shadow: 0 2px 22px rgba(200,25,60,0.75); }
+  0%,100% { box-shadow: 0 2px 12px rgba(200,25,60,0.4); }
+  50%      { box-shadow: 0 2px 22px rgba(200,25,60,0.75); }
 }
 
 .user-chip.named {
@@ -80,15 +76,12 @@ body {
   flex-shrink: 0;
   transition: background .2s;
 }
-
 .uc-dot.active { background: var(--gold); }
 
 .uc-label-pre {
-  font-size: 8px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  opacity: 0.75;
-  margin-right: 2px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  opacity: 0.9;
 }
 
 .uc-arrow {
@@ -112,7 +105,6 @@ body {
   min-width: 230px;
   z-index: 9999;
   box-shadow: 0 12px 32px rgba(0,0,0,0.65);
-  overflow: visible;
 }
 
 .user-dropdown-wrap.open .user-menu { display: block; }
@@ -149,26 +141,9 @@ body {
 .um-item:hover { background: rgba(200,25,60,0.18); }
 .um-item.selected { background: rgba(200,25,60,0.12); border-left: 2px solid var(--lip); padding-left: 12px; }
 
-.um-name {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--cream);
-  line-height: 1.2;
-}
-
-.um-role {
-  font-size: 9px;
-  color: var(--muted);
-  letter-spacing: 0.06em;
-  margin-top: 1px;
-}
-
-.um-star {
-  margin-left: auto;
-  color: var(--gold);
-  font-size: 12px;
-  flex-shrink: 0;
-}
+.um-name { font-size: 12px; font-weight: 500; color: var(--cream); line-height: 1.2; }
+.um-role { font-size: 9px; color: var(--muted); letter-spacing: 0.06em; margin-top: 1px; }
+.um-star { margin-left: auto; color: var(--gold); font-size: 12px; flex-shrink: 0; }
 
 /* ── HEADER ── */
 .header {
@@ -183,6 +158,7 @@ body {
   inset: 0;
   background: repeating-linear-gradient(-60deg, transparent 0, transparent 18px, rgba(200,25,60,0.07) 18px, rgba(200,25,60,0.07) 36px);
   pointer-events: none;
+  overflow: hidden;
 }
 
 .header::after {
@@ -211,7 +187,6 @@ body {
   cursor: pointer;
   transition: opacity .18s;
 }
-
 .logo-block:hover { opacity: 0.82; }
 
 .logo-eyebrow {
@@ -247,20 +222,8 @@ body {
 }
 
 .meta-item { display: flex; flex-direction: column; gap: 4px; flex-shrink: 0; }
-
-.meta-key {
-  font-size: 8px;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--muted);
-  font-weight: 500;
-}
-
-.meta-val {
-  font-size: 13px;
-  font-weight: 500;
-  color: #F0D4BE;
-}
+.meta-key { font-size: 8px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+.meta-val { font-size: 13px; font-weight: 500; color: #F0D4BE; }
 
 .header-right {
   margin-left: auto;
@@ -284,8 +247,6 @@ body {
   clip-path: polygon(12px 0%, 100% 0%, 100% 100%, 0% 100%);
   white-space: nowrap;
 }
-
-
 
 .dot {
   width: 6px; height: 6px;
@@ -343,10 +304,8 @@ body {
 .nav-tab.active { color: var(--cream); border-bottom-color: var(--lip); }
 
 /* ── MATERIAL BAR ── */
-.matbar {
-  background: var(--ink);
-  border-bottom: 1px solid rgba(200,25,60,0.2);
-}
+.matbar { background: var(--ink); border-bottom: 1px solid rgba(200,25,60,0.2); }
+
 .matbar-inner {
   max-width: 960px;
   margin: 0 auto;
@@ -356,6 +315,7 @@ body {
   gap: 10px;
   flex-wrap: wrap;
 }
+
 .matbar-label {
   font-size: 8px;
   font-weight: 500;
@@ -366,7 +326,9 @@ body {
   padding: 11px 0;
   flex-shrink: 0;
 }
+
 .matbar-sep { width: 1px; height: 18px; background: rgba(200,25,60,0.22); flex-shrink: 0; }
+
 .matbtn {
   display: inline-flex;
   align-items: center;
@@ -385,6 +347,7 @@ body {
   white-space: nowrap;
   flex-shrink: 0;
 }
+
 .matbtn:hover { background: rgba(200,25,60,0.28); border-color: rgba(200,25,60,0.5); }
 .matbtn.mb-orange { background: rgba(244,98,42,0.14); border-color: rgba(244,98,42,0.32); }
 .matbtn.mb-orange:hover { background: rgba(244,98,42,0.26); border-color: rgba(244,98,42,0.5); }
@@ -392,28 +355,12 @@ body {
 .matbtn.mb-green:hover { background: rgba(30,140,80,0.22); border-color: rgba(30,140,80,0.5); }
 
 /* ── PAGE ── */
-.page {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 32px;
-}
+.page { max-width: 960px; margin: 0 auto; padding: 32px; }
 
 /* ── SECTION LABEL ── */
-.sl {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin: 28px 0 16px;
-}
+.sl { display: flex; align-items: center; gap: 14px; margin: 28px 0 16px; }
 .sl:first-child { margin-top: 0; }
-.sl span {
-  font-size: 8px;
-  font-weight: 500;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  color: var(--lip);
-  white-space: nowrap;
-}
+.sl span { font-size: 8px; font-weight: 500; letter-spacing: 0.32em; text-transform: uppercase; color: var(--lip); white-space: nowrap; }
 .sl i { flex: 1; height: 1px; background: var(--bdr); }
 
 /* ── CARD ── */
@@ -426,22 +373,8 @@ body {
   margin-bottom: 12px;
 }
 
-.card-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 12px;
-  margin-bottom: 14px;
-}
-
-.ctitle {
-  font-family: 'Playfair Display', serif;
-  font-size: 17px;
-  font-weight: 700;
-  color: var(--ink);
-  line-height: 1.2;
-}
-
+.card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
+.ctitle { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; color: var(--ink); line-height: 1.2; }
 .csub { font-size: 11px; color: var(--muted); margin-top: 3px; }
 
 /* ── TAGS ── */
@@ -479,19 +412,16 @@ body {
   font-size: 12px;
   color: var(--ink);
   line-height: 1.6;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   border-radius: 0 2px 2px 0;
 }
-.notice.lip { border-left-color: var(--lip); background: rgba(200,25,60,0.05); }
-.notice.green { border-left-color: #1a8a4a; background: rgba(30,140,80,0.05); }
+.notice.lip   { border-left-color: var(--lip);  background: rgba(200,25,60,0.05); }
+.notice.green { border-left-color: #1a8a4a;     background: rgba(30,140,80,0.06); }
+.notice.gold  { border-left-color: var(--gold); background: rgba(240,165,0,0.07); }
 
 /* ── COUNTERS ── */
-.cg {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  margin-bottom: 28px;
-}
+.cg { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 28px; }
+
 .cnt {
   background: var(--ink);
   border-top: 3px solid var(--lip);
@@ -508,37 +438,12 @@ body {
   width: 60px; height: 60px;
   background: radial-gradient(circle, rgba(200,25,60,0.12) 0%, transparent 70%);
 }
-.cnt-n {
-  font-family: 'Playfair Display', serif;
-  font-size: 28px;
-  font-weight: 900;
-  color: var(--cream);
-  line-height: 1;
-  position: relative;
-}
-.cnt-l {
-  font-size: 8px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-top: 6px;
-  line-height: 1.4;
-  position: relative;
-}
+.cnt-n { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 900; color: var(--cream); line-height: 1; position: relative; }
+.cnt-l { font-size: 8px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-top: 6px; line-height: 1.4; position: relative; }
 
 /* ── FORMAT TAGS ── */
 .ftags { display: flex; gap: 7px; flex-wrap: wrap; }
-.ftag {
-  font-size: 9px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  background: var(--sand);
-  border: 1px solid var(--shell);
-  color: var(--ink);
-  padding: 5px 10px;
-  border-radius: 1px;
-}
+.ftag { font-size: 9px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; background: var(--sand); border: 1px solid var(--shell); color: var(--ink); padding: 5px 10px; border-radius: 1px; }
 
 /* ── PERSON CARD ── */
 .pcard {
@@ -552,13 +457,12 @@ body {
   gap: 14px;
   align-items: flex-start;
 }
+
 .av {
   width: 40px; height: 40px;
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.04em;
+  font-size: 12px; font-weight: 500; letter-spacing: 0.04em;
   flex-shrink: 0;
 }
 .av-l { background: var(--lip);    color: #fff; }
@@ -566,29 +470,18 @@ body {
 .av-g { background: var(--gold);   color: var(--ink); }
 .av-w { background: var(--wine);   color: var(--cream); }
 .av-b { background: #2a6db5;       color: #fff; }
+.av-p { background: #8e44ad;       color: #fff; }
 
 .pb { flex: 1; min-width: 0; }
-.pt {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-.pn {
-  font-family: 'Playfair Display', serif;
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--ink);
-  line-height: 1.2;
-}
+.pt { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+.pn { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--ink); line-height: 1.2; }
 .pr { font-size: 11px; color: var(--muted); margin-top: 2px; line-height: 1.4; }
 
 .contacts { display: flex; gap: 14px; flex-wrap: wrap; }
 .cl { font-size: 12px; color: var(--lip); text-decoration: none; font-weight: 400; }
 .cl:hover { text-decoration: underline; }
 
-/* ── SCHEDULE BLOCKS ── */
+/* ── SCHEDULE ── */
 .day-block {
   background: #fff;
   border: 1px solid var(--bdr);
@@ -608,13 +501,7 @@ body {
   flex-wrap: wrap;
 }
 
-.day-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--cream);
-}
-
+.day-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: var(--cream); }
 .day-sub { font-size: 10px; color: var(--muted); margin-top: 2px; letter-spacing: 0.06em; }
 
 .timeline { padding: 0 20px; }
@@ -629,22 +516,8 @@ body {
 }
 .trow:last-child { border-bottom: none; }
 
-.ttime {
-  font-family: 'Playfair Display', serif;
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--lip);
-  line-height: 1;
-  white-space: nowrap;
-}
-
-.ttitle {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--ink);
-  line-height: 1.4;
-}
-
+.ttime { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: var(--lip); line-height: 1; white-space: nowrap; }
+.ttitle { font-size: 13px; font-weight: 500; color: var(--ink); line-height: 1.4; }
 .tsub { font-size: 11px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
 
 .day-footer {
@@ -655,7 +528,6 @@ body {
   flex-wrap: wrap;
   border-top: 1px solid var(--shell);
 }
-
 .df-item { display: flex; flex-direction: column; gap: 2px; }
 .df-key { font-size: 8px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
 .df-val { font-size: 12px; color: var(--ink); }
@@ -664,9 +536,9 @@ body {
 .arow {
   background: #fff;
   border: 1px solid var(--bdr);
-  border-left: 4px solid var(--gold);
+  border-left: 4px solid var(--lip);
   border-radius: 0 2px 2px 0;
-  padding: 13px 16px;
+  padding: 14px 18px;
   margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
@@ -674,14 +546,9 @@ body {
   gap: 12px;
   flex-wrap: wrap;
 }
-.an {
-  font-family: 'Playfair Display', serif;
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--ink);
-}
+.an { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--ink); }
 .an-role { font-size: 12px; color: var(--lip); font-style: italic; margin-top: 1px; }
-.as { font-size: 11px; color: var(--muted); margin-top: 3px; }
+.as { font-size: 11px; color: var(--muted); margin-top: 4px; }
 
 /* ── TODO ── */
 .todo-card {
@@ -691,40 +558,11 @@ body {
   padding: 20px 22px;
   margin-bottom: 12px;
 }
+.todo-head { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.todo-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--cream); }
+.todo-badge { font-size: 8px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; background: rgba(240,165,0,0.18); border: 1px solid rgba(240,165,0,0.4); color: var(--gold); padding: 3px 9px; border-radius: 1px; }
 
-.todo-head {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 16px;
-}
-
-.todo-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--cream);
-}
-
-.todo-badge {
-  font-size: 8px;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  background: rgba(240,165,0,0.18);
-  border: 1px solid rgba(240,165,0,0.4);
-  color: var(--gold);
-  padding: 3px 9px;
-  border-radius: 1px;
-}
-
-.todo-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 11px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-}
+.todo-item { display: flex; align-items: flex-start; gap: 12px; padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
 .todo-item:last-child { border-bottom: none; }
 
 .todo-check {
@@ -734,77 +572,41 @@ body {
   flex-shrink: 0;
   margin-top: 1px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   transition: background .14s, border-color .14s;
 }
 .todo-check:hover { border-color: var(--lip); }
 .todo-check.done { background: var(--lip); border-color: var(--lip); }
 .todo-check.done::after { content: '✓'; font-size: 11px; color: #fff; }
-
-.todo-text {
-  font-size: 13px;
-  color: rgba(240,212,190,0.85);
-  line-height: 1.5;
-  flex: 1;
-}
+.todo-text { font-size: 13px; color: rgba(240,212,190,0.85); line-height: 1.5; flex: 1; }
 .todo-text.done { text-decoration: line-through; color: rgba(240,212,190,0.35); }
 
 /* ── DOC LINK ROW ── */
 .dlink {
-  display: flex;
-  align-items: center;
-  gap: 14px;
+  display: flex; align-items: center; gap: 14px;
   padding: 14px 0;
   border-bottom: 1px solid var(--bdr2);
-  text-decoration: none;
-  color: inherit;
+  text-decoration: none; color: inherit;
 }
 .dlink:last-child { border-bottom: none; }
 .dlink:hover .dlname { color: var(--lip); }
-.dlink-icon {
-  width: 42px; height: 42px;
-  background: var(--ink);
-  border-radius: 2px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px;
-  flex-shrink: 0;
-}
+.dlink-icon { width: 42px; height: 42px; background: var(--ink); border-radius: 2px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
 .dlname { font-size: 14px; font-weight: 500; color: var(--ink); transition: color .14s; flex: 1; }
 .dlsub { font-size: 11px; color: var(--muted); margin-top: 2px; }
 .dlarrow { font-size: 14px; color: var(--lip); flex-shrink: 0; }
 
 /* ── MESSAGES ── */
-.msg {
-  background: #fff;
-  border: 1px solid var(--bdr);
-  border-top: 3px solid var(--lip);
-  border-radius: 0 0 2px 2px;
-  padding: 14px 18px;
-  margin-bottom: 10px;
-}
-.mf {
-  font-size: 9px;
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--lip);
-  margin-bottom: 7px;
-}
+.msg { background: #fff; border: 1px solid var(--bdr); border-top: 3px solid var(--lip); border-radius: 0 0 2px 2px; padding: 14px 18px; margin-bottom: 10px; }
+.mf { font-size: 9px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--lip); margin-bottom: 7px; }
 .mt { font-size: 13px; color: var(--ink); line-height: 1.65; }
 .mm { font-size: 10px; color: var(--muted); margin-top: 7px; letter-spacing: 0.08em; }
 
-/* ── PANEL VISIBILITY ── */
+/* ── PANELS ── */
 .panel { display: none; }
 .panel.active { display: block; }
-
-/* ── PRODUCER ONLY ── */
 .producer-only { display: none; }
 
-/* ══════════════════════════════
-   RESPONSIVE
-══════════════════════════════ */
+/* ══════ RESPONSIVE ══════ */
 @media (max-width: 780px) {
   .header-inner { padding: 0 20px; }
   .logo-block { padding: 16px 20px 16px 0; margin-right: 20px; }
@@ -817,44 +619,23 @@ body {
 }
 
 @media (max-width: 600px) {
-  .header-inner {
-    flex-direction: column;
-    align-items: stretch;
-    padding: 16px;
-    min-height: auto;
-  }
-  .logo-block {
-    border-right: none;
-    border-bottom: 1px solid rgba(200,25,60,0.18);
-    margin-right: 0;
-    padding: 0 0 14px 0;
-    margin-bottom: 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 12px;
-  }
+  .header-inner { flex-direction: column; align-items: stretch; padding: 16px; min-height: auto; }
+  .logo-block { border-right: none; border-bottom: 1px solid rgba(200,25,60,0.18); margin-right: 0; padding: 0 0 14px 0; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; }
   .logo-title { font-size: 22px; }
   .logo-eyebrow { font-size: 7px; }
   .logo-sub { font-size: 8px; }
   .header-meta { display: none; }
   .header-right { display: flex; gap: 8px; align-items: center; }
   .status-badge { display: none; }
-  .user-chip { font-size: 10px; padding: 6px 10px; }
+  .user-chip { font-size: 10px; padding: 7px 12px; }
   .user-menu { right: 0; min-width: 200px; }
-  .logo-block .status-badge {
-    clip-path: none !important;
-    padding: 5px 10px;
-    font-size: 8px;
-    align-self: flex-start;
-  }
   .nav-inner { padding: 0 8px; }
   .nav-tab { font-size: 11px; padding: 12px 10px 10px; letter-spacing: 0.12em; }
   .matbar-inner { padding: 0 10px; gap: 7px; }
   .matbar-label, .matbar-sep { display: none; }
   .matbtn { font-size: 9px; padding: 6px 10px; }
   .page { padding: 16px; }
-  .cg { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .cg { grid-template-columns: repeat(2,1fr); gap: 8px; }
   .cnt-n { font-size: 24px; }
   .cnt { padding: 14px 10px; }
   .card { padding: 14px 16px; }
@@ -862,15 +643,11 @@ body {
   .pcard { padding: 13px 14px; gap: 10px; }
   .pt { flex-wrap: wrap; gap: 6px; }
   .contacts { gap: 10px; }
-  .cl { font-size: 13px; }
   .ir { gap: 14px; }
   .ii { min-width: 44%; }
   .trow { grid-template-columns: 55px 1fr; gap: 10px; }
   .ttime { font-size: 14px; }
   .day-footer { gap: 14px; }
-  .arow { gap: 8px; }
-  .name-grid { grid-template-columns: 1fr; }
-  .name-btn.producer { grid-column: span 1; }
 }
 
 @media (max-width: 380px) {
@@ -885,14 +662,12 @@ body {
 <!-- HEADER -->
 <div class="header">
   <div class="header-inner">
-    <div class="logo-block" onclick="location.reload()" style="cursor:pointer;" title="Tilbage til start">
+    <div class="logo-block" onclick="location.reload()" title="Tilbage til start">
       <div>
         <div class="logo-eyebrow">Production Portal</div>
         <div class="logo-title">Reyni Service</div>
         <div class="logo-sub">Toyota C-HR+ · Film Commercial</div>
       </div>
-      <!-- Mobile badge -->
-      <div class="status-badge" style="display:none;" id="mobile-badge"><div class="dot"></div>Pre-production</div>
     </div>
     <div class="header-meta">
       <div class="meta-item">
@@ -904,8 +679,8 @@ body {
         <span class="meta-val">TV · Cinema · Social</span>
       </div>
       <div class="meta-item">
-        <span class="meta-key">Optagelsesdato</span>
-        <span class="meta-val">25–26. maj 2026</span>
+        <span class="meta-key">Optagelse</span>
+        <span class="meta-val">26. maj + TBD maj 2026</span>
       </div>
     </div>
     <div class="header-right">
@@ -929,14 +704,17 @@ body {
             <button class="um-item" onclick="selectUser('Hans Petur Hansen','Gaffer',false)">
               <div><div class="um-name">Hans Petur Hansen</div><div class="um-role">Gaffer</div></div>
             </button>
-            <button class="um-item" onclick="selectUser('Anna Kristin Bæk','Stylist / Props',false)">
-              <div><div class="um-name">Anna Kristin Bæk</div><div class="um-role">Stylist / Props</div></div>
+            <button class="um-item" onclick="selectUser('Anna Kristin Bæk','Senior Stylist',false)">
+              <div><div class="um-name">Anna Kristin Bæk</div><div class="um-role">Senior Stylist</div></div>
+            </button>
+            <button class="um-item" onclick="selectUser('Heidi Mortensen','Junior Stylist',false)">
+              <div><div class="um-name">Heidi Mortensen</div><div class="um-role">Junior Stylist</div></div>
             </button>
           </div>
           <div class="um-group">
             <span class="um-label">Skuespillere</span>
-            <button class="um-item" onclick="selectUser('Bjørn Ulvedal Simonsen','Macho Man',false)">
-              <div><div class="um-name">Bjørn Ulvedal Simonsen</div><div class="um-role">Skuespiller · Macho Man</div></div>
+            <button class="um-item" onclick="selectUser('Rani Dahl Olsen','Macho Man',false)">
+              <div><div class="um-name">Rani Dahl Olsen</div><div class="um-role">Skuespiller · Macho Man</div></div>
             </button>
             <button class="um-item" onclick="selectUser('Astrið Gullborgardóttir','Ingrið',false)">
               <div><div class="um-name">Astrið Gullborgardóttir</div><div class="um-role">Skuespiller · Ingrið</div></div>
@@ -975,7 +753,7 @@ body {
   </div>
 </div>
 
-<!-- MATERIAL BAR — always visible -->
+<!-- MATERIAL BAR -->
 <div class="matbar">
   <div class="matbar-inner">
     <span class="matbar-label">Materiale</span>
@@ -990,10 +768,123 @@ body {
 <!-- CONTENT -->
 <div class="page">
 
+  <!-- SCHEDULE -->
+  <div class="panel active" id="panel-schedule">
+    <div id="schedule-welcome" style="display:none;" class="notice green"></div>
+    <div id="schedule-prompt" class="notice gold">
+      👆 Vælg dit navn i rullemenuen øverst for at se dit personlige program.
+    </div>
+
+    <!-- Stylingmøde — produktion + stylister -->
+    <div class="day-block" data-persons="Michael Koba,Thomas Koba,Anna Kristin Bæk,Heidi Mortensen">
+      <div class="day-header">
+        <div>
+          <div class="day-title">Stylingmøde</div>
+          <div class="day-sub">Torsdag 21. maj 2026 · kl. 10:30–11:00 · Online (Google Meet)</div>
+        </div>
+        <span class="tag t-blue">Online møde</span>
+      </div>
+      <div class="timeline">
+        <div class="trow">
+          <div class="ttime">10:30</div>
+          <div><div class="ttitle">Gennemgang af styling</div><div class="tsub">Thomas Koba, Michael Koba, Anna Kristin Bæk og Heidi Mortensen gennemgår tøj og valg af tøj til skuespillere</div></div>
+        </div>
+        <div class="trow">
+          <div class="ttime">11:00</div>
+          <div><div class="ttitle">Møde slut</div></div>
+        </div>
+      </div>
+      <div class="day-footer">
+        <div class="df-item"><span class="df-key">Crew</span><span class="df-val">Thomas Koba, Michael Koba</span></div>
+        <div class="df-item"><span class="df-key">Stylister</span><span class="df-val">Anna Kristin Bæk, Heidi Mortensen</span></div>
+        <div class="df-item"><span class="df-key">Format</span><span class="df-val">Online · Google Meet</span></div>
+      </div>
+    </div>
+
+    <!-- Eksteriør scene -->
+    <div class="day-block" data-persons="Michael Koba,Thomas Koba,Hans Petur Hansen,Anna Kristin Bæk,Heidi Mortensen,Rani Dahl Olsen,Fríðrikur Jakobsen,Sámal av Reyni">
+      <div class="day-header">
+        <div>
+          <div class="day-title">Eksteriør scene</div>
+          <div class="day-sub">Solskinsdag 25.–31. maj 2026 (TBD) · kl. 10:00–16:00 · Ennivegur 3, Fuglafjørður</div>
+        </div>
+        <span class="tag t-lip">Optagelse</span>
+      </div>
+      <div class="timeline">
+        <div class="trow">
+          <div class="ttime">10:00</div>
+          <div><div class="ttitle">Afgang Tórshavn</div><div class="tsub">Michael kører Toyota C-HR+ · Thomas Koba og Hans Petur Hansen afgår fra Tórshavn</div></div>
+        </div>
+        <div class="trow">
+          <div class="ttime">11:00</div>
+          <div><div class="ttitle">Scene prep</div><div class="tsub">Opsætning af udstyr og location</div></div>
+        </div>
+        <div class="trow">
+          <div class="ttime">12:00</div>
+          <div><div class="ttitle">Frokost</div></div>
+        </div>
+        <div class="trow">
+          <div class="ttime">13:00</div>
+          <div><div class="ttitle">Rani ankommer + make-up</div><div class="tsub">Rani Dahl Olsen møder på sættet · Make-up artist (TBD)</div></div>
+        </div>
+        <div class="trow">
+          <div class="ttime">13:30</div>
+          <div><div class="ttitle">Optagelse starter</div></div>
+        </div>
+        <div class="trow">
+          <div class="ttime">16:00</div>
+          <div><div class="ttitle">Optagelse slut</div></div>
+        </div>
+      </div>
+      <div class="day-footer">
+        <div class="df-item"><span class="df-key">Crew</span><span class="df-val">Thomas, Hans Petur, Michael</span></div>
+        <div class="df-item"><span class="df-key">Skuespiller</span><span class="df-val">Rani Dahl Olsen</span></div>
+        <div class="df-item"><span class="df-key">Make-up</span><span class="df-val" style="color:var(--orange);">TBD</span></div>
+        <div class="df-item"><span class="df-key">Styling</span><span class="df-val">Anna Kristin (online) · Heidi Mortensen</span></div>
+        <div class="df-item"><span class="df-key">Location-ejer</span><span class="df-val">Mary Ann Zachariassen · <a href="tel:+298221245" style="color:var(--lip);text-decoration:none;">+298 221245</a></span></div>
+      </div>
+    </div>
+
+    <!-- Interiør scene -->
+    <div class="day-block" data-persons="Michael Koba,Thomas Koba,Hans Petur Hansen,Anna Kristin Bæk,Heidi Mortensen,Hanna Flóvinsdóttir,Astrið Gullborgardóttir,Fríðrikur Jakobsen,Sámal av Reyni">
+      <div class="day-header">
+        <div>
+          <div class="day-title">Interiør scene</div>
+          <div class="day-sub">Tirsdag 26. maj 2026 · kl. 12:00–21:00 · Ennivegur 3, Fuglafjørður</div>
+        </div>
+        <span class="tag t-lip">Optagelse</span>
+      </div>
+      <div class="timeline">
+        <div class="trow">
+          <div class="ttime">12:00</div>
+          <div><div class="ttitle">Crew ankommer</div><div class="tsub">Opsætning af lys, udstyr og scene · Ennivegur 3, Fuglafjørður</div></div>
+        </div>
+        <div class="trow">
+          <div class="ttime">16:30</div>
+          <div><div class="ttitle">Skuespillere ankommer</div><div class="tsub">Make-up og styling — max 1 time</div></div>
+        </div>
+        <div class="trow">
+          <div class="ttime">17:30</div>
+          <div><div class="ttitle">Optagelse starter</div></div>
+        </div>
+        <div class="trow">
+          <div class="ttime">21:00</div>
+          <div><div class="ttitle">Optagelse slut</div></div>
+        </div>
+      </div>
+      <div class="day-footer">
+        <div class="df-item"><span class="df-key">Crew</span><span class="df-val">Thomas, Hans Petur, Michael</span></div>
+        <div class="df-item"><span class="df-key">Skuespillere</span><span class="df-val">Hanna Flóvinsdóttir, Astrið Gullborgardóttir</span></div>
+        <div class="df-item"><span class="df-key">Make-up</span><span class="df-val" style="color:var(--orange);">TBD</span></div>
+        <div class="df-item"><span class="df-key">Styling</span><span class="df-val">Anna Kristin Bæk, Heidi Mortensen</span></div>
+        <div class="df-item"><span class="df-key">Location-ejer</span><span class="df-val">Mary Ann Zachariassen · <a href="tel:+298221245" style="color:var(--lip);text-decoration:none;">+298 221245</a></span></div>
+      </div>
+    </div>
+  </div>
+
   <!-- OVERBLIK -->
   <div class="panel" id="panel-overblik">
 
-    <!-- Producer-only todo -->
     <div class="producer-only" id="todo-block">
       <div class="sl"><span>★ Producer · To-do liste</span><i></i></div>
       <div class="todo-card">
@@ -1003,24 +894,16 @@ body {
         </div>
         <div class="todo-item">
           <div class="todo-check" onclick="toggleTodo(this)"></div>
-          <div class="todo-text">Få en person til at udføre det Anna Kristin Bæk ønsker m.h.t. props og tøj på location</div>
-        </div>
-        <div class="todo-item">
-          <div class="todo-check" onclick="toggleTodo(this)"></div>
-          <div class="todo-text">Få en person til at have ansvar for make-up on location (begge dage er make-up TBD)</div>
-        </div>
-        <div class="todo-item">
-          <div class="todo-check" onclick="toggleTodo(this)"></div>
           <div class="todo-text">Få alle prisaftaler med skuespillere på plads — skal afstemmes med Reyni Service</div>
         </div>
       </div>
     </div>
 
     <div class="cg">
-      <div class="cnt"><div class="cnt-n" style="color:var(--gold);font-size:16px;padding-top:6px;">25–26 maj</div><div class="cnt-l">Optagelsesdage</div></div>
-      <div class="cnt"><div class="cnt-n">4</div><div class="cnt-l">Crew</div></div>
+      <div class="cnt"><div class="cnt-n" style="color:var(--gold);font-size:15px;padding-top:7px;">26. maj + TBD</div><div class="cnt-l">Optagelsesdage</div></div>
+      <div class="cnt"><div class="cnt-n">5</div><div class="cnt-l">Crew</div></div>
       <div class="cnt"><div class="cnt-n">3</div><div class="cnt-l">Skuespillere</div></div>
-      <div class="cnt"><div class="cnt-n">2</div><div class="cnt-l">Locations</div></div>
+      <div class="cnt"><div class="cnt-n">1</div><div class="cnt-l">Location</div></div>
     </div>
 
     <div class="sl"><span>Projektoverblik</span><i></i></div>
@@ -1035,7 +918,7 @@ body {
       <div class="ir">
         <div class="ii"><span class="ik">Filmtype</span><span class="iv">Kommerciel reklame</span></div>
         <div class="ii"><span class="ik">Antal film</span><span class="iv">1 (lang + kort version)</span></div>
-        <div class="ii"><span class="ik">Produktionsmøde</span><span class="iv">Tirs. 19. maj, kl. 16:15</span></div>
+        <div class="ii"><span class="ik">Stylingmøde</span><span class="iv">Tors. 21. maj, kl. 10:30 · Online</span></div>
         <div class="ii"><span class="ik">Portal</span><span class="iv"><a href="https://reyni.netlify.app/" target="_blank">reyni.netlify.app ↗</a></span></div>
       </div>
       <div class="divider"></div>
@@ -1061,124 +944,6 @@ body {
     </div>
   </div>
 
-  <!-- SCHEDULE -->
-  <div class="panel active" id="panel-schedule">
-
-    <!-- Personal welcome banner (hidden by default) -->
-    <div id="schedule-welcome" style="display:none;" class="notice green" style="margin-bottom:20px;"></div>
-    <!-- No-name prompt -->
-    <div id="schedule-prompt" class="notice" style="border-left-color:var(--gold);background:rgba(240,165,0,0.07);">
-      👆 Vælg dit navn i rullemenuen øverst for at se dit personlige program.
-    </div>
-
-    <!-- Produktionsmøde — alle er med -->
-    <div class="day-block" data-persons="alle">
-      <div class="day-header">
-        <div>
-          <div class="day-title">Produktionsmøde</div>
-          <div class="day-sub">Tirsdag 19. maj 2026 · kl. 16:15–18:15 · Hugskotið</div>
-        </div>
-        <span class="tag t-blue">Møde</span>
-      </div>
-      <div class="timeline">
-        <div class="trow">
-          <div class="ttime">16:15</div>
-          <div><div class="ttitle">Gennemgang af script</div><div class="tsub">Alle skuespillere og crew mødes · Anna Kristin Bæk deltager online og gennemgår tøj og props med alle</div></div>
-        </div>
-        <div class="trow">
-          <div class="ttime">18:15</div>
-          <div><div class="ttitle">Møde slut</div></div>
-        </div>
-      </div>
-      <div class="day-footer">
-        <div class="df-item"><span class="df-key">Skuespillere</span><span class="df-val">Astrið, Hanna, Bjørn</span></div>
-        <div class="df-item"><span class="df-key">Crew</span><span class="df-val">Thomas Koba, Michael Koba</span></div>
-        <div class="df-item"><span class="df-key">Online</span><span class="df-val">Anna Kristin Bæk</span></div>
-      </div>
-    </div>
-
-    <!-- Dag 1 Exterior — crew + Bjørn -->
-    <div class="day-block" data-persons="Michael Koba,Thomas Koba,Hans Petur Hansen,Bjørn Ulvedal Simonsen,Fríðrikur Jakobsen,Sámal av Reyni">
-      <div class="day-header">
-        <div>
-          <div class="day-title">Dag 1 · Eksteriør scene</div>
-          <div class="day-sub">Mandag 25. maj 2026 · kl. 10:00–15:00 · Kirkjubrekka 4, Klaksvík</div>
-        </div>
-        <span class="tag t-lip">Optagelse</span>
-      </div>
-      <div class="timeline">
-        <div class="trow">
-          <div class="ttime">10:00</div>
-          <div><div class="ttitle">Afgang Tórshavn</div><div class="tsub">Michael kører Toyota C-HR+ til Klaksvík · Thomas Koba og Hans Petur Hansen afgår fra Tórshavn</div></div>
-        </div>
-        <div class="trow">
-          <div class="ttime">11:00</div>
-          <div><div class="ttitle">Scene prep</div><div class="tsub">Opsætning af udstyr og location</div></div>
-        </div>
-        <div class="trow">
-          <div class="ttime">12:00</div>
-          <div><div class="ttitle">Frokost</div></div>
-        </div>
-        <div class="trow">
-          <div class="ttime">13:00</div>
-          <div><div class="ttitle">Bjørn ankommer + make-up</div><div class="tsub">Bjørn Ulvedal Simonsen møder på sættet · Make-up artist (TBD)</div></div>
-        </div>
-        <div class="trow">
-          <div class="ttime">13:30</div>
-          <div><div class="ttitle">Optagelse starter</div></div>
-        </div>
-        <div class="trow">
-          <div class="ttime">15:00</div>
-          <div><div class="ttitle">Optagelse slut</div></div>
-        </div>
-      </div>
-      <div class="day-footer">
-        <div class="df-item"><span class="df-key">Crew</span><span class="df-val">Thomas, Hans Petur, Michael</span></div>
-        <div class="df-item"><span class="df-key">Skuespiller</span><span class="df-val">Bjørn Ulvedal Simonsen</span></div>
-        <div class="df-item"><span class="df-key">Make-up</span><span class="df-val" style="color:var(--orange);">TBD</span></div>
-        <div class="df-item"><span class="df-key">Styling</span><span class="df-val">Anna Kristin (online)</span></div>
-        <div class="df-item"><span class="df-key">Location-ejer</span><span class="df-val">Heri Ellingsgaard · <a href="tel:+298216960" style="color:var(--lip);text-decoration:none;">+298 216960</a></span></div>
-      </div>
-    </div>
-
-    <!-- Dag 2 Interior — crew + Hanna + Astrið -->
-    <div class="day-block" data-persons="Michael Koba,Thomas Koba,Hans Petur Hansen,Anna Kristin Bæk,Hanna Flóvinsdóttir,Astrið Gullborgardóttir,Fríðrikur Jakobsen,Sámal av Reyni">
-      <div class="day-header">
-        <div>
-          <div class="day-title">Dag 2 · Interiør scene</div>
-          <div class="day-sub">Tirsdag 26. maj 2026 · kl. 12:00–21:00 · Ennivegur 3, Fuglafjørður</div>
-        </div>
-        <span class="tag t-lip">Optagelse</span>
-      </div>
-      <div class="timeline">
-        <div class="trow">
-          <div class="ttime">12:00</div>
-          <div><div class="ttitle">Crew ankommer</div><div class="tsub">Opsætning af lys, udstyr og scene</div></div>
-        </div>
-        <div class="trow">
-          <div class="ttime">16:30</div>
-          <div><div class="ttitle">Skuespillere ankommer</div><div class="tsub">Make-up og styling — max 1 time</div></div>
-        </div>
-        <div class="trow">
-          <div class="ttime">17:30</div>
-          <div><div class="ttitle">Optagelse starter</div></div>
-        </div>
-        <div class="trow">
-          <div class="ttime">21:00</div>
-          <div><div class="ttitle">Optagelse slut</div></div>
-        </div>
-      </div>
-      <div class="day-footer">
-        <div class="df-item"><span class="df-key">Crew</span><span class="df-val">Thomas, Hans Petur, Michael</span></div>
-        <div class="df-item"><span class="df-key">Skuespillere</span><span class="df-val">Hanna Flóvinsdóttir, Astrið Gullborgardóttir</span></div>
-        <div class="df-item"><span class="df-key">Make-up</span><span class="df-val" style="color:var(--orange);">TBD</span></div>
-        <div class="df-item"><span class="df-key">Styling</span><span class="df-val" style="color:var(--orange);">TBD</span></div>
-        <div class="df-item"><span class="df-key">Location-ejer</span><span class="df-val">Mary Ann Zachariassen · <a href="tel:+298221245" style="color:var(--lip);text-decoration:none;">+298 221245</a></span></div>
-      </div>
-    </div>
-
-  </div>
-
   <!-- CREW -->
   <div class="panel" id="panel-crew">
     <div class="sl"><span>Crew · Kovboy Film</span><i></i></div>
@@ -1186,10 +951,7 @@ body {
     <div class="pcard">
       <div class="av av-l">MK</div>
       <div class="pb">
-        <div class="pt">
-          <div><div class="pn">Michael Koba</div><div class="pr">Film Producer</div></div>
-          <span class="tag t-green">Bekræftet</span>
-        </div>
+        <div class="pt"><div><div class="pn">Michael Koba</div><div class="pr">Film Producer</div></div><span class="tag t-green">Bekræftet</span></div>
         <div class="contacts">
           <a href="tel:+298591011" class="cl">📞 +298 591011</a>
           <a href="mailto:michael@kovboyfilm.com" class="cl">✉ michael@kovboyfilm.com</a>
@@ -1200,10 +962,7 @@ body {
     <div class="pcard">
       <div class="av av-o">TK</div>
       <div class="pb">
-        <div class="pt">
-          <div><div class="pn">Thomas Koba</div><div class="pr">Filmmaker · Instruktør · Creative Director · Editor</div></div>
-          <span class="tag t-green">Bekræftet</span>
-        </div>
+        <div class="pt"><div><div class="pn">Thomas Koba</div><div class="pr">Filmmaker · Instruktør · Creative Director · Editor</div></div><span class="tag t-green">Bekræftet</span></div>
         <div class="contacts">
           <a href="tel:+298213457" class="cl">📞 +298 213457</a>
           <a href="mailto:thomas@kovboyfilm.com" class="cl">✉ thomas@kovboyfilm.com</a>
@@ -1214,10 +973,7 @@ body {
     <div class="pcard">
       <div class="av av-g">HP</div>
       <div class="pb">
-        <div class="pt">
-          <div><div class="pn">Hans Petur Hansen</div><div class="pr">Gaffer</div></div>
-          <span class="tag t-green">Bekræftet</span>
-        </div>
+        <div class="pt"><div><div class="pn">Hans Petur Hansen</div><div class="pr">Gaffer</div></div><span class="tag t-green">Bekræftet</span></div>
         <div class="contacts">
           <a href="tel:+298296652" class="cl">📞 +298 296652</a>
           <a href="mailto:hph@kringvarp.fo" class="cl">✉ hph@kringvarp.fo</a>
@@ -1228,13 +984,21 @@ body {
     <div class="pcard">
       <div class="av av-b">AK</div>
       <div class="pb">
-        <div class="pt">
-          <div><div class="pn">Anna Kristin Bæk</div><div class="pr">Stylist / Props</div></div>
-          <span class="tag t-green">Bekræftet</span>
-        </div>
+        <div class="pt"><div><div class="pn">Anna Kristin Bæk</div><div class="pr">Senior Stylist</div></div><span class="tag t-green">Bekræftet</span></div>
         <div class="contacts">
           <a href="tel:+298265180" class="cl">📞 +298 265180</a>
           <a href="mailto:kristin.baek@gmail.com" class="cl">✉ kristin.baek@gmail.com</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="pcard">
+      <div class="av av-p">HM</div>
+      <div class="pb">
+        <div class="pt"><div><div class="pn">Heidi Mortensen</div><div class="pr">Junior Stylist</div></div><span class="tag t-green">Bekræftet</span></div>
+        <div class="contacts">
+          <a href="tel:+298790050" class="cl">📞 +298 790050</a>
+          <a href="mailto:heidi@atlanta.fo" class="cl">✉ heidi@atlanta.fo</a>
         </div>
       </div>
     </div>
@@ -1242,32 +1006,30 @@ body {
 
   <!-- CAST -->
   <div class="panel" id="panel-cast">
-    <div class="notice green">Cast er bekræftet. 3 skuespillere, 2 roller i interiør, 1 rolle i eksteriør.</div>
+    <div class="notice green">Cast bekræftet · 3 skuespillere fordelt på to scener.</div>
 
-    <div class="sl"><span>Eksteriør scene — Klaksvík</span><i></i></div>
-
-    <div class="arow" style="border-left-color:var(--lip);">
+    <div class="sl"><span>Eksteriør scene · Ennivegur 3, Fuglafjørður</span><i></i></div>
+    <div class="arow">
       <div>
-        <div class="an">Bjørn Ulvedal Simonsen</div>
+        <div class="an">Rani Dahl Olsen</div>
         <div class="an-role">"Macho Man"</div>
-        <div class="as">Eksteriør scene · Dag 1 · 25. maj</div>
+        <div class="as">Eksteriør scene · TBD 25.–31. maj</div>
       </div>
       <div style="display:flex;gap:8px;flex-direction:column;align-items:flex-end;">
         <span class="tag t-green">Bekræftet</span>
         <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;">
-          <a href="tel:+298222867" class="cl" style="font-size:11px;">📞 +298 222867</a>
-          <a href="mailto:bjorn.simonsen@gmail.com" class="cl" style="font-size:11px;">✉ bjorn.simonsen@gmail.com</a>
+          <a href="tel:+298288852" class="cl" style="font-size:11px;">📞 +298 288852</a>
+          <a href="mailto:rani@yndi.fo" class="cl" style="font-size:11px;">✉ rani@yndi.fo</a>
         </div>
       </div>
     </div>
 
-    <div class="sl"><span>Interiør scene — Fuglafjørður</span><i></i></div>
-
-    <div class="arow" style="border-left-color:var(--lip);">
+    <div class="sl"><span>Interiør scene · Ennivegur 3, Fuglafjørður</span><i></i></div>
+    <div class="arow">
       <div>
         <div class="an">Astrið Gullborgardóttir</div>
         <div class="an-role">"Ingrið"</div>
-        <div class="as">Interiør scene · Dag 2 · 26. maj</div>
+        <div class="as">Interiør scene · 26. maj</div>
       </div>
       <div style="display:flex;gap:8px;flex-direction:column;align-items:flex-end;">
         <span class="tag t-green">Bekræftet</span>
@@ -1278,11 +1040,11 @@ body {
       </div>
     </div>
 
-    <div class="arow" style="border-left-color:var(--lip);">
+    <div class="arow">
       <div>
         <div class="an">Hanna Flóvinsdóttir</div>
         <div class="an-role">"Lea"</div>
-        <div class="as">Interiør scene · Dag 2 · 26. maj</div>
+        <div class="as">Interiør scene · 26. maj</div>
       </div>
       <div style="display:flex;gap:8px;flex-direction:column;align-items:flex-end;">
         <span class="tag t-green">Bekræftet</span>
@@ -1310,7 +1072,6 @@ body {
     </div>
 
     <div class="sl"><span>Repræsentanter</span><i></i></div>
-
     <div class="pcard">
       <div class="av av-l">FJ</div>
       <div class="pb">
@@ -1321,7 +1082,6 @@ body {
         </div>
       </div>
     </div>
-
     <div class="pcard">
       <div class="av av-w">SR</div>
       <div class="pb">
@@ -1338,65 +1098,40 @@ body {
   <div class="panel" id="panel-dokumenter">
     <div class="sl"><span>Filer &amp; dokumenter</span><i></i></div>
     <div class="card">
-
       <a href="https://drive.google.com/file/d/1FM9kDN2YTCPDWHF4zvH9QClzsmxPqmGL/view?usp=sharing" target="_blank" class="dlink">
         <div class="dlink-icon">📄</div>
-        <div style="flex:1;min-width:0;">
-          <div class="dlname">Script</div>
-          <div class="dlsub">Google Drive · Klik for at åbne</div>
-        </div>
+        <div style="flex:1;min-width:0;"><div class="dlname">Script</div><div class="dlsub">Google Drive · Klik for at åbne</div></div>
         <span class="tag t-green" style="margin-right:6px;">Tilgængelig</span>
         <span class="dlarrow">↗</span>
       </a>
-
       <a href="https://drive.google.com/file/d/1ASJGM3jLkzdcjWBqkAp2ed8N6uWsjVpS/view?usp=drive_link" target="_blank" class="dlink">
         <div class="dlink-icon">🎨</div>
-        <div style="flex:1;min-width:0;">
-          <div class="dlname">Moodboard</div>
-          <div class="dlsub">Google Drive · Klik for at åbne</div>
-        </div>
+        <div style="flex:1;min-width:0;"><div class="dlname">Moodboard</div><div class="dlsub">Google Drive · Klik for at åbne</div></div>
         <span class="tag t-green" style="margin-right:6px;">Tilgængelig</span>
         <span class="dlarrow">↗</span>
       </a>
-
       <a href="https://drive.google.com/file/d/1Idi3mfuKMFOaJCUhMZGUQv6OnM82N_Nh/view?usp=sharing" target="_blank" class="dlink">
         <div class="dlink-icon">📸</div>
-        <div style="flex:1;min-width:0;">
-          <div class="dlname">Billeder — Køkken, Fuglafjørður</div>
-          <div class="dlsub">Interiør location · Google Drive</div>
-        </div>
+        <div style="flex:1;min-width:0;"><div class="dlname">Billeder — Køkken, Fuglafjørður</div><div class="dlsub">Interiør location · Google Drive</div></div>
         <span class="tag t-green" style="margin-right:6px;">Tilgængelig</span>
         <span class="dlarrow">↗</span>
       </a>
-
       <a href="https://drive.google.com/file/d/1Q7ckceW5jZGJKsigGBbWZH579uhXsPnJ/view?usp=sharing" target="_blank" class="dlink">
         <div class="dlink-icon">📸</div>
-        <div style="flex:1;min-width:0;">
-          <div class="dlname">Billeder — Tún, Klaksvík</div>
-          <div class="dlsub">Eksteriør location · Google Drive</div>
-        </div>
+        <div style="flex:1;min-width:0;"><div class="dlname">Billeder — Tún, Klaksvík</div><div class="dlsub">Eksteriør reference · Google Drive</div></div>
         <span class="tag t-green" style="margin-right:6px;">Tilgængelig</span>
         <span class="dlarrow">↗</span>
       </a>
-
       <div class="dlink" style="cursor:default;opacity:0.45;">
         <div class="dlink-icon">📋</div>
-        <div style="flex:1;min-width:0;">
-          <div class="dlname">Call Sheets</div>
-          <div class="dlsub">Ikke klar endnu</div>
-        </div>
+        <div style="flex:1;min-width:0;"><div class="dlname">Call Sheets</div><div class="dlsub">Ikke klar endnu</div></div>
         <span class="tag t-gold">Pending</span>
       </div>
-
       <div class="dlink" style="cursor:default;opacity:0.45;">
         <div class="dlink-icon">📑</div>
-        <div style="flex:1;min-width:0;">
-          <div class="dlname">Kontrakter</div>
-          <div class="dlsub">Ikke klar endnu</div>
-        </div>
+        <div style="flex:1;min-width:0;"><div class="dlname">Kontrakter</div><div class="dlsub">Ikke klar endnu</div></div>
         <span class="tag t-sand">Ikke klar</span>
       </div>
-
     </div>
   </div>
 
@@ -1405,10 +1140,10 @@ body {
     <div class="sl"><span>Produktionsmeddelelser</span><i></i></div>
     <div class="msg">
       <div class="mf">Kovboy Film · Produktion</div>
-      <div class="mt">Portalen er opdateret med fuld schedule, locations og bekræftet cast. Produktionsmøde afholdes tirsdag 19. maj kl. 16:15 på Hugskotið. Optagelse starter mandag 25. maj i Klaksvík.</div>
+      <div class="mt">Portalen er opdateret. Heidi Mortensen er tilføjet som Junior Stylist. Rani Dahl Olsen bekræftet som "Macho Man". Eksteriør optagelsesdato er TBD — en solskinsdag 25.–31. maj. Interiør optagelse er tirsdag 26. maj, Ennivegur 3, Fuglafjørður.</div>
       <div class="mm">Opdateret · maj 2026</div>
     </div>
-    <div class="notice">Yderligere beskeder tilføjes her undervejs. Alle modtager opdateringer via denne portal.</div>
+    <div class="notice">Yderligere beskeder tilføjes her undervejs.</div>
   </div>
 
 </div>
@@ -1424,11 +1159,10 @@ document.addEventListener('click', function(e) {
 });
 
 function selectUser(name, role, isProducer) {
-  // Update chip
-  const chip = document.getElementById('user-chip');
-  const pre  = document.getElementById('uc-pre');
-  const lbl  = document.getElementById('user-label');
-  const dot  = document.getElementById('uc-dot');
+  const chip  = document.getElementById('user-chip');
+  const pre   = document.getElementById('uc-pre');
+  const lbl   = document.getElementById('user-label');
+  const dot   = document.getElementById('uc-dot');
 
   pre.textContent = role;
   pre.style.opacity = '0.65';
@@ -1447,7 +1181,7 @@ function selectUser(name, role, isProducer) {
     el.style.display = isProducer ? 'block' : 'none';
   });
 
-  // ── SCHEDULE FILTERING ──
+  // Schedule filtering
   const prompt  = document.getElementById('schedule-prompt');
   const welcome = document.getElementById('schedule-welcome');
   const blocks  = document.querySelectorAll('.day-block[data-persons]');
@@ -1457,17 +1191,14 @@ function selectUser(name, role, isProducer) {
   let count = 0;
   blocks.forEach(block => {
     const persons = block.getAttribute('data-persons');
-    const visible = persons === 'alle' || persons.split(',').map(s=>s.trim()).includes(name);
+    const visible = persons === 'alle' || persons.split(',').map(s => s.trim()).includes(name);
     block.style.display = visible ? 'block' : 'none';
     if (visible) count++;
   });
 
-  // Welcome message
-  const dayWord = count === 1 ? 'dag' : 'dage';
-  welcome.innerHTML = `<strong>${name}</strong> — dit program viser ${count} ${dayWord} du er med på.`;
+  welcome.innerHTML = '<strong>' + name + '</strong> — dit program viser ' + count + (count === 1 ? ' begivenhed' : ' begivenheder') + ' du er med på.';
   welcome.style.display = 'block';
 
-  // Switch to schedule tab so they see it immediately
   showTabById('schedule');
 }
 
@@ -1482,7 +1213,7 @@ function showTabById(id) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
   document.getElementById('panel-' + id).classList.add('active');
-  const tab = document.querySelector(`.nav-tab[onclick*="'${id}'"]`);
+  const tab = document.querySelector('.nav-tab[onclick*="\'' + id + '\'"]');
   if (tab) tab.classList.add('active');
 }
 
