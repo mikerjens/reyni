@@ -481,7 +481,88 @@ body {
 .cl { font-size: 12px; color: var(--lip); text-decoration: none; font-weight: 400; }
 .cl:hover { text-decoration: underline; }
 
-/* ── SCHEDULE ── */
+/* ── SCHEDULE STATUS ── */
+.day-block.completed {
+  border-top-color: #1a8a4a;
+  opacity: 0.72;
+}
+
+.day-block.completed .day-header {
+  background: #0d2018;
+}
+
+.day-block.completed .day-title {
+  color: rgba(240,212,190,0.55);
+}
+
+.day-block.completed .ttime {
+  color: #1a8a4a;
+}
+
+.day-block.completed .ttitle {
+  color: #888;
+}
+
+.completed-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(26,138,74,0.12);
+  border-bottom: 1px solid rgba(26,138,74,0.2);
+  padding: 8px 20px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #3aaa6a;
+}
+
+.completed-banner::before {
+  content: '✓';
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.pending-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(244,98,42,0.1);
+  border-bottom: 1px solid rgba(244,98,42,0.2);
+  padding: 8px 20px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--orange);
+  animation: pendingpulse 3s ease-in-out infinite;
+}
+
+@keyframes pendingpulse {
+  0%,100% { background: rgba(244,98,42,0.10); }
+  50%      { background: rgba(244,98,42,0.18); }
+}
+
+.pending-banner::before {
+  content: '●';
+  font-size: 8px;
+  animation: blink 1.8s infinite;
+}
+
+.day-block.pending {
+  border-top-color: var(--orange);
+  box-shadow: 0 0 0 1px rgba(244,98,42,0.15);
+}
+
+.day-block.pending .day-header {
+  background: #1a0d06;
+}
+
+.day-block.pending .ttime {
+  color: var(--orange);
+}
+
+/* ── SCHEDULE STATUS ── */
 .day-block {
   background: #fff;
   border: 1px solid var(--bdr);
@@ -648,6 +729,7 @@ body {
   .trow { grid-template-columns: 55px 1fr; gap: 10px; }
   .ttime { font-size: 14px; }
   .day-footer { gap: 14px; }
+  #panel-schedule > div:nth-child(3) { grid-template-columns: 1fr !important; }
 }
 
 @media (max-width: 380px) {
@@ -709,6 +791,9 @@ body {
             </button>
             <button class="um-item" onclick="selectUser('Heidi Mortensen','Junior Stylist',false)">
               <div><div class="um-name">Heidi Mortensen</div><div class="um-role">Junior Stylist</div></div>
+            </button>
+            <button class="um-item" onclick="selectUser('Julia Jacobsen','Make-up & Hair',false)">
+              <div><div class="um-name">Julia Jacobsen</div><div class="um-role">Make-up & Hair Stylist</div></div>
             </button>
           </div>
           <div class="um-group">
@@ -775,40 +860,34 @@ body {
       👆 Vælg dit navn i rullemenuen øverst for at se dit personlige program.
     </div>
 
-    <!-- Stylingmøde — produktion + stylister -->
-    <div class="day-block" data-persons="Michael Koba,Thomas Koba,Anna Kristin Bæk,Heidi Mortensen">
-      <div class="day-header">
-        <div>
-          <div class="day-title">Stylingmøde</div>
-          <div class="day-sub">Torsdag 21. maj 2026 · kl. 10:30–11:00 · Online (Google Meet)</div>
-        </div>
-        <span class="tag t-blue">Online møde</span>
+    <!-- STATUS OVERVIEW -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:24px;">
+      <div style="background:#0d2018;border:1px solid rgba(26,138,74,0.3);border-top:3px solid #1a8a4a;border-radius:2px;padding:14px 16px;text-align:center;">
+        <div style="font-size:20px;margin-bottom:4px;">✓</div>
+        <div style="font-family:'Playfair Display',serif;font-size:13px;color:#3aaa6a;font-weight:700;">Stylingmøde</div>
+        <div style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#3aaa6a;opacity:0.7;margin-top:3px;">Completed</div>
       </div>
-      <div class="timeline">
-        <div class="trow">
-          <div class="ttime">10:30</div>
-          <div><div class="ttitle">Gennemgang af styling</div><div class="tsub">Thomas Koba, Michael Koba, Anna Kristin Bæk og Heidi Mortensen gennemgår tøj og valg af tøj til skuespillere</div></div>
-        </div>
-        <div class="trow">
-          <div class="ttime">11:00</div>
-          <div><div class="ttitle">Møde slut</div></div>
-        </div>
+      <div style="background:#1a0d06;border:1px solid rgba(244,98,42,0.3);border-top:3px solid var(--orange);border-radius:2px;padding:14px 16px;text-align:center;">
+        <div style="font-size:20px;margin-bottom:4px;">☀</div>
+        <div style="font-family:'Playfair Display',serif;font-size:13px;color:var(--orange);font-weight:700;">Eksteriør scene</div>
+        <div style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--orange);opacity:0.8;margin-top:3px;">Afventer solskin</div>
       </div>
-      <div class="day-footer">
-        <div class="df-item"><span class="df-key">Crew</span><span class="df-val">Thomas Koba, Michael Koba</span></div>
-        <div class="df-item"><span class="df-key">Stylister</span><span class="df-val">Anna Kristin Bæk, Heidi Mortensen</span></div>
-        <div class="df-item"><span class="df-key">Format</span><span class="df-val">Online · Google Meet</span></div>
+      <div style="background:#0d2018;border:1px solid rgba(26,138,74,0.3);border-top:3px solid #1a8a4a;border-radius:2px;padding:14px 16px;text-align:center;">
+        <div style="font-size:20px;margin-bottom:4px;">✓</div>
+        <div style="font-family:'Playfair Display',serif;font-size:13px;color:#3aaa6a;font-weight:700;">Interiør scene</div>
+        <div style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#3aaa6a;opacity:0.7;margin-top:3px;">Completed · 26. maj</div>
       </div>
     </div>
 
-    <!-- Eksteriør scene -->
-    <div class="day-block" data-persons="Michael Koba,Thomas Koba,Hans Petur Hansen,Anna Kristin Bæk,Heidi Mortensen,Rani Dahl Olsen,Fríðrikur Jakobsen,Sámal av Reyni">
+    <!-- Eksteriør scene — PENDING / AFVENTER — øverst -->
+    <div class="day-block pending" data-persons="Michael Koba,Thomas Koba,Hans Petur Hansen,Anna Kristin Bæk,Heidi Mortensen,Julia Jacobsen,Rani Dahl Olsen,Fríðrikur Jakobsen,Sámal av Reyni">
+      <div class="pending-banner">Afventer solskinsdag · Ennivegur 3, Fuglafjørður</div>
       <div class="day-header">
         <div>
           <div class="day-title">Eksteriør scene</div>
-          <div class="day-sub">Solskinsdag 25.–31. maj 2026 (TBD) · kl. 10:00–16:00 · Ennivegur 3, Fuglafjørður</div>
+          <div class="day-sub">Dato TBD — næste solskinsdag · kl. 10:00–16:00 · Ennivegur 3, Fuglafjørður</div>
         </div>
-        <span class="tag t-lip">Optagelse</span>
+        <span class="tag t-orange">⏳ Afventer</span>
       </div>
       <div class="timeline">
         <div class="trow">
@@ -825,10 +904,10 @@ body {
         </div>
         <div class="trow">
           <div class="ttime">13:00</div>
-          <div><div class="ttitle">Rani ankommer + make-up</div><div class="tsub">Rani Dahl Olsen møder på sættet · Make-up artist (TBD)</div></div>
+          <div><div class="ttitle">Rani ankommer</div><div class="tsub">Rani Dahl Olsen møder på sættet · Make-up med Julia Jacobsen</div></div>
         </div>
         <div class="trow">
-          <div class="ttime">13:30</div>
+          <div class="ttime">14:00</div>
           <div><div class="ttitle">Optagelse starter</div></div>
         </div>
         <div class="trow">
@@ -839,25 +918,56 @@ body {
       <div class="day-footer">
         <div class="df-item"><span class="df-key">Crew</span><span class="df-val">Thomas, Hans Petur, Michael</span></div>
         <div class="df-item"><span class="df-key">Skuespiller</span><span class="df-val">Rani Dahl Olsen</span></div>
-        <div class="df-item"><span class="df-key">Make-up</span><span class="df-val" style="color:var(--orange);">TBD</span></div>
+        <div class="df-item"><span class="df-key">Make-up & Hair</span><span class="df-val">Julia Jacobsen</span></div>
         <div class="df-item"><span class="df-key">Styling</span><span class="df-val">Anna Kristin (online) · Heidi Mortensen</span></div>
         <div class="df-item"><span class="df-key">Location-ejer</span><span class="df-val">Mary Ann Zachariassen · <a href="tel:+298221245" style="color:var(--lip);text-decoration:none;">+298 221245</a></span></div>
       </div>
     </div>
 
-    <!-- Interiør scene -->
-    <div class="day-block" data-persons="Michael Koba,Thomas Koba,Hans Petur Hansen,Anna Kristin Bæk,Heidi Mortensen,Hanna Flóvinsdóttir,Astrið Gullborgardóttir,Fríðrikur Jakobsen,Sámal av Reyni">
+    <!-- Divider -->
+    <div class="sl" style="margin-top:32px;"><span>Completed</span><i></i></div>
+
+    <!-- Stylingmøde — COMPLETED -->
+    <div class="day-block completed" data-persons="Michael Koba,Thomas Koba,Anna Kristin Bæk,Heidi Mortensen">
+      <div class="completed-banner">Completed · Torsdag 21. maj 2026</div>
+      <div class="day-header">
+        <div>
+          <div class="day-title">Stylingmøde</div>
+          <div class="day-sub">21. maj 2026 · kl. 10:30–11:00 · Online (Google Meet)</div>
+        </div>
+        <span class="tag" style="background:rgba(26,138,74,0.2);border:1px solid rgba(26,138,74,0.4);color:#3aaa6a;">✓ Completed</span>
+      </div>
+      <div class="timeline">
+        <div class="trow">
+          <div class="ttime">10:30</div>
+          <div><div class="ttitle">Gennemgang af styling</div><div class="tsub">Thomas Koba, Michael Koba, Anna Kristin Bæk og Heidi Mortensen gennemgår tøj til skuespillere</div></div>
+        </div>
+        <div class="trow">
+          <div class="ttime">11:00</div>
+          <div><div class="ttitle">Møde slut</div></div>
+        </div>
+      </div>
+      <div class="day-footer">
+        <div class="df-item"><span class="df-key">Crew</span><span class="df-val">Thomas Koba, Michael Koba</span></div>
+        <div class="df-item"><span class="df-key">Stylister</span><span class="df-val">Anna Kristin Bæk, Heidi Mortensen</span></div>
+        <div class="df-item"><span class="df-key">Format</span><span class="df-val">Online · Google Meet</span></div>
+      </div>
+    </div>
+
+    <!-- Interiør scene — COMPLETED -->
+    <div class="day-block completed" data-persons="Michael Koba,Thomas Koba,Hans Petur Hansen,Anna Kristin Bæk,Heidi Mortensen,Julia Jacobsen,Hanna Flóvinsdóttir,Astrið Gullborgardóttir,Fríðrikur Jakobsen,Sámal av Reyni">
+      <div class="completed-banner">Completed · Tirsdag 26. maj 2026</div>
       <div class="day-header">
         <div>
           <div class="day-title">Interiør scene</div>
-          <div class="day-sub">Tirsdag 26. maj 2026 · kl. 12:00–21:00 · Ennivegur 3, Fuglafjørður</div>
+          <div class="day-sub">26. maj 2026 · kl. 12:00–21:00 · Ennivegur 3, Fuglafjørður</div>
         </div>
-        <span class="tag t-lip">Optagelse</span>
+        <span class="tag" style="background:rgba(26,138,74,0.2);border:1px solid rgba(26,138,74,0.4);color:#3aaa6a;">✓ Completed</span>
       </div>
       <div class="timeline">
         <div class="trow">
           <div class="ttime">12:00</div>
-          <div><div class="ttitle">Crew ankommer</div><div class="tsub">Opsætning af lys, udstyr og scene · Ennivegur 3, Fuglafjørður</div></div>
+          <div><div class="ttitle">Crew ankommer</div><div class="tsub">Opsætning af lys, udstyr og scene</div></div>
         </div>
         <div class="trow">
           <div class="ttime">16:30</div>
@@ -875,7 +985,7 @@ body {
       <div class="day-footer">
         <div class="df-item"><span class="df-key">Crew</span><span class="df-val">Thomas, Hans Petur, Michael</span></div>
         <div class="df-item"><span class="df-key">Skuespillere</span><span class="df-val">Hanna Flóvinsdóttir, Astrið Gullborgardóttir</span></div>
-        <div class="df-item"><span class="df-key">Make-up</span><span class="df-val" style="color:var(--orange);">TBD</span></div>
+        <div class="df-item"><span class="df-key">Make-up & Hair</span><span class="df-val">Julia Jacobsen</span></div>
         <div class="df-item"><span class="df-key">Styling</span><span class="df-val">Anna Kristin Bæk, Heidi Mortensen</span></div>
         <div class="df-item"><span class="df-key">Location-ejer</span><span class="df-val">Mary Ann Zachariassen · <a href="tel:+298221245" style="color:var(--lip);text-decoration:none;">+298 221245</a></span></div>
       </div>
@@ -901,7 +1011,7 @@ body {
 
     <div class="cg">
       <div class="cnt"><div class="cnt-n" style="color:var(--gold);font-size:15px;padding-top:7px;">26. maj + TBD</div><div class="cnt-l">Optagelsesdage</div></div>
-      <div class="cnt"><div class="cnt-n">5</div><div class="cnt-l">Crew</div></div>
+      <div class="cnt"><div class="cnt-n">6</div><div class="cnt-l">Crew</div></div>
       <div class="cnt"><div class="cnt-n">3</div><div class="cnt-l">Skuespillere</div></div>
       <div class="cnt"><div class="cnt-n">1</div><div class="cnt-l">Location</div></div>
     </div>
@@ -999,6 +1109,17 @@ body {
         <div class="contacts">
           <a href="tel:+298790050" class="cl">📞 +298 790050</a>
           <a href="mailto:heidi@atlanta.fo" class="cl">✉ heidi@atlanta.fo</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="pcard">
+      <div class="av" style="background:#c0392b;color:#fff;">JJ</div>
+      <div class="pb">
+        <div class="pt"><div><div class="pn">Julia Jacobsen</div><div class="pr">Make-up & Hair Stylist</div></div><span class="tag t-green">Bekræftet</span></div>
+        <div class="contacts">
+          <a href="tel:+298251175" class="cl">📞 +298 251175</a>
+          <a href="mailto:juliajacobsen@outlook.com" class="cl">✉ juliajacobsen@outlook.com</a>
         </div>
       </div>
     </div>
@@ -1140,7 +1261,7 @@ body {
     <div class="sl"><span>Produktionsmeddelelser</span><i></i></div>
     <div class="msg">
       <div class="mf">Kovboy Film · Produktion</div>
-      <div class="mt">Portalen er opdateret. Heidi Mortensen er tilføjet som Junior Stylist. Rani Dahl Olsen bekræftet som "Macho Man". Eksteriør optagelsesdato er TBD — en solskinsdag 25.–31. maj. Interiør optagelse er tirsdag 26. maj, Ennivegur 3, Fuglafjørður.</div>
+      <div class="mt">Portalen er opdateret med aktuel produktionsstatus. <strong>Stylingmøde og interiør scene er completed.</strong> Eksteriør scene afventer en solskinsdag — alle varsles, når dato er fastsat. Julia Jacobsen er tilføjet som Make-up & Hair Stylist.</div>
       <div class="mm">Opdateret · maj 2026</div>
     </div>
     <div class="notice">Yderligere beskeder tilføjes her undervejs.</div>
