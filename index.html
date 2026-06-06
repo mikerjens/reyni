@@ -354,7 +354,161 @@ body {
 .matbtn.mb-green { background: rgba(30,140,80,0.12); border-color: rgba(30,140,80,0.3); }
 .matbtn.mb-green:hover { background: rgba(30,140,80,0.22); border-color: rgba(30,140,80,0.5); }
 
-/* ── PAGE ── */
+/* ── PROGRESS BAR ── */
+.progress-bar-wrap {
+  background: var(--ink);
+  border-bottom: 1px solid rgba(200,25,60,0.15);
+  padding: 14px 0;
+}
+
+.progress-bar-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.pb-label {
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.pb-track {
+  flex: 1;
+  height: 8px;
+  background: rgba(255,255,255,0.14);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.pb-track {
+  flex: 1;
+  height: 10px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 5px;
+  overflow: visible;
+  position: relative;
+}
+
+.pb-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(to right, #0e5c30, #1a8a4a, #3aaa6a, #4ecf82);
+  border-radius: 5px;
+  transition: width 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 12px rgba(58,170,106,0.5);
+  animation: barGlow 2.5s ease-in-out infinite;
+}
+
+@keyframes barGlow {
+  0%, 100% { box-shadow: 0 0 8px rgba(58,170,106,0.4), 0 0 20px rgba(58,170,106,0.15); }
+  50%       { box-shadow: 0 0 16px rgba(58,170,106,0.7), 0 0 32px rgba(58,170,106,0.3); }
+}
+
+/* Shimmer sweep across filled bar */
+.pb-fill::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg,
+    transparent 30%,
+    rgba(255,255,255,0.28) 50%,
+    transparent 70%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2.2s linear infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Pulse dot at the leading edge */
+.pb-fill::after {
+  content: '';
+  position: absolute;
+  right: -5px; top: 50%;
+  transform: translateY(-50%);
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: #4ecf82;
+  box-shadow: 0 0 0 0 rgba(78,207,130,0.7);
+  animation: pulseDot 1.6s ease-out infinite;
+}
+
+@keyframes pulseDot {
+  0%   { box-shadow: 0 0 0 0 rgba(78,207,130,0.7); }
+  70%  { box-shadow: 0 0 0 8px rgba(78,207,130,0); }
+  100% { box-shadow: 0 0 0 0 rgba(78,207,130,0); }
+}
+
+.pb-remaining {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--orange);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.pb-pct {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #3aaa6a;
+  flex-shrink: 0;
+  min-width: 48px;
+  text-align: right;
+  line-height: 1;
+}
+
+.pb-stages {
+  display: flex;
+  gap: 0;
+  flex-shrink: 0;
+}
+
+.pb-stage {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 1px;
+  white-space: nowrap;
+}
+
+.pb-stage.done { color: #3aaa6a; }
+.pb-stage.pending-s { color: var(--orange); }
+.pb-stage .ps-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+.pb-stage.done .ps-dot { background: #3aaa6a; }
+.pb-stage.pending-s .ps-dot { background: var(--orange); }
+
+@media (max-width: 600px) {
+  .progress-bar-inner { padding: 0 14px; gap: 12px; }
+  .pb-label { display: none; }
+  .pb-stages { display: none; }
+  .pb-remaining { display: none; }
+  .pb-pct { font-size: 16px; }
+}
+
+/* ── PROGRESS BAR ── */
 .page { max-width: 960px; margin: 0 auto; padding: 32px; }
 
 /* ── SECTION LABEL ── */
@@ -848,6 +1002,23 @@ body {
   </div>
 </div>
 
+<!-- PROGRESS BAR -->
+<div class="progress-bar-wrap">
+  <div class="progress-bar-inner">
+    <span class="pb-label">Produktion fremgang</span>
+    <div class="pb-track">
+      <div class="pb-fill" id="pb-fill"></div>
+    </div>
+    <div class="pb-pct" id="pb-pct">0%</div>
+    <div class="pb-remaining">20% tilbage</div>
+    <div class="pb-stages">
+      <div class="pb-stage done"><span class="ps-dot"></span>Stylingmøde</div>
+      <div class="pb-stage pending-s"><span class="ps-dot"></span>Eksteriør</div>
+      <div class="pb-stage done"><span class="ps-dot"></span>Interiør</div>
+    </div>
+  </div>
+</div>
+
 <!-- CONTENT -->
 <div class="page">
 
@@ -1256,6 +1427,25 @@ body {
 </div>
 
 <script>
+// Animate progress bar on load
+window.addEventListener('load', function() {
+  setTimeout(function() {
+    document.getElementById('pb-fill').style.width = '80%';
+    animateCount(document.getElementById('pb-pct'), 0, 80, 1200);
+  }, 300);
+});
+
+function animateCount(el, from, to, duration) {
+  const start = performance.now();
+  function step(now) {
+    const p = Math.min((now - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(from + (to - from) * ease) + '%';
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
 function toggleDropdown() {
   document.getElementById('udw').classList.toggle('open');
 }
