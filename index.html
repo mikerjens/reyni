@@ -185,6 +185,21 @@
       </div>
     </div>
 
+    <!-- Live weather widget -->
+    <div id="weatherWidget" style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:20px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+        <div>
+          <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:3px;">📡 Live forecast</div>
+          <div style="font-family:var(--font-display);font-size:20px;letter-spacing:.04em;color:var(--text);">Fuglafjørður, Faroe Islands</div>
+        </div>
+        <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted);" id="weatherUpdated"></div>
+      </div>
+      <div id="weatherDays" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;">
+        <div style="color:var(--text-muted);font-size:13px;font-style:italic;">Loading forecast…</div>
+      </div>
+      <div style="margin-top:10px;font-family:var(--font-mono);font-size:9px;color:var(--text-muted);">Source: Yr.no / Norwegian Meteorological Institute</div>
+    </div>
+
     <!-- Upcoming: Exterior scene -->
     <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;">— Upcoming</div>
     <div class="scene-card" style="margin-bottom:32px;">
@@ -568,7 +583,62 @@
     window.scrollTo({top:0,behavior:'smooth'});
   });
 
-  // ── INIT ──
+  // ── WEATHER — Fuglafjørður via Open-Meteo (no API key, CORS-friendly) ──
+  async function loadWeather(){
+    const LAT = 62.2458, LON = -6.8119;
+    try {
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&daily=weathercode,temperature_2m_max,temperature_2m_min,windspeed_10m_max,precipitation_sum&timezone=Atlantic%2FFaroe&forecast_days=7`;
+      const res = await fetch(url);
+      if(!res.ok) throw new Error('fetch failed');
+      const data = await res.json();
+      const d = data.daily;
+
+      // WMO weather codes → icon + description
+      function wmoInfo(code){
+        if(code===0)  return['☀️','Clear sky',true];
+        if(code===1)  return['🌤','Mainly clear',true];
+        if(code===2)  return['⛅','Partly cloudy',false];
+        if(code===3)  return['☁️','Overcast',false];
+        if(code<=49)  return['🌫','Fog',false];
+        if(code<=55)  return['🌦','Drizzle',false];
+        if(code<=65)  return['🌧','Rain',false];
+        if(code<=75)  return['❄️','Snow',false];
+        if(code<=82)  return['🌧','Showers',false];
+        if(code<=86)  return['🌨','Snow showers',false];
+        if(code<=99)  return['⛈','Thunderstorm',false];
+        return['🌡','Unknown',false];
+      }
+
+      const days = new Date();
+      const html = d.time.map((date, i) => {
+        const [ico, desc, sunny] = wmoInfo(d.weathercode[i]);
+        const maxT = Math.round(d.temperature_2m_max[i]);
+        const minT = Math.round(d.temperature_2m_min[i]);
+        const wind = Math.round(d.windspeed_10m_max[i] / 3.6); // km/h → m/s
+        const rain = d.precipitation_sum[i];
+        const dayLabel = new Date(date).toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});
+        return `<div style="background:${sunny?'rgba(34,197,94,.1)':'rgba(255,255,255,.03)'};border:1px solid ${sunny?'rgba(34,197,94,.4)':'var(--border)'};border-radius:var(--radius-sm);padding:12px 10px;text-align:center;position:relative;">
+          ${sunny?'<div style="position:absolute;top:5px;right:5px;font-family:var(--font-mono);font-size:8px;letter-spacing:.04em;text-transform:uppercase;color:var(--green);background:rgba(34,197,94,.15);padding:2px 5px;border-radius:3px;">☀ Sunny</div>':''}
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-muted);margin-bottom:4px;">${dayLabel}</div>
+          <div style="font-size:26px;margin:4px 0;">${ico}</div>
+          <div style="font-family:var(--font-display);font-size:20px;letter-spacing:.03em;color:${sunny?'var(--green)':'var(--text)'};">${maxT}° <span style="font-size:13px;color:var(--text-muted);">${minT}°</span></div>
+          <div style="font-size:10px;color:var(--text-muted);margin-top:3px;">${desc}</div>
+          <div style="font-size:10px;color:var(--text-muted);margin-top:2px;">💨 ${wind} m/s · 🌧 ${rain}mm</div>
+        </div>`;
+      }).join('');
+
+      document.getElementById('weatherDays').innerHTML = html;
+      document.getElementById('weatherUpdated').textContent =
+        'Updated ' + new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+
+    } catch(e) {
+      document.getElementById('weatherDays').innerHTML =
+        `<div style="color:var(--text-muted);font-size:13px;">Could not load forecast — <a href="https://www.yr.no/en/forecast/daily-table/2-620411" target="_blank" style="color:var(--accent);">check yr.no directly</a>.</div>`;
+    }
+  }
+  loadWeather();
+  setInterval(loadWeather, 30 * 60 * 1000);
+  // ── WEATHER end ──
   renderStats();
   populateGroups();
   populateSelect(document.getElementById('personSelect'));
