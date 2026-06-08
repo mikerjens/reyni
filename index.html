@@ -1,1523 +1,579 @@
 <!DOCTYPE html>
-<html lang="fo">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reyni Service · Production Portal</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-:root {
-  --lip:    #C8193C;
-  --lip2:   #E8294C;
-  --orange: #F4622A;
-  --gold:   #F0A500;
-  --cream:  #FFF6EE;
-  --sand:   #F9E8D4;
-  --shell:  #EDD4BC;
-  --ink:    #1A0A10;
-  --wine:   #2E0A1A;
-  --muted:  #9A7080;
-  --bdr:    rgba(200,25,60,0.14);
-  --bdr2:   rgba(200,25,60,0.07);
-}
-
-body {
-  background: var(--cream);
-  color: var(--ink);
-  font-family: 'DM Sans', sans-serif;
-  min-height: 100vh;
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* ── USER DROPDOWN ── */
-.user-dropdown-wrap { position: relative; flex-shrink: 0; }
-
-.user-chip {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  background: var(--lip);
-  border: 1px solid rgba(255,255,255,0.15);
-  color: #fff;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  padding: 9px 16px;
-  border-radius: 1px;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: background .15s;
-  user-select: none;
-  animation: chipglow 2.5s ease-in-out infinite;
-}
-
-@keyframes chipglow {
-  0%,100% { box-shadow: 0 2px 12px rgba(200,25,60,0.4); }
-  50%      { box-shadow: 0 2px 22px rgba(200,25,60,0.75); }
-}
-
-.user-chip.named {
-  background: rgba(255,246,238,0.09);
-  border-color: rgba(200,25,60,0.35);
-  animation: none;
-  box-shadow: none;
-}
-
-.user-chip.named:hover { background: rgba(200,25,60,0.22); }
-.user-chip:not(.named):hover { background: var(--lip2); }
-
-.uc-dot {
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.45);
-  flex-shrink: 0;
-  transition: background .2s;
-}
-.uc-dot.active { background: var(--gold); }
-
-.uc-label-pre {
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  opacity: 0.9;
-}
-
-.uc-arrow {
-  font-size: 10px;
-  opacity: 0.7;
-  margin-left: 2px;
-  transition: transform .18s;
-}
-
-.user-dropdown-wrap.open .uc-arrow { transform: rotate(180deg); }
-
-.user-menu {
-  display: none;
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
-  background: #0e0508;
-  border: 1px solid rgba(200,25,60,0.35);
-  border-top: 2px solid var(--lip);
-  border-radius: 0 0 3px 3px;
-  min-width: 230px;
-  z-index: 9999;
-  box-shadow: 0 12px 32px rgba(0,0,0,0.65);
-}
-
-.user-dropdown-wrap.open .user-menu { display: block; }
-
-.um-group {
-  padding: 6px 0;
-  border-bottom: 1px solid rgba(200,25,60,0.12);
-}
-.um-group:last-child { border-bottom: none; }
-
-.um-label {
-  font-size: 8px;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-  color: var(--muted);
-  padding: 7px 14px 4px;
-  display: block;
-}
-
-.um-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 9px 14px;
-  cursor: pointer;
-  transition: background .14s;
-  border: none;
-  background: none;
-  width: 100%;
-  text-align: left;
-  color: var(--cream);
-}
-
-.um-item:hover { background: rgba(200,25,60,0.18); }
-.um-item.selected { background: rgba(200,25,60,0.12); border-left: 2px solid var(--lip); padding-left: 12px; }
-
-.um-name { font-size: 12px; font-weight: 500; color: var(--cream); line-height: 1.2; }
-.um-role { font-size: 9px; color: var(--muted); letter-spacing: 0.06em; margin-top: 1px; }
-.um-star { margin-left: auto; color: var(--gold); font-size: 12px; flex-shrink: 0; }
-
-/* ── HEADER ── */
-.header {
-  background: var(--ink);
-  position: relative;
-  overflow: visible;
-}
-
-.header::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(-60deg, transparent 0, transparent 18px, rgba(200,25,60,0.07) 18px, rgba(200,25,60,0.07) 36px);
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.header::after {
-  content: '';
-  position: absolute;
-  top: -40px; right: -60px;
-  width: 340px; height: 210px;
-  background: radial-gradient(ellipse at center, rgba(244,98,42,0.22) 0%, transparent 68%);
-  pointer-events: none;
-}
-
-.header-inner {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  padding: 0 32px;
-  min-height: 80px;
-}
-
-.logo-block {
-  padding: 20px 28px 20px 0;
-  border-right: 1px solid rgba(200,25,60,0.28);
-  margin-right: 28px;
-  flex-shrink: 0;
-  cursor: pointer;
-  transition: opacity .18s;
-}
-.logo-block:hover { opacity: 0.82; }
-
-.logo-eyebrow {
-  font-size: 8px;
-  font-weight: 500;
-  letter-spacing: 0.38em;
-  text-transform: uppercase;
-  color: var(--orange);
-  margin-bottom: 5px;
-}
-
-.logo-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 30px;
-  font-weight: 900;
-  color: var(--cream);
-  line-height: 1;
-}
-
-.logo-sub {
-  font-size: 9px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-top: 5px;
-}
-
-.header-meta {
-  display: flex;
-  align-items: center;
-  gap: 28px;
-  flex: 1;
-}
-
-.meta-item { display: flex; flex-direction: column; gap: 4px; flex-shrink: 0; }
-.meta-key { font-size: 8px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
-.meta-val { font-size: 13px; font-weight: 500; color: #F0D4BE; }
-
-.header-right {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-shrink: 0;
-}
-
-.status-badge {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--lip);
-  color: #fff;
-  font-size: 9px;
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  padding: 8px 20px 8px 14px;
-  clip-path: polygon(12px 0%, 100% 0%, 100% 100%, 0% 100%);
-  white-space: nowrap;
-}
-
-.dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: #fff;
-  opacity: 0.85;
-  animation: blink 2s infinite;
-  flex-shrink: 0;
-}
-
-@keyframes blink { 0%,100%{opacity:.85} 50%{opacity:.25} }
-
-/* ── ACCENT LINE ── */
-.lip-line {
-  height: 3px;
-  background: linear-gradient(to right, var(--lip), var(--orange), var(--gold));
-}
-
-/* ── NAV ── */
-.nav-wrap {
-  background: var(--wine);
-  overflow-x: auto;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-  border-bottom: 1px solid rgba(200,25,60,0.22);
-}
-.nav-wrap::-webkit-scrollbar { display: none; }
-
-.nav-inner {
-  display: flex;
-  padding: 0 28px;
-  white-space: nowrap;
-  max-width: 960px;
-  margin: 0 auto;
-}
-
-.nav-tab {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(240,212,190,0.72);
-  padding: 14px 16px 12px;
-  cursor: pointer;
-  border: none;
-  border-bottom: 2px solid transparent;
-  background: none;
-  transition: color .18s, border-color .18s;
-  white-space: nowrap;
-  user-select: none;
-  touch-action: manipulation;
-}
-
-.nav-tab:hover { color: #F0D4BE; }
-.nav-tab.active { color: var(--cream); border-bottom-color: var(--lip); }
-
-/* ── MATERIAL BAR ── */
-.matbar { background: var(--ink); border-bottom: 1px solid rgba(200,25,60,0.2); }
-
-.matbar-inner {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 0 32px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.matbar-label {
-  font-size: 8px;
-  font-weight: 500;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--muted);
-  white-space: nowrap;
-  padding: 11px 0;
-  flex-shrink: 0;
-}
-
-.matbar-sep { width: 1px; height: 18px; background: rgba(200,25,60,0.22); flex-shrink: 0; }
-
-.matbtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  background: rgba(200,25,60,0.14);
-  border: 1px solid rgba(200,25,60,0.32);
-  color: var(--cream);
-  text-decoration: none;
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 7px 14px;
-  border-radius: 1px;
-  transition: background .16s, border-color .16s;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.matbtn:hover { background: rgba(200,25,60,0.28); border-color: rgba(200,25,60,0.5); }
-.matbtn.mb-orange { background: rgba(244,98,42,0.14); border-color: rgba(244,98,42,0.32); }
-.matbtn.mb-orange:hover { background: rgba(244,98,42,0.26); border-color: rgba(244,98,42,0.5); }
-.matbtn.mb-green { background: rgba(30,140,80,0.12); border-color: rgba(30,140,80,0.3); }
-.matbtn.mb-green:hover { background: rgba(30,140,80,0.22); border-color: rgba(30,140,80,0.5); }
-
-/* ── PROGRESS BAR ── */
-.progress-bar-wrap {
-  background: var(--ink);
-  border-bottom: 1px solid rgba(200,25,60,0.15);
-  padding: 14px 0;
-}
-
-.progress-bar-inner {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 0 32px;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.pb-label {
-  font-size: 8px;
-  font-weight: 500;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--muted);
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.pb-track {
-  flex: 1;
-  height: 8px;
-  background: rgba(255,255,255,0.14);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 4px;
-  overflow: hidden;
-  position: relative;
-}
-
-.pb-track {
-  flex: 1;
-  height: 10px;
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 5px;
-  overflow: visible;
-  position: relative;
-}
-
-.pb-fill {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(to right, #0e5c30, #1a8a4a, #3aaa6a, #4ecf82);
-  border-radius: 5px;
-  transition: width 1.4s cubic-bezier(0.22, 1, 0.36, 1);
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 0 12px rgba(58,170,106,0.5);
-  animation: barGlow 2.5s ease-in-out infinite;
-}
-
-@keyframes barGlow {
-  0%, 100% { box-shadow: 0 0 8px rgba(58,170,106,0.4), 0 0 20px rgba(58,170,106,0.15); }
-  50%       { box-shadow: 0 0 16px rgba(58,170,106,0.7), 0 0 32px rgba(58,170,106,0.3); }
-}
-
-/* Shimmer sweep across filled bar */
-.pb-fill::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(105deg,
-    transparent 30%,
-    rgba(255,255,255,0.28) 50%,
-    transparent 70%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 2.2s linear infinite;
-}
-
-@keyframes shimmer {
-  0%   { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-/* Pulse dot at the leading edge */
-.pb-fill::after {
-  content: '';
-  position: absolute;
-  right: -5px; top: 50%;
-  transform: translateY(-50%);
-  width: 12px; height: 12px;
-  border-radius: 50%;
-  background: #4ecf82;
-  box-shadow: 0 0 0 0 rgba(78,207,130,0.7);
-  animation: pulseDot 1.6s ease-out infinite;
-}
-
-@keyframes pulseDot {
-  0%   { box-shadow: 0 0 0 0 rgba(78,207,130,0.7); }
-  70%  { box-shadow: 0 0 0 8px rgba(78,207,130,0); }
-  100% { box-shadow: 0 0 0 0 rgba(78,207,130,0); }
-}
-
-.pb-remaining {
-  font-size: 9px;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--orange);
-  flex-shrink: 0;
-  white-space: nowrap;
-}
-
-.pb-pct {
-  font-family: 'Playfair Display', serif;
-  font-size: 18px;
-  font-weight: 700;
-  color: #3aaa6a;
-  flex-shrink: 0;
-  min-width: 48px;
-  text-align: right;
-  line-height: 1;
-}
-
-.pb-stages {
-  display: flex;
-  gap: 0;
-  flex-shrink: 0;
-}
-
-.pb-stage {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 9px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 3px 10px;
-  border-radius: 1px;
-  white-space: nowrap;
-}
-
-.pb-stage.done { color: #3aaa6a; }
-.pb-stage.pending-s { color: var(--orange); }
-.pb-stage .ps-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
-.pb-stage.done .ps-dot { background: #3aaa6a; }
-.pb-stage.pending-s .ps-dot { background: var(--orange); }
-
-@media (max-width: 600px) {
-  .progress-bar-inner { padding: 0 14px; gap: 12px; }
-  .pb-label { display: none; }
-  .pb-stages { display: none; }
-  .pb-remaining { display: none; }
-  .pb-pct { font-size: 16px; }
-}
-
-/* ── PROGRESS BAR ── */
-.page { max-width: 960px; margin: 0 auto; padding: 32px; }
-
-/* ── SECTION LABEL ── */
-.sl { display: flex; align-items: center; gap: 14px; margin: 28px 0 16px; }
-.sl:first-child { margin-top: 0; }
-.sl span { font-size: 8px; font-weight: 500; letter-spacing: 0.32em; text-transform: uppercase; color: var(--lip); white-space: nowrap; }
-.sl i { flex: 1; height: 1px; background: var(--bdr); }
-
-/* ── CARD ── */
-.card {
-  background: #fff;
-  border: 1px solid var(--bdr);
-  border-top: 3px solid var(--lip);
-  border-radius: 2px;
-  padding: 20px 22px;
-  margin-bottom: 12px;
-}
-
-.card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
-.ctitle { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; color: var(--ink); line-height: 1.2; }
-.csub { font-size: 11px; color: var(--muted); margin-top: 3px; }
-
-/* ── TAGS ── */
-.tag {
-  font-size: 8px;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  padding: 4px 10px;
-  border-radius: 1px;
-  flex-shrink: 0;
-  white-space: nowrap;
-}
-.t-lip    { background: var(--lip);    color: #fff; }
-.t-orange { background: var(--orange); color: #fff; }
-.t-gold   { background: rgba(240,165,0,0.13); border: 1px solid rgba(240,165,0,0.38); color: #966500; }
-.t-green  { background: rgba(30,140,80,0.1);  border: 1px solid rgba(30,140,80,0.32); color: #1a6a3a; }
-.t-sand   { background: var(--sand); border: 1px solid var(--shell); color: var(--muted); }
-.t-blue   { background: rgba(52,120,210,0.1); border: 1px solid rgba(52,120,210,0.3); color: #2255a0; }
-
-/* ── INFO ROW ── */
-.ir { display: flex; gap: 20px; flex-wrap: wrap; }
-.ii { display: flex; flex-direction: column; gap: 3px; min-width: 80px; }
-.ik { font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
-.iv { font-size: 13px; color: var(--ink); }
-.iv a { color: var(--lip); text-decoration: none; }
-
-.divider { height: 1px; background: var(--bdr); margin: 14px 0; }
-
-/* ── NOTICE ── */
-.notice {
-  background: var(--sand);
-  border-left: 3px solid var(--orange);
-  padding: 11px 14px;
-  font-size: 12px;
-  color: var(--ink);
-  line-height: 1.6;
-  margin-bottom: 16px;
-  border-radius: 0 2px 2px 0;
-}
-.notice.lip   { border-left-color: var(--lip);  background: rgba(200,25,60,0.05); }
-.notice.green { border-left-color: #1a8a4a;     background: rgba(30,140,80,0.06); }
-.notice.gold  { border-left-color: var(--gold); background: rgba(240,165,0,0.07); }
-
-/* ── COUNTERS ── */
-.cg { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 28px; }
-
-.cnt {
-  background: var(--ink);
-  border-top: 3px solid var(--lip);
-  padding: 16px 12px;
-  text-align: center;
-  border-radius: 2px;
-  position: relative;
-  overflow: hidden;
-}
-.cnt::after {
-  content: '';
-  position: absolute;
-  bottom: -10px; right: -10px;
-  width: 60px; height: 60px;
-  background: radial-gradient(circle, rgba(200,25,60,0.12) 0%, transparent 70%);
-}
-.cnt-n { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 900; color: var(--cream); line-height: 1; position: relative; }
-.cnt-l { font-size: 8px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-top: 6px; line-height: 1.4; position: relative; }
-
-/* ── FORMAT TAGS ── */
-.ftags { display: flex; gap: 7px; flex-wrap: wrap; }
-.ftag { font-size: 9px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; background: var(--sand); border: 1px solid var(--shell); color: var(--ink); padding: 5px 10px; border-radius: 1px; }
-
-/* ── PERSON CARD ── */
-.pcard {
-  background: #fff;
-  border: 1px solid var(--bdr);
-  border-left: 4px solid var(--lip);
-  border-radius: 0 2px 2px 0;
-  padding: 16px 18px;
-  margin-bottom: 10px;
-  display: flex;
-  gap: 14px;
-  align-items: flex-start;
-}
-
-.av {
-  width: 40px; height: 40px;
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 12px; font-weight: 500; letter-spacing: 0.04em;
-  flex-shrink: 0;
-}
-.av-l { background: var(--lip);    color: #fff; }
-.av-o { background: var(--orange); color: #fff; }
-.av-g { background: var(--gold);   color: var(--ink); }
-.av-w { background: var(--wine);   color: var(--cream); }
-.av-b { background: #2a6db5;       color: #fff; }
-.av-p { background: #8e44ad;       color: #fff; }
-
-.pb { flex: 1; min-width: 0; }
-.pt { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
-.pn { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--ink); line-height: 1.2; }
-.pr { font-size: 11px; color: var(--muted); margin-top: 2px; line-height: 1.4; }
-
-.contacts { display: flex; gap: 14px; flex-wrap: wrap; }
-.cl { font-size: 12px; color: var(--lip); text-decoration: none; font-weight: 400; }
-.cl:hover { text-decoration: underline; }
-
-/* ── SCHEDULE STATUS ── */
-.day-block.completed {
-  border-top-color: #1a8a4a;
-  opacity: 0.72;
-}
-
-.day-block.completed .day-header {
-  background: #0d2018;
-}
-
-.day-block.completed .day-title {
-  color: rgba(240,212,190,0.55);
-}
-
-.day-block.completed .ttime {
-  color: #1a8a4a;
-}
-
-.day-block.completed .ttitle {
-  color: #888;
-}
-
-.completed-banner {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(26,138,74,0.12);
-  border-bottom: 1px solid rgba(26,138,74,0.2);
-  padding: 8px 20px;
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #3aaa6a;
-}
-
-.completed-banner::before {
-  content: '✓';
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.pending-banner {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(244,98,42,0.1);
-  border-bottom: 1px solid rgba(244,98,42,0.2);
-  padding: 8px 20px;
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--orange);
-  animation: pendingpulse 3s ease-in-out infinite;
-}
-
-@keyframes pendingpulse {
-  0%,100% { background: rgba(244,98,42,0.10); }
-  50%      { background: rgba(244,98,42,0.18); }
-}
-
-.pending-banner::before {
-  content: '●';
-  font-size: 8px;
-  animation: blink 1.8s infinite;
-}
-
-.day-block.pending {
-  border-top-color: var(--orange);
-  box-shadow: 0 0 0 1px rgba(244,98,42,0.15);
-}
-
-.day-block.pending .day-header {
-  background: #1a0d06;
-}
-
-.day-block.pending .ttime {
-  color: var(--orange);
-}
-
-/* ── SCHEDULE STATUS ── */
-.day-block {
-  background: #fff;
-  border: 1px solid var(--bdr);
-  border-top: 3px solid var(--lip);
-  border-radius: 2px;
-  margin-bottom: 16px;
-  overflow: hidden;
-}
-
-.day-header {
-  background: var(--ink);
-  padding: 14px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.day-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: var(--cream); }
-.day-sub { font-size: 10px; color: var(--muted); margin-top: 2px; letter-spacing: 0.06em; }
-
-.timeline { padding: 0 20px; }
-
-.trow {
-  display: grid;
-  grid-template-columns: 68px 1fr;
-  gap: 16px;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--bdr2);
-  align-items: start;
-}
-.trow:last-child { border-bottom: none; }
-
-.ttime { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: var(--lip); line-height: 1; white-space: nowrap; }
-.ttitle { font-size: 13px; font-weight: 500; color: var(--ink); line-height: 1.4; }
-.tsub { font-size: 11px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
-
-.day-footer {
-  background: var(--sand);
-  padding: 12px 20px;
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  border-top: 1px solid var(--shell);
-}
-.df-item { display: flex; flex-direction: column; gap: 2px; }
-.df-key { font-size: 8px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
-.df-val { font-size: 12px; color: var(--ink); }
-
-/* ── ACTOR ROW ── */
-.arow {
-  background: #fff;
-  border: 1px solid var(--bdr);
-  border-left: 4px solid var(--lip);
-  border-radius: 0 2px 2px 0;
-  padding: 14px 18px;
-  margin-bottom: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-.an { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--ink); }
-.an-role { font-size: 12px; color: var(--lip); font-style: italic; margin-top: 1px; }
-.as { font-size: 11px; color: var(--muted); margin-top: 4px; }
-
-/* ── TODO ── */
-.todo-card {
-  background: var(--ink);
-  border-top: 3px solid var(--gold);
-  border-radius: 2px;
-  padding: 20px 22px;
-  margin-bottom: 12px;
-}
-.todo-head { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
-.todo-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--cream); }
-.todo-badge { font-size: 8px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; background: rgba(240,165,0,0.18); border: 1px solid rgba(240,165,0,0.4); color: var(--gold); padding: 3px 9px; border-radius: 1px; }
-
-.todo-item { display: flex; align-items: flex-start; gap: 12px; padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
-.todo-item:last-child { border-bottom: none; }
-
-.todo-check {
-  width: 18px; height: 18px;
-  border: 1px solid rgba(200,25,60,0.4);
-  border-radius: 2px;
-  flex-shrink: 0;
-  margin-top: 1px;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: background .14s, border-color .14s;
-}
-.todo-check:hover { border-color: var(--lip); }
-.todo-check.done { background: var(--lip); border-color: var(--lip); }
-.todo-check.done::after { content: '✓'; font-size: 11px; color: #fff; }
-.todo-text { font-size: 13px; color: rgba(240,212,190,0.85); line-height: 1.5; flex: 1; }
-.todo-text.done { text-decoration: line-through; color: rgba(240,212,190,0.35); }
-
-/* ── DOC LINK ROW ── */
-.dlink {
-  display: flex; align-items: center; gap: 14px;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--bdr2);
-  text-decoration: none; color: inherit;
-}
-.dlink:last-child { border-bottom: none; }
-.dlink:hover .dlname { color: var(--lip); }
-.dlink-icon { width: 42px; height: 42px; background: var(--ink); border-radius: 2px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
-.dlname { font-size: 14px; font-weight: 500; color: var(--ink); transition: color .14s; flex: 1; }
-.dlsub { font-size: 11px; color: var(--muted); margin-top: 2px; }
-.dlarrow { font-size: 14px; color: var(--lip); flex-shrink: 0; }
-
-/* ── MESSAGES ── */
-.msg { background: #fff; border: 1px solid var(--bdr); border-top: 3px solid var(--lip); border-radius: 0 0 2px 2px; padding: 14px 18px; margin-bottom: 10px; }
-.mf { font-size: 9px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--lip); margin-bottom: 7px; }
-.mt { font-size: 13px; color: var(--ink); line-height: 1.65; }
-.mm { font-size: 10px; color: var(--muted); margin-top: 7px; letter-spacing: 0.08em; }
-
-/* ── PANELS ── */
-.panel { display: none; }
-.panel.active { display: block; }
-.producer-only { display: none; }
-
-/* ══════ RESPONSIVE ══════ */
-@media (max-width: 780px) {
-  .header-inner { padding: 0 20px; }
-  .logo-block { padding: 16px 20px 16px 0; margin-right: 20px; }
-  .logo-title { font-size: 24px; }
-  .header-meta { gap: 18px; }
-  .meta-item:nth-child(2) { display: none; }
-  .page { padding: 24px 20px; }
-  .nav-inner { padding: 0 16px; }
-  .matbar-inner { padding: 0 16px; }
-}
-
-@media (max-width: 600px) {
-  .header-inner { flex-direction: column; align-items: stretch; padding: 16px; min-height: auto; }
-  .logo-block { border-right: none; border-bottom: 1px solid rgba(200,25,60,0.18); margin-right: 0; padding: 0 0 14px 0; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; }
-  .logo-title { font-size: 22px; }
-  .logo-eyebrow { font-size: 7px; }
-  .logo-sub { font-size: 8px; }
-  .header-meta { display: none; }
-  .header-right { display: flex; gap: 8px; align-items: center; }
-  .status-badge { display: none; }
-  .user-chip { font-size: 10px; padding: 7px 12px; }
-  .user-menu { right: 0; min-width: 200px; }
-  .nav-inner { padding: 0 8px; }
-  .nav-tab { font-size: 11px; padding: 12px 10px 10px; letter-spacing: 0.12em; }
-  .matbar-inner { padding: 0 10px; gap: 7px; }
-  .matbar-label, .matbar-sep { display: none; }
-  .matbtn { font-size: 9px; padding: 6px 10px; }
-  .page { padding: 16px; }
-  .cg { grid-template-columns: repeat(2,1fr); gap: 8px; }
-  .cnt-n { font-size: 24px; }
-  .cnt { padding: 14px 10px; }
-  .card { padding: 14px 16px; }
-  .card-head { flex-wrap: wrap; }
-  .pcard { padding: 13px 14px; gap: 10px; }
-  .pt { flex-wrap: wrap; gap: 6px; }
-  .contacts { gap: 10px; }
-  .ir { gap: 14px; }
-  .ii { min-width: 44%; }
-  .trow { grid-template-columns: 55px 1fr; gap: 10px; }
-  .ttime { font-size: 14px; }
-  .day-footer { gap: 14px; }
-  #panel-schedule > div:nth-child(3) { grid-template-columns: 1fr !important; }
-}
-
-@media (max-width: 380px) {
-  .logo-title { font-size: 19px; }
-  .nav-tab { font-size: 9px; padding: 11px 8px 9px; }
-  .cnt-n { font-size: 20px; }
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reyni Service — Film Production 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#09090b; --bg2:#111115; --card:#18181c; --card2:#1f1f25;
+      --border:#2a2a35; --border-hi:#3d3d50;
+      --text:#e8e8f0; --text-mid:#9a9aaa; --text-muted:#56566a;
+      --accent:#e63329; --accent2:#b02820; --accent-dim:rgba(230,51,41,.12);
+      --green:#22c55e; --amber:#f59e0b;
+      --shadow:0 4px 24px rgba(0,0,0,.6); --shadow-sm:0 2px 10px rgba(0,0,0,.4);
+      --radius:12px; --radius-sm:8px;
+      --font-display:'Bebas Neue','Impact',sans-serif;
+      --font-body:'DM Sans',system-ui,sans-serif;
+      --font-mono:'DM Mono',monospace;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.6;}
+    a{color:inherit;text-decoration:none;}
+
+    .header{background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;}
+    .header-top{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;gap:12px;}
+    .brand{cursor:pointer;}
+    .brand-eye{font-family:var(--font-mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:2px;}
+    .brand-name{font-family:var(--font-display);font-size:28px;letter-spacing:.06em;color:var(--text);line-height:1;}
+    .brand-sub{font-size:11px;color:var(--text-muted);margin-top:2px;}
+
+    /* Docs strip — always visible */
+    .docs-strip{background:rgba(230,51,41,.05);border-top:1px solid rgba(230,51,41,.15);padding:8px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .docs-label{font-family:var(--font-mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);white-space:nowrap;}
+    .doc-btn{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:6px;border:1px solid rgba(230,51,41,.35);background:rgba(230,51,41,.1);color:var(--accent);font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;font-weight:600;transition:all .2s;white-space:nowrap;}
+    .doc-btn:hover{background:rgba(230,51,41,.2);}
+    .docs-sep{width:1px;height:16px;background:var(--border);flex-shrink:0;}
+
+    .tabs-bar{display:flex;border-top:1px solid var(--border);overflow-x:auto;scrollbar-width:none;}
+    .tabs-bar::-webkit-scrollbar{display:none;}
+    .tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:10px 8px;min-height:52px;background:transparent;border:none;border-bottom:2px solid transparent;color:var(--text-muted);font-family:var(--font-body);font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s;}
+    .tab-btn .ti{font-size:15px;}
+    .tab-btn:hover{color:var(--text);}
+    .tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
+
+    .np-wrap{display:flex;align-items:center;gap:8px;}
+    .np-label{font-family:var(--font-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);white-space:nowrap;}
+    .np-select{border:1px solid var(--border-hi);background:var(--card);color:var(--text);font-family:var(--font-body);font-size:13px;padding:7px 12px;border-radius:var(--radius-sm);cursor:pointer;min-width:150px;}
+    .np-select:focus{outline:none;border-color:var(--accent);}
+    .mob-bar{background:rgba(230,51,41,.07);border-top:1px solid rgba(230,51,41,.2);padding:10px 16px;align-items:center;gap:10px;display:none;}
+    .mob-select{flex:1;border:1px solid var(--accent2);background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:14px;padding:9px 12px;border-radius:var(--radius-sm);cursor:pointer;width:100%;}
+    .mob-select:focus{outline:none;border-color:var(--accent);}
+
+    .main{max-width:1000px;margin:0 auto;padding:24px 20px 80px;}
+    .tab-panel{display:none;}
+    .tab-panel.active{display:block;}
+
+    .sh{margin-bottom:20px;}
+    .sh h2{font-family:var(--font-display);font-size:32px;letter-spacing:.06em;color:var(--text);}
+    .sh p{font-size:13px;color:var(--text-muted);margin-top:4px;}
+
+    /* Scene cards */
+    .scene-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:16px;box-shadow:var(--shadow-sm);}
+    .scene-card.completed{opacity:.7;border-color:rgba(34,197,94,.25);}
+    .scene-head{padding:16px 20px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;border-bottom:1px solid var(--border);}
+    .scene-card.completed .scene-head{background:rgba(34,197,94,.05);}
+    .scene-type{font-family:var(--font-mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:4px;}
+    .scene-card.completed .scene-type{color:var(--green);}
+    .scene-title{font-family:var(--font-display);font-size:22px;letter-spacing:.04em;color:var(--text);}
+    .scene-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;white-space:nowrap;flex-shrink:0;margin-top:4px;}
+    .scene-badge.pending{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);color:var(--amber);}
+    .scene-badge.done{background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.35);color:var(--green);}
+    .scene-body{padding:16px 20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;}
+    .fi-label{font-family:var(--font-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:3px;}
+    .fi-val{font-size:13px;color:var(--text);font-weight:500;line-height:1.5;}
+    .fi-val.hi{color:var(--accent);}
+    .fi-val.tbd{color:var(--amber);}
+    .fi-val.green{color:var(--green);}
+
+    /* Timeline */
+    .timeline-item{display:flex;gap:0;border-bottom:1px solid var(--border);}
+    .timeline-item:last-child{border-bottom:none;}
+    .tl-time{min-width:72px;padding:12px 14px;background:var(--card2);border-right:1px solid var(--border);font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--accent);flex-shrink:0;}
+    .tl-content{padding:12px 16px;font-size:13px;color:var(--text-mid);line-height:1.55;}
+    .tl-content strong{color:var(--text);display:block;margin-bottom:1px;}
+
+    /* Contacts */
+    .stats-row{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px;}
+    @media(min-width:500px){.stats-row{grid-template-columns:repeat(4,1fr);}}
+    .stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center;}
+    .stat-val{font-family:var(--font-display);font-size:36px;letter-spacing:.04em;color:var(--accent);line-height:1;}
+    .stat-lbl{font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-top:4px;}
+    .filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;}
+    .filters input,.filters select{flex:1 1 180px;padding:10px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);font-family:var(--font-body);font-size:13px;color:var(--text);}
+    .filters input:focus,.filters select:focus{outline:none;border-color:var(--accent);}
+    .contacts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;}
+    .cc{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow-sm);transition:border-color .15s;}
+    .cc:hover{border-color:var(--border-hi);}
+    .cc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:12px;}
+    .cc-name{font-family:var(--font-display);font-size:20px;letter-spacing:.03em;color:var(--text);}
+    .cc-role{font-size:11px;color:var(--text-muted);margin-top:3px;}
+    .cc-badge{font-family:var(--font-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:4px 8px;border-radius:4px;white-space:nowrap;flex-shrink:0;}
+    .cc-badge.Crew{background:rgba(230,51,41,.1);color:var(--accent);border:1px solid rgba(230,51,41,.25);}
+    .cc-badge.Client{background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.2);}
+    .cc-badge.Actor{background:rgba(168,85,247,.1);color:#c084fc;border:1px solid rgba(168,85,247,.25);}
+    .cc-badge.Location{background:rgba(245,158,11,.1);color:var(--amber);border:1px solid rgba(245,158,11,.25);}
+    .cc-info{display:grid;gap:6px;font-size:13px;margin-bottom:12px;}
+    .cc-row{display:flex;align-items:center;gap:8px;}
+    .cc-lbl{font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);min-width:38px;}
+    .cc-row a{color:var(--accent);}
+    .cc-row a:hover{text-decoration:underline;}
+    .cc-btns{display:flex;gap:8px;}
+    .cc-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:var(--radius-sm);font-family:var(--font-body);font-size:12px;font-weight:600;text-decoration:none;transition:all .15s;border:none;flex:1;justify-content:center;cursor:pointer;}
+    .cc-btn.call{background:var(--accent);color:#fff;}
+    .cc-btn.call:hover{background:#c02820;}
+    .cc-btn.mail{background:var(--card2);color:var(--text);border:1px solid var(--border);}
+    .cc-btn.mail:hover{background:var(--border);}
+
+    /* Todo list */
+    .todo-card{background:rgba(230,51,41,.06);border:1px solid rgba(230,51,41,.25);border-radius:var(--radius);padding:20px;margin-bottom:20px;}
+    .todo-title{font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;}
+    .todo-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(230,51,41,.1);font-size:13px;color:var(--text-mid);}
+    .todo-item:last-child{border-bottom:none;}
+    .todo-item::before{content:'○';color:var(--accent);font-size:12px;flex-shrink:0;}
+
+    @media(min-width:700px){.brand-name{font-size:34px;}.tab-btn{padding:0 22px;font-size:10px;}}
+    @media(max-width:699px){.main{padding:16px 12px 80px;}.np-wrap{display:none;}.mob-bar{display:flex;}}
+  </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<div class="header">
-  <div class="header-inner">
-    <div class="logo-block" onclick="location.reload()" title="Tilbage til start">
+<header class="header">
+  <div class="header-top">
+    <div class="brand" id="brandHome">
+      <div class="brand-eye">Production Portal</div>
+      <div class="brand-name">REYNI SERVICE</div>
+      <div class="brand-sub">Toyota C-HR+ · Film Commercial 2026</div>
+    </div>
+    <div class="np-wrap" id="desktopPicker">
+      <span class="np-label">My Schedule</span>
+      <select id="personSelect" class="np-select">
+        <option value="">Select your name</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="docs-strip">
+    <span class="docs-label">📁 Docs</span>
+    <div class="docs-sep"></div>
+    <a class="doc-btn" href="https://drive.google.com/file/d/1ASJGM3jLkzdcjWBqkAp2ed8N6uWsjVpS/view?usp=drive_link" target="_blank">🎨 Moodboard</a>
+    <a class="doc-btn" href="https://drive.google.com/file/d/1FM9kDN2YTCPDWHF4zvH9QClzsmxPqmGL/view?usp=sharing" target="_blank">📝 Script</a>
+  </div>
+
+  <nav class="tabs-bar">
+    <button class="tab-btn active" data-tab="schedule"><span class="ti">📅</span><span>Schedule</span></button>
+    <button class="tab-btn" data-tab="about"><span class="ti">🎬</span><span>Film</span></button>
+    <button class="tab-btn" data-tab="contacts"><span class="ti">👤</span><span>Contacts</span></button>
+    <button class="tab-btn" data-tab="myplan" id="myplanTab" style="display:none;"><span class="ti">⭐</span><span>My Schedule</span></button>
+  </nav>
+
+  <div class="mob-bar" id="mobilePicker">
+    <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);white-space:nowrap;flex-shrink:0;">⭐ My Schedule</span>
+    <select id="personSelectMobile" class="mob-select">
+      <option value="">— Select your name —</option>
+    </select>
+  </div>
+</header>
+
+<main class="main">
+
+  <!-- TAB: SCHEDULE -->
+  <div class="tab-panel active" id="tab-schedule">
+    <div class="sh"><h2>SHOOT SCHEDULE</h2><p>Fuglafjørður · Ennivegur 3</p></div>
+
+    <!-- Weather warning -->
+    <div style="background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.4);border-left:4px solid var(--amber);border-radius:var(--radius);padding:16px 20px;margin-bottom:16px;display:flex;align-items:flex-start;gap:14px;">
+      <div style="font-size:26px;flex-shrink:0;">⛅</div>
       <div>
-        <div class="logo-eyebrow">Production Portal</div>
-        <div class="logo-title">Reyni Service</div>
-        <div class="logo-sub">Toyota C-HR+ · Film Commercial</div>
-      </div>
-    </div>
-    <div class="header-meta">
-      <div class="meta-item">
-        <span class="meta-key">Produktionsselskab</span>
-        <span class="meta-val">Kovboy Film</span>
-      </div>
-      <div class="meta-item">
-        <span class="meta-key">Format</span>
-        <span class="meta-val">TV · Cinema · Social</span>
-      </div>
-      <div class="meta-item">
-        <span class="meta-key">Optagelse</span>
-        <span class="meta-val">26. maj ✓ · 9. juni?</span>
-      </div>
-    </div>
-    <div class="header-right">
-      <div class="user-dropdown-wrap" id="udw">
-        <div class="user-chip" id="user-chip" onclick="toggleDropdown()">
-          <div class="uc-dot" id="uc-dot"></div>
-          <span class="uc-label-pre" id="uc-pre">👤 Vælg dit navn</span>
-          <span id="user-label" style="display:none;"></span>
-          <span class="uc-arrow">▾</span>
-        </div>
-        <div class="user-menu">
-          <div class="um-group">
-            <span class="um-label">Produktion</span>
-            <button class="um-item" onclick="selectUser('Michael Koba','Film Producer',true)">
-              <div><div class="um-name">Michael Koba</div><div class="um-role">Film Producer</div></div>
-              <span class="um-star">★</span>
-            </button>
-            <button class="um-item" onclick="selectUser('Thomas Koba','Filmmaker · Editor',false)">
-              <div><div class="um-name">Thomas Koba</div><div class="um-role">Filmmaker · Editor</div></div>
-            </button>
-            <button class="um-item" onclick="selectUser('Hans Petur Hansen','Gaffer',false)">
-              <div><div class="um-name">Hans Petur Hansen</div><div class="um-role">Gaffer</div></div>
-            </button>
-            <button class="um-item" onclick="selectUser('Anna Kristin Bæk','Senior Stylist',false)">
-              <div><div class="um-name">Anna Kristin Bæk</div><div class="um-role">Senior Stylist</div></div>
-            </button>
-            <button class="um-item" onclick="selectUser('Heidi Mortensen','Junior Stylist',false)">
-              <div><div class="um-name">Heidi Mortensen</div><div class="um-role">Junior Stylist</div></div>
-            </button>
-            <button class="um-item" onclick="selectUser('Julia Jacobsen','Make-up & Hair',false)">
-              <div><div class="um-name">Julia Jacobsen</div><div class="um-role">Make-up & Hair Stylist</div></div>
-            </button>
-          </div>
-          <div class="um-group">
-            <span class="um-label">Skuespillere</span>
-            <button class="um-item" onclick="selectUser('Rani Dahl Olsen','Macho Man',false)">
-              <div><div class="um-name">Rani Dahl Olsen</div><div class="um-role">Skuespiller · Macho Man</div></div>
-            </button>
-            <button class="um-item" onclick="selectUser('Astrið Gullborgardóttir','Ingrið',false)">
-              <div><div class="um-name">Astrið Gullborgardóttir</div><div class="um-role">Skuespiller · Ingrið</div></div>
-            </button>
-            <button class="um-item" onclick="selectUser('Hanna Flóvinsdóttir','Lea',false)">
-              <div><div class="um-name">Hanna Flóvinsdóttir</div><div class="um-role">Skuespiller · Lea</div></div>
-            </button>
-          </div>
-          <div class="um-group">
-            <span class="um-label">Klient</span>
-            <button class="um-item" onclick="selectUser('Fríðrikur Jakobsen','Reyni Service',false)">
-              <div><div class="um-name">Fríðrikur Jakobsen</div><div class="um-role">Reyni Service</div></div>
-            </button>
-            <button class="um-item" onclick="selectUser('Sámal av Reyni','Reyni Service',false)">
-              <div><div class="um-name">Sámal av Reyni</div><div class="um-role">Reyni Service</div></div>
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="status-badge"><div class="dot"></div>Pre-production</div>
-    </div>
-  </div>
-</div>
-<div class="lip-line"></div>
-
-<!-- NAV -->
-<div class="nav-wrap">
-  <div class="nav-inner">
-    <button class="nav-tab active" onclick="showTab('schedule',this)">Schedule</button>
-    <button class="nav-tab" onclick="showTab('overblik',this)">Overblik</button>
-    <button class="nav-tab" onclick="showTab('crew',this)">Crew</button>
-    <button class="nav-tab" onclick="showTab('cast',this)">Cast</button>
-    <button class="nav-tab" onclick="showTab('klient',this)">Klient</button>
-    <button class="nav-tab" onclick="showTab('dokumenter',this)">Dokumenter</button>
-    <button class="nav-tab" onclick="showTab('beskeder',this)">Beskeder</button>
-  </div>
-</div>
-
-<!-- MATERIAL BAR -->
-<div class="matbar">
-  <div class="matbar-inner">
-    <span class="matbar-label">Materiale</span>
-    <div class="matbar-sep"></div>
-    <a href="https://drive.google.com/file/d/1FM9kDN2YTCPDWHF4zvH9QClzsmxPqmGL/view?usp=sharing" target="_blank" class="matbtn">📄 Script</a>
-    <a href="https://drive.google.com/file/d/1ASJGM3jLkzdcjWBqkAp2ed8N6uWsjVpS/view?usp=drive_link" target="_blank" class="matbtn mb-orange">🎨 Moodboard</a>
-  </div>
-</div>
-
-<!-- PROGRESS BAR -->
-<div class="progress-bar-wrap">
-  <div class="progress-bar-inner">
-    <span class="pb-label">Produktion fremgang</span>
-    <div class="pb-track">
-      <div class="pb-fill" id="pb-fill"></div>
-    </div>
-    <div class="pb-pct" id="pb-pct">0%</div>
-    <div class="pb-remaining">20% tilbage</div>
-    <div class="pb-stages">
-      <div class="pb-stage done"><span class="ps-dot"></span>Stylingmøde</div>
-      <div class="pb-stage pending-s"><span class="ps-dot"></span>Eksteriør</div>
-      <div class="pb-stage done"><span class="ps-dot"></span>Interiør</div>
-    </div>
-  </div>
-</div>
-
-<!-- CONTENT -->
-<div class="page">
-
-  <!-- SCHEDULE -->
-  <div class="panel active" id="panel-schedule">
-    <div id="schedule-welcome" style="display:none;" class="notice green"></div>
-    <div id="schedule-prompt" class="notice gold">
-      👆 Vælg dit navn i rullemenuen øverst for at se dit personlige program.
-    </div>
-
-    <!-- STATUS OVERVIEW -->
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:24px;">
-      <div style="background:#0d2018;border:1px solid rgba(26,138,74,0.3);border-top:3px solid #1a8a4a;border-radius:2px;padding:14px 16px;text-align:center;">
-        <div style="font-size:20px;margin-bottom:4px;">✓</div>
-        <div style="font-family:'Playfair Display',serif;font-size:13px;color:#3aaa6a;font-weight:700;">Stylingmøde</div>
-        <div style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#3aaa6a;opacity:0.7;margin-top:3px;">Completed</div>
-      </div>
-      <div style="background:#1a0d06;border:1px solid rgba(244,98,42,0.3);border-top:3px solid var(--orange);border-radius:2px;padding:14px 16px;text-align:center;">
-        <div style="font-size:20px;margin-bottom:4px;">☀</div>
-        <div style="font-family:'Playfair Display',serif;font-size:13px;color:var(--orange);font-weight:700;">Eksteriør scene</div>
-        <div style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--orange);opacity:0.8;margin-top:3px;">Muligvis 9. juni</div>
-      </div>
-      <div style="background:#0d2018;border:1px solid rgba(26,138,74,0.3);border-top:3px solid #1a8a4a;border-radius:2px;padding:14px 16px;text-align:center;">
-        <div style="font-size:20px;margin-bottom:4px;">✓</div>
-        <div style="font-family:'Playfair Display',serif;font-size:13px;color:#3aaa6a;font-weight:700;">Interiør scene</div>
-        <div style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#3aaa6a;opacity:0.7;margin-top:3px;">Completed · 26. maj</div>
+        <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);margin-bottom:5px;">Weather update</div>
+        <div style="font-size:14px;color:var(--text);font-weight:600;margin-bottom:4px;">This week unfortunately doesn't look good for the exterior scene.</div>
+        <div style="font-size:13px;color:var(--text-mid);line-height:1.65;">We are waiting for a weather forecast with sunshine and blue skies in Fuglafjørður before we can confirm the shoot date. We will notify everyone as soon as a suitable day is identified.</div>
       </div>
     </div>
 
-    <!-- Eksteriør scene — PENDING / AFVENTER — øverst -->
-    <div class="day-block pending" data-persons="Michael Koba,Thomas Koba,Hans Petur Hansen,Anna Kristin Bæk,Heidi Mortensen,Julia Jacobsen,Rani Dahl Olsen,Fríðrikur Jakobsen,Sámal av Reyni">
-      <div class="pending-banner">Afventer solskin · Muligvis tirsdag 9. juni · Nærmere info søndag 7. juni</div>
-      <div class="day-header">
+    <!-- Upcoming: Exterior scene -->
+    <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;">— Upcoming</div>
+    <div class="scene-card" style="margin-bottom:32px;">
+      <div class="scene-head">
         <div>
-          <div class="day-title">Eksteriør scene</div>
-          <div class="day-sub">Muligvis tirsdag 9. juni 2026 · Nærmere info søndag 7. juni · kl. 10:00–16:00 · Ennivegur 3, Fuglafjørður</div>
+          <div class="scene-type">// Exterior Scene</div>
+          <div class="scene-title">Exterior Scene</div>
         </div>
-        <span class="tag t-orange">⏳ Afventer</span>
+        <span class="scene-badge pending">☀️ Waiting for sunshine</span>
       </div>
-      <div class="timeline">
-        <div class="trow">
-          <div class="ttime">10:00</div>
-          <div><div class="ttitle">Afgang Tórshavn</div><div class="tsub">Michael kører Toyota C-HR+ til Fuglafjørður · Thomas Koba og Hans Petur Hansen afgår fra Tórshavn</div></div>
-        </div>
-        <div class="trow">
-          <div class="ttime">11:00</div>
-          <div><div class="ttitle">Scene prep</div><div class="tsub">Opsætning af udstyr og location</div></div>
-        </div>
-        <div class="trow">
-          <div class="ttime">12:00</div>
-          <div><div class="ttitle">Frokost</div></div>
-        </div>
-        <div class="trow">
-          <div class="ttime">13:00</div>
-          <div><div class="ttitle">Rani ankommer</div><div class="tsub">Rani Dahl Olsen møder på sættet · Make-up med Julia Jacobsen</div></div>
-        </div>
-        <div class="trow">
-          <div class="ttime">14:00</div>
-          <div><div class="ttitle">Optagelse starter</div></div>
-        </div>
-        <div class="trow">
-          <div class="ttime">16:00</div>
-          <div><div class="ttitle">Optagelse slut</div></div>
-        </div>
+      <div class="scene-body">
+        <div><div class="fi-label">Date</div><div class="fi-val tbd">First sunny day — TBD</div></div>
+        <div><div class="fi-label">Location</div><div class="fi-val">Ennivegur 3, Fuglafjørður</div></div>
+        <div><div class="fi-label">Actor</div><div class="fi-val">Rani Dahl Olsen</div></div>
+        <div><div class="fi-label">Crew</div><div class="fi-val">Thomas Koba, Hans Petur Hansen, Michael Koba</div></div>
+        <div><div class="fi-label">Styling</div><div class="fi-val">Anna Kristin (online) · Heidi Mortensen</div></div>
+        <div><div class="fi-label">Make-up</div><div class="fi-val">Julia Jacobsen</div></div>
+        <div><div class="fi-label">Location owner</div><div class="fi-val">Mary Ann Zachariassen</div></div>
       </div>
-      <div class="day-footer">
-        <div class="df-item"><span class="df-key">Crew</span><span class="df-val">Thomas, Hans Petur, Michael</span></div>
-        <div class="df-item"><span class="df-key">Skuespiller</span><span class="df-val">Rani Dahl Olsen</span></div>
-        <div class="df-item"><span class="df-key">Make-up & Hair</span><span class="df-val">Julia Jacobsen</span></div>
-        <div class="df-item"><span class="df-key">Styling</span><span class="df-val">Anna Kristin (online) · Heidi Mortensen</span></div>
-        <div class="df-item"><span class="df-key">Location-ejer</span><span class="df-val">Mary Ann Zachariassen · <a href="tel:+298221245" style="color:var(--lip);text-decoration:none;">+298 221245</a></span></div>
+      <div style="border-top:1px solid var(--border);">
+        <div class="timeline-item"><div class="tl-time">10:00</div><div class="tl-content"><strong>Departure Tórshavn</strong>Michael drives to Fuglafjørður · Thomas &amp; Hans Petur depart</div></div>
+        <div class="timeline-item"><div class="tl-time">11:00</div><div class="tl-content"><strong>Scene prep</strong></div></div>
+        <div class="timeline-item"><div class="tl-time">12:00</div><div class="tl-content"><strong>Lunch</strong></div></div>
+        <div class="timeline-item"><div class="tl-time">13:00</div><div class="tl-content"><strong>Rani Dahl Olsen &amp; make-up artist arrive on set</strong></div></div>
+        <div class="timeline-item"><div class="tl-time">14:00</div><div class="tl-content"><strong>Shoot begins</strong></div></div>
+        <div class="timeline-item"><div class="tl-time">16:00</div><div class="tl-content"><strong>Shoot ends</strong></div></div>
       </div>
     </div>
 
-    <!-- Divider -->
-    <div class="sl" style="margin-top:32px;"><span>Completed</span><i></i></div>
+    <!-- Completed -->
+    <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--green);margin-bottom:10px;">— Completed</div>
 
-    <!-- Stylingmøde — COMPLETED -->
-    <div class="day-block completed" data-persons="Michael Koba,Thomas Koba,Anna Kristin Bæk,Heidi Mortensen">
-      <div class="completed-banner">Completed · Torsdag 21. maj 2026</div>
-      <div class="day-header">
+    <div class="scene-card completed" style="margin-bottom:16px;">
+      <div class="scene-head">
         <div>
-          <div class="day-title">Stylingmøde</div>
-          <div class="day-sub">21. maj 2026 · kl. 10:30–11:00 · Online (Google Meet)</div>
+          <div class="scene-type">// Interior Scene · ✓ Completed</div>
+          <div class="scene-title">Interior Scene</div>
         </div>
-        <span class="tag" style="background:rgba(26,138,74,0.2);border:1px solid rgba(26,138,74,0.4);color:#3aaa6a;">✓ Completed</span>
+        <span class="scene-badge done"><span style="font-size:10px;">✓</span>Done</span>
       </div>
-      <div class="timeline">
-        <div class="trow">
-          <div class="ttime">10:30</div>
-          <div><div class="ttitle">Gennemgang af styling</div><div class="tsub">Thomas Koba, Michael Koba, Anna Kristin Bæk og Heidi Mortensen gennemgår tøj til skuespillere</div></div>
-        </div>
-        <div class="trow">
-          <div class="ttime">11:00</div>
-          <div><div class="ttitle">Møde slut</div></div>
-        </div>
+      <div class="scene-body">
+        <div><div class="fi-label">Date</div><div class="fi-val green">Tue 26 May 2026</div></div>
+        <div><div class="fi-label">Location</div><div class="fi-val">Ennivegur 3, Fuglafjørður</div></div>
+        <div><div class="fi-label">Actors</div><div class="fi-val">Hanna Flóvinsdóttir · Astrið Gullborgardóttir</div></div>
+        <div><div class="fi-label">Crew</div><div class="fi-val">Thomas Koba, Hans Petur Hansen, Michael Koba</div></div>
+        <div><div class="fi-label">Styling</div><div class="fi-val">Anna Kristin Bæk · Heidi Mortensen</div></div>
+        <div><div class="fi-label">Make-up</div><div class="fi-val">Julia Jacobsen</div></div>
       </div>
-      <div class="day-footer">
-        <div class="df-item"><span class="df-key">Crew</span><span class="df-val">Thomas Koba, Michael Koba</span></div>
-        <div class="df-item"><span class="df-key">Stylister</span><span class="df-val">Anna Kristin Bæk, Heidi Mortensen</span></div>
-        <div class="df-item"><span class="df-key">Format</span><span class="df-val">Online · Google Meet</span></div>
+      <div style="border-top:1px solid rgba(34,197,94,.15);">
+        <div class="timeline-item"><div class="tl-time">12:00</div><div class="tl-content"><strong>Crew arrives</strong>Setup and scene preparation</div></div>
+        <div class="timeline-item"><div class="tl-time">16:30</div><div class="tl-content"><strong>Actors arrive</strong>Make-up &amp; styling — max 1 hour</div></div>
+        <div class="timeline-item"><div class="tl-time">17:30</div><div class="tl-content"><strong>Shoot begins</strong></div></div>
+        <div class="timeline-item"><div class="tl-time">21:00</div><div class="tl-content"><strong>Shoot ends</strong></div></div>
       </div>
     </div>
 
-    <!-- Interiør scene — COMPLETED -->
-    <div class="day-block completed" data-persons="Michael Koba,Thomas Koba,Hans Petur Hansen,Anna Kristin Bæk,Heidi Mortensen,Julia Jacobsen,Hanna Flóvinsdóttir,Astrið Gullborgardóttir,Fríðrikur Jakobsen,Sámal av Reyni">
-      <div class="completed-banner">Completed · Tirsdag 26. maj 2026</div>
-      <div class="day-header">
+    <div class="scene-card completed">
+      <div class="scene-head">
         <div>
-          <div class="day-title">Interiør scene</div>
-          <div class="day-sub">26. maj 2026 · kl. 12:00–21:00 · Ennivegur 3, Fuglafjørður</div>
+          <div class="scene-type">// Pre-Production Meeting</div>
+          <div class="scene-title">Styling Prep Meeting</div>
         </div>
-        <span class="tag" style="background:rgba(26,138,74,0.2);border:1px solid rgba(26,138,74,0.4);color:#3aaa6a;">✓ Completed</span>
+        <span class="scene-badge done"><span style="font-size:10px;">✓</span>Done</span>
       </div>
-      <div class="timeline">
-        <div class="trow">
-          <div class="ttime">12:00</div>
-          <div><div class="ttitle">Crew ankommer</div><div class="tsub">Opsætning af lys, udstyr og scene</div></div>
-        </div>
-        <div class="trow">
-          <div class="ttime">16:30</div>
-          <div><div class="ttitle">Skuespillere ankommer</div><div class="tsub">Make-up og styling — max 1 time</div></div>
-        </div>
-        <div class="trow">
-          <div class="ttime">17:30</div>
-          <div><div class="ttitle">Optagelse starter</div></div>
-        </div>
-        <div class="trow">
-          <div class="ttime">21:00</div>
-          <div><div class="ttitle">Optagelse slut</div></div>
-        </div>
-      </div>
-      <div class="day-footer">
-        <div class="df-item"><span class="df-key">Crew</span><span class="df-val">Thomas, Hans Petur, Michael</span></div>
-        <div class="df-item"><span class="df-key">Skuespillere</span><span class="df-val">Hanna Flóvinsdóttir, Astrið Gullborgardóttir</span></div>
-        <div class="df-item"><span class="df-key">Make-up & Hair</span><span class="df-val">Julia Jacobsen</span></div>
-        <div class="df-item"><span class="df-key">Styling</span><span class="df-val">Anna Kristin Bæk, Heidi Mortensen</span></div>
-        <div class="df-item"><span class="df-key">Location-ejer</span><span class="df-val">Mary Ann Zachariassen · <a href="tel:+298221245" style="color:var(--lip);text-decoration:none;">+298 221245</a></span></div>
+      <div class="scene-body">
+        <div><div class="fi-label">Date</div><div class="fi-val green">Thu 21 May 2026 · 10:30–11:00</div></div>
+        <div><div class="fi-label">Format</div><div class="fi-val">Online · Google Meet</div></div>
+        <div><div class="fi-label">Purpose</div><div class="fi-val">Prepping styling for shoot</div></div>
+        <div><div class="fi-label">Attendees</div><div class="fi-val">Thomas Koba, Michael Koba, Anna Kristin Bæk, Heidi Mortensen</div></div>
       </div>
     </div>
   </div>
 
-  <!-- OVERBLIK -->
-  <div class="panel" id="panel-overblik">
-
-    <div class="producer-only" id="todo-block">
-      <div class="sl"><span>★ Producer · To-do liste</span><i></i></div>
-      <div class="todo-card">
-        <div class="todo-head">
-          <div class="todo-title">Mangler at få på plads</div>
-          <div class="todo-badge">Kun synlig for producer</div>
-        </div>
-        <div class="todo-item">
-          <div class="todo-check" onclick="toggleTodo(this)"></div>
-          <div class="todo-text">At finde den rigtige dag til optagelse af eksteriør scenen — afventer solskin</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="cg">
-      <div class="cnt"><div class="cnt-n" style="color:var(--gold);font-size:14px;padding-top:8px;">26. maj + 9. juni?</div><div class="cnt-l">Optagelsesdage</div></div>
-      <div class="cnt"><div class="cnt-n">6</div><div class="cnt-l">Crew</div></div>
-      <div class="cnt"><div class="cnt-n">3</div><div class="cnt-l">Skuespillere</div></div>
-      <div class="cnt"><div class="cnt-n">1</div><div class="cnt-l">Location</div></div>
-    </div>
-
-    <div class="sl"><span>Projektoverblik</span><i></i></div>
-    <div class="card">
-      <div class="card-head">
+  <!-- TAB: FILM -->
+  <div class="tab-panel" id="tab-about">
+    <div class="sh"><h2>FILM OVERVIEW</h2></div>
+    <div class="scene-card">
+      <div class="scene-head">
         <div>
-          <div class="ctitle">Toyota C-HR+ Commercial</div>
-          <div class="csub">Kunde: Reyni Service · Kovboy Film</div>
+          <div class="scene-type">// Commercial Film · Toyota C-HR+</div>
+          <div class="scene-title">Reyni Service — EV Commercial</div>
         </div>
-        <span class="tag t-gold">Pre-production</span>
+        <span class="scene-badge pending">In Production</span>
       </div>
-      <div class="ir">
-        <div class="ii"><span class="ik">Filmtype</span><span class="iv">Kommerciel reklame</span></div>
-        <div class="ii"><span class="ik">Antal film</span><span class="iv">1 (lang + kort version)</span></div>
-        <div class="ii"><span class="ik">Stylingmøde</span><span class="iv">Tors. 21. maj, kl. 10:30 · Online</span></div>
-        <div class="ii"><span class="ik">Portal</span><span class="iv"><a href="https://reyni.netlify.app/" target="_blank">reyni.netlify.app ↗</a></span></div>
-      </div>
-      <div class="divider"></div>
-      <div class="ik" style="margin-bottom:8px;">Formater</div>
-      <div class="ftags">
-        <span class="ftag">TV</span>
-        <span class="ftag">Cinema</span>
-        <span class="ftag">Facebook</span>
-        <span class="ftag">Instagram Portrait</span>
-        <span class="ftag">Instagram Landscape</span>
+      <div class="scene-body">
+        <div><div class="fi-label">Film type</div><div class="fi-val">Commercial</div></div>
+        <div><div class="fi-label">Subject</div><div class="fi-val">Toyota C-HR+ (New EV)</div></div>
+        <div><div class="fi-label">Formats</div><div class="fi-val">TV · Cinema · Facebook · Instagram</div></div>
+        <div><div class="fi-label">Orientation</div><div class="fi-val">Portrait &amp; Landscape</div></div>
+        <div><div class="fi-label">Versions</div><div class="fi-val">Long + Short version</div></div>
+        <div><div class="fi-label">Location</div><div class="fi-val">Ennivegur 3, Fuglafjørður</div></div>
+        <div><div class="fi-label">Scenes</div><div class="fi-val">Interior (✓ done) · Exterior (TBD)</div></div>
       </div>
     </div>
-
-    <div class="sl"><span>Produktionsledelse</span><i></i></div>
-    <div class="card">
-      <div class="ir">
-        <div class="ii"><span class="ik">Producer</span><span class="iv">Michael Koba</span></div>
-        <div class="ii"><span class="ik">Tlf</span><span class="iv"><a href="tel:+298591011">+298 591011</a></span></div>
-        <div class="ii"><span class="ik">Email</span><span class="iv"><a href="mailto:michael@kovboyfilm.com">michael@kovboyfilm.com</a></span></div>
-        <div class="ii"><span class="ik">Instruktør</span><span class="iv">Thomas Koba</span></div>
-        <div class="ii"><span class="ik">Tlf</span><span class="iv"><a href="tel:+298213457">+298 213457</a></span></div>
+    <div style="background:var(--card);border:1px solid rgba(230,51,41,.2);border-radius:var(--radius);padding:20px;margin-top:16px;">
+      <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;">Production Documents</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <a class="doc-btn" href="https://drive.google.com/file/d/1ASJGM3jLkzdcjWBqkAp2ed8N6uWsjVpS/view?usp=drive_link" target="_blank" style="padding:10px 20px;font-size:12px;">🎨 Moodboard</a>
+        <a class="doc-btn" href="https://drive.google.com/file/d/1FM9kDN2YTCPDWHF4zvH9QClzsmxPqmGL/view?usp=sharing" target="_blank" style="padding:10px 20px;font-size:12px;">📝 Script</a>
       </div>
     </div>
   </div>
 
-  <!-- CREW -->
-  <div class="panel" id="panel-crew">
-    <div class="sl"><span>Crew · Kovboy Film</span><i></i></div>
-
-    <div class="pcard">
-      <div class="av av-l">MK</div>
-      <div class="pb">
-        <div class="pt"><div><div class="pn">Michael Koba</div><div class="pr">Film Producer</div></div><span class="tag t-green">Bekræftet</span></div>
-        <div class="contacts">
-          <a href="tel:+298591011" class="cl">📞 +298 591011</a>
-          <a href="mailto:michael@kovboyfilm.com" class="cl">✉ michael@kovboyfilm.com</a>
-        </div>
-      </div>
+  <!-- TAB: CONTACTS -->
+  <div class="tab-panel" id="tab-contacts">
+    <div class="stats-row" id="statsRow"></div>
+    <div class="filters">
+      <input type="text" id="searchInput" placeholder="Search name, role…" />
+      <select id="groupFilter"><option value="all">All groups</option></select>
     </div>
-
-    <div class="pcard">
-      <div class="av av-o">TK</div>
-      <div class="pb">
-        <div class="pt"><div><div class="pn">Thomas Koba</div><div class="pr">Filmmaker · Instruktør · Creative Director · Editor</div></div><span class="tag t-green">Bekræftet</span></div>
-        <div class="contacts">
-          <a href="tel:+298213457" class="cl">📞 +298 213457</a>
-          <a href="mailto:thomas@kovboyfilm.com" class="cl">✉ thomas@kovboyfilm.com</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="pcard">
-      <div class="av av-g">HP</div>
-      <div class="pb">
-        <div class="pt"><div><div class="pn">Hans Petur Hansen</div><div class="pr">Gaffer</div></div><span class="tag t-green">Bekræftet</span></div>
-        <div class="contacts">
-          <a href="tel:+298296652" class="cl">📞 +298 296652</a>
-          <a href="mailto:hph@kringvarp.fo" class="cl">✉ hph@kringvarp.fo</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="pcard">
-      <div class="av av-b">AK</div>
-      <div class="pb">
-        <div class="pt"><div><div class="pn">Anna Kristin Bæk</div><div class="pr">Senior Stylist</div></div><span class="tag t-green">Bekræftet</span></div>
-        <div class="contacts">
-          <a href="tel:+298265180" class="cl">📞 +298 265180</a>
-          <a href="mailto:kristin.baek@gmail.com" class="cl">✉ kristin.baek@gmail.com</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="pcard">
-      <div class="av av-p">HM</div>
-      <div class="pb">
-        <div class="pt"><div><div class="pn">Heidi Mortensen</div><div class="pr">Junior Stylist</div></div><span class="tag t-green">Bekræftet</span></div>
-        <div class="contacts">
-          <a href="tel:+298790050" class="cl">📞 +298 790050</a>
-          <a href="mailto:heidi@atlanta.fo" class="cl">✉ heidi@atlanta.fo</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="pcard">
-      <div class="av" style="background:#c0392b;color:#fff;">JJ</div>
-      <div class="pb">
-        <div class="pt"><div><div class="pn">Julia Jacobsen</div><div class="pr">Make-up & Hair Stylist</div></div><span class="tag t-green">Bekræftet</span></div>
-        <div class="contacts">
-          <a href="tel:+298251175" class="cl">📞 +298 251175</a>
-          <a href="mailto:juliajacobsen@outlook.com" class="cl">✉ juliajacobsen@outlook.com</a>
-        </div>
-      </div>
-    </div>
+    <div class="contacts-grid" id="contactsGrid"></div>
   </div>
 
-  <!-- CAST -->
-  <div class="panel" id="panel-cast">
-    <div class="notice green">Cast bekræftet · 3 skuespillere fordelt på to scener.</div>
+  <!-- TAB: MY PLAN -->
+  <div class="tab-panel" id="tab-myplan"></div>
 
-    <div class="sl"><span>Eksteriør scene · Ennivegur 3, Fuglafjørður</span><i></i></div>
-    <div class="arow">
-      <div>
-        <div class="an">Rani Dahl Olsen</div>
-        <div class="an-role">"Macho Man"</div>
-        <div class="as">Eksteriør scene · TBD 25.–31. maj</div>
-      </div>
-      <div style="display:flex;gap:8px;flex-direction:column;align-items:flex-end;">
-        <span class="tag t-green">Bekræftet</span>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;">
-          <a href="tel:+298288852" class="cl" style="font-size:11px;">📞 +298 288852</a>
-          <a href="mailto:rani@yndi.fo" class="cl" style="font-size:11px;">✉ rani@yndi.fo</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="sl"><span>Interiør scene · Ennivegur 3, Fuglafjørður</span><i></i></div>
-    <div class="arow">
-      <div>
-        <div class="an">Astrið Gullborgardóttir</div>
-        <div class="an-role">"Ingrið"</div>
-        <div class="as">Interiør scene · 26. maj</div>
-      </div>
-      <div style="display:flex;gap:8px;flex-direction:column;align-items:flex-end;">
-        <span class="tag t-green">Bekræftet</span>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;">
-          <a href="tel:+298504467" class="cl" style="font-size:11px;">📞 +298 504467</a>
-          <a href="mailto:gullborgardottir@gmail.com" class="cl" style="font-size:11px;">✉ gullborgardottir@gmail.com</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="arow">
-      <div>
-        <div class="an">Hanna Flóvinsdóttir</div>
-        <div class="an-role">"Lea"</div>
-        <div class="as">Interiør scene · 26. maj</div>
-      </div>
-      <div style="display:flex;gap:8px;flex-direction:column;align-items:flex-end;">
-        <span class="tag t-green">Bekræftet</span>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;">
-          <a href="tel:+298218007" class="cl" style="font-size:11px;">📞 +298 218007</a>
-          <a href="mailto:hanna@yndi.fo" class="cl" style="font-size:11px;">✉ hanna@yndi.fo</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- KLIENT -->
-  <div class="panel" id="panel-klient">
-    <div class="sl"><span>Klient</span><i></i></div>
-    <div class="card">
-      <div class="card-head">
-        <div><div class="ctitle">Reyni Service</div><div class="csub">Toyota forhandler · Færøerne</div></div>
-        <span class="tag t-green">Aktiv</span>
-      </div>
-      <div class="ir">
-        <div class="ii"><span class="ik">Bil</span><span class="iv">Toyota C-HR+</span></div>
-        <div class="ii"><span class="ik">Type</span><span class="iv">EV (elektrisk)</span></div>
-        <div class="ii"><span class="ik">Portal</span><span class="iv"><a href="https://reyni.netlify.app/" target="_blank">reyni.netlify.app ↗</a></span></div>
-      </div>
-    </div>
-
-    <div class="sl"><span>Repræsentanter</span><i></i></div>
-    <div class="pcard">
-      <div class="av av-l">FJ</div>
-      <div class="pb">
-        <div class="pt"><div><div class="pn">Fríðrikur Jakobsen</div><div class="pr">Repræsentant · Reyni Service</div></div></div>
-        <div class="contacts">
-          <a href="tel:+298793047" class="cl">📞 +298 793047</a>
-          <a href="mailto:fj@rs.fo" class="cl">✉ fj@rs.fo</a>
-        </div>
-      </div>
-    </div>
-    <div class="pcard">
-      <div class="av av-w">SR</div>
-      <div class="pb">
-        <div class="pt"><div><div class="pn">Sámal av Reyni</div><div class="pr">Repræsentant · Reyni Service</div></div></div>
-        <div class="contacts">
-          <a href="tel:+298222500" class="cl">📞 +298 222500</a>
-          <a href="mailto:sr@rs.fo" class="cl">✉ sr@rs.fo</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- DOKUMENTER -->
-  <div class="panel" id="panel-dokumenter">
-    <div class="sl"><span>Filer &amp; dokumenter</span><i></i></div>
-    <div class="card">
-      <a href="https://drive.google.com/file/d/1FM9kDN2YTCPDWHF4zvH9QClzsmxPqmGL/view?usp=sharing" target="_blank" class="dlink">
-        <div class="dlink-icon">📄</div>
-        <div style="flex:1;min-width:0;"><div class="dlname">Script</div><div class="dlsub">Google Drive · Klik for at åbne</div></div>
-        <span class="tag t-green" style="margin-right:6px;">Tilgængelig</span>
-        <span class="dlarrow">↗</span>
-      </a>
-      <a href="https://drive.google.com/file/d/1ASJGM3jLkzdcjWBqkAp2ed8N6uWsjVpS/view?usp=drive_link" target="_blank" class="dlink">
-        <div class="dlink-icon">🎨</div>
-        <div style="flex:1;min-width:0;"><div class="dlname">Moodboard</div><div class="dlsub">Google Drive · Klik for at åbne</div></div>
-        <span class="tag t-green" style="margin-right:6px;">Tilgængelig</span>
-        <span class="dlarrow">↗</span>
-      </a>
-      <div class="dlink" style="cursor:default;opacity:0.45;">
-        <div class="dlink-icon">📋</div>
-        <div style="flex:1;min-width:0;"><div class="dlname">Call Sheets</div><div class="dlsub">Ikke klar endnu</div></div>
-        <span class="tag t-gold">Pending</span>
-      </div>
-      <div class="dlink" style="cursor:default;opacity:0.45;">
-        <div class="dlink-icon">📑</div>
-        <div style="flex:1;min-width:0;"><div class="dlname">Kontrakter</div><div class="dlsub">Ikke klar endnu</div></div>
-        <span class="tag t-sand">Ikke klar</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- BESKEDER -->
-  <div class="panel" id="panel-beskeder">
-    <div class="sl"><span>Produktionsmeddelelser</span><i></i></div>
-    <div class="msg">
-      <div class="mf">Kovboy Film · Produktion</div>
-      <div class="mt">Portalen er opdateret. Eksteriør scene har fået en mulig dato: <strong>tirsdag 9. juni 2026</strong>. Nærmere bekræftelse kommer søndag den 7. juni. Hold øje med portalen.</div>
-      <div class="mm">Opdateret · maj 2026</div>
-    </div>
-    <div class="notice">Yderligere beskeder tilføjes her undervejs.</div>
-  </div>
-
-</div>
+</main>
 
 <script>
-// Animate progress bar on load
-window.addEventListener('load', function() {
-  setTimeout(function() {
-    document.getElementById('pb-fill').style.width = '80%';
-    animateCount(document.getElementById('pb-pct'), 0, 80, 1200);
-  }, 300);
-});
+  const MOODBOARD = "https://drive.google.com/file/d/1ASJGM3jLkzdcjWBqkAp2ed8N6uWsjVpS/view?usp=drive_link";
+  const SCRIPT    = "https://drive.google.com/file/d/1FM9kDN2YTCPDWHF4zvH9QClzsmxPqmGL/view?usp=sharing";
 
-function animateCount(el, from, to, duration) {
-  const start = performance.now();
-  function step(now) {
-    const p = Math.min((now - start) / duration, 1);
-    const ease = 1 - Math.pow(1 - p, 3);
-    el.textContent = Math.round(from + (to - from) * ease) + '%';
-    if (p < 1) requestAnimationFrame(step);
+  const people = [
+    {
+      name:"Michael Koba", role:"Film Producer", group:"Crew",
+      phone:"+298 591011", email:"michael@kovboyfilm.com",
+      isMichael: true,
+      schedule:[
+        "Thu 21 May · 10:30 · Styling prep meeting (online) · ✓ Done",
+        "Tue 26 May · 12:00 · Interior scene setup · Fuglafjørður · ✓ Done",
+        "TBD (sunny day) · 10:00 · Exterior scene · Fuglafjørður"
+      ],
+      contacts:["Thomas Koba","Hans Petur Hansen","Fríðrikur Jakobsen","Sámal av Reyni","Anna Kristin Bæk","Heidi Mortensen","Julia Jacobsen"]
+    },
+    {
+      name:"Thomas Koba", role:"Filmmaker / Director / Editor", group:"Crew",
+      phone:"+298 213457", email:"thomas@kovboyfilm.com",
+      schedule:[
+        "Thu 21 May · 10:30 · Styling prep meeting (online) · ✓ Done",
+        "Tue 26 May · 12:00 · Interior scene · Fuglafjørður · ✓ Done",
+        "TBD (sunny day) · 10:00 · Exterior scene · Fuglafjørður"
+      ],
+      contacts:["Michael Koba","Hans Petur Hansen","Fríðrikur Jakobsen"]
+    },
+    {
+      name:"Hans Petur Hansen", role:"Gaffer", group:"Crew",
+      phone:"+298 296652", email:"hph@kringvarp.fo",
+      schedule:[
+        "Tue 26 May · 12:00 · Interior scene · Fuglafjørður · ✓ Done",
+        "TBD (sunny day) · 10:00 · Exterior scene · Fuglafjørður"
+      ],
+      contacts:["Michael Koba","Thomas Koba"]
+    },
+    {
+      name:"Anna Kristin Bæk", role:"Senior Stylist Adviser", group:"Crew",
+      phone:"+298 265180", email:"kristin.baek@gmail.com",
+      schedule:[
+        "Thu 21 May · 10:30 · Styling prep meeting (online) · ✓ Done",
+        "Tue 26 May · Interior scene · ✓ Done",
+        "TBD (sunny day) · Exterior scene · Online"
+      ],
+      contacts:["Michael Koba","Heidi Mortensen"]
+    },
+    {
+      name:"Heidi Mortensen", role:"Junior Stylist", group:"Crew",
+      phone:"+298 790050", email:"heidi@atlanta.fo",
+      schedule:[
+        "Thu 21 May · 10:30 · Styling prep meeting (online) · ✓ Done",
+        "Tue 26 May · Interior scene · Fuglafjørður · ✓ Done",
+        "TBD (sunny day) · Exterior scene · Fuglafjørður"
+      ],
+      contacts:["Michael Koba","Anna Kristin Bæk","Julia Jacobsen"]
+    },
+    {
+      name:"Julia Jacobsen", role:"Make-up & Hair Stylist", group:"Crew",
+      phone:"+298 251175", email:"juliajacobsen@outlook.com",
+      schedule:[
+        "Tue 26 May · Interior scene · Fuglafjørður · ✓ Done",
+        "TBD (sunny day) · 13:00 · Exterior scene · Fuglafjørður"
+      ],
+      contacts:["Michael Koba","Heidi Mortensen"]
+    },
+    {
+      name:"Fríðrikur Jakobsen", role:"Client — Reyni Service", group:"Client",
+      phone:"+298 793047", email:"fj@rs.fo",
+      schedule:[
+        "Exterior scene · TBD (sunny day) · Fuglafjørður"
+      ],
+      contacts:["Michael Koba","Sámal av Reyni"]
+    },
+    {
+      name:"Sámal av Reyni", role:"Client — Reyni Service", group:"Client",
+      phone:"+298 222500", email:"sr@rs.fo",
+      schedule:[
+        "Exterior scene · TBD (sunny day) · Fuglafjørður"
+      ],
+      contacts:["Michael Koba","Fríðrikur Jakobsen"]
+    },
+    {
+      name:"Astrið Gullborgardóttir", role:'Actor — "Ingrið" · Interior scene', group:"Actor",
+      phone:"+298 504467", email:"gullborgardottir@gmail.com",
+      schedule:[
+        "Tue 26 May · 16:30 · Interior scene · Ennivegur 3, Fuglafjørður · ✓ Done"
+      ],
+      contacts:["Michael Koba"]
+    },
+    {
+      name:"Hanna Flóvinsdóttir", role:'Actor — "Lea" · Interior scene', group:"Actor",
+      phone:"+298 218007", email:"hanna@yndi.fo",
+      schedule:[
+        "Tue 26 May · 16:30 · Interior scene · Ennivegur 3, Fuglafjørður · ✓ Done"
+      ],
+      contacts:["Michael Koba"]
+    },
+    {
+      name:"Rani Dahl Olsen", role:'Actor — "Macho Man" · Exterior scene', group:"Actor",
+      phone:"+298 288852", email:"rani@yndi.fo",
+      schedule:[
+        "TBD (sunny day) · 13:00 · Exterior scene · Ennivegur 3, Fuglafjørður"
+      ],
+      contacts:["Michael Koba"]
+    },
+    {
+      name:"Mary Ann Zachariassen", role:"Location Owner", group:"Location",
+      phone:"+298 221245", email:"mary.ann86@hotmail.com",
+      schedule:[
+        "Tue 26 May · Interior scene · Ennivegur 3, Fuglafjørður · ✓ Done",
+        "TBD (sunny day) · Exterior scene · Ennivegur 3, Fuglafjørður"
+      ],
+      contacts:["Michael Koba"]
+    }
+  ];
+
+  function esc(v){return(v||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function tel(p){return p?'tel:'+p.replace(/\s+/g,''):'';}
+  function getPerson(n){return people.find(p=>p.name===n);}
+
+  // ── TABS ──
+  const tabBtns=document.querySelectorAll('.tab-btn');
+  const tabPanels=document.querySelectorAll('.tab-panel');
+  function switchTab(name){
+    tabBtns.forEach(b=>b.classList.remove('active'));
+    tabPanels.forEach(p=>p.classList.remove('active'));
+    document.querySelector(`[data-tab="${name}"]`)?.classList.add('active');
+    document.getElementById(`tab-${name}`)?.classList.add('active');
   }
-  requestAnimationFrame(step);
-}
+  tabBtns.forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
 
-function toggleDropdown() {
-  document.getElementById('udw').classList.toggle('open');
-}
+  // ── STATS ──
+  function renderStats(){
+    const g=grp=>people.filter(p=>p.group===grp).length;
+    document.getElementById('statsRow').innerHTML=[
+      [people.length,'Total'],
+      [g('Crew'),'Crew'],
+      [g('Actor'),'Actors'],
+      [g('Client'),'Client']
+    ].map(([v,l])=>`<div class="stat-card"><div class="stat-val">${v}</div><div class="stat-lbl">${l}</div></div>`).join('');
+  }
 
-document.addEventListener('click', function(e) {
-  const udw = document.getElementById('udw');
-  if (udw && !udw.contains(e.target)) udw.classList.remove('open');
-});
+  // ── CONTACTS ──
+  function populateGroups(){
+    const sel=document.getElementById('groupFilter');
+    [...new Set(people.map(p=>p.group))].sort().forEach(g=>{
+      const o=document.createElement('option');o.value=g;o.textContent=g;sel.appendChild(o);
+    });
+  }
+  function filterPeople(){
+    const q=document.getElementById('searchInput').value.trim().toLowerCase();
+    const g=document.getElementById('groupFilter').value;
+    return people.filter(p=>{
+      const hay=[p.name,p.role,p.group,p.email,p.phone].join(' ').toLowerCase();
+      return(q===''||hay.includes(q))&&(g==='all'||p.group===g);
+    });
+  }
+  function renderContacts(){
+    document.getElementById('contactsGrid').innerHTML=filterPeople().map(p=>`
+      <div class="cc">
+        <div class="cc-top">
+          <div><div class="cc-name">${esc(p.name)}</div><div class="cc-role">${esc(p.role)}</div></div>
+          <span class="cc-badge ${p.group}">${esc(p.group)}</span>
+        </div>
+        <div class="cc-info">
+          <div class="cc-row"><span class="cc-lbl">Tel</span><span>${p.phone?`<a href="${tel(p.phone)}">${esc(p.phone)}</a>`:'—'}</span></div>
+          <div class="cc-row"><span class="cc-lbl">Mail</span><span>${p.email?`<a href="mailto:${p.email}">${esc(p.email)}</a>`:'—'}</span></div>
+        </div>
+        <div class="cc-btns">
+          ${p.phone?`<a class="cc-btn call" href="${tel(p.phone)}">📞 Call</a>`:''}
+          ${p.email?`<a class="cc-btn mail" href="mailto:${p.email}">✉ Email</a>`:''}
+        </div>
+      </div>`).join('');
+  }
+  document.getElementById('searchInput').addEventListener('input',renderContacts);
+  document.getElementById('groupFilter').addEventListener('change',renderContacts);
 
-function selectUser(name, role, isProducer) {
-  const chip  = document.getElementById('user-chip');
-  const pre   = document.getElementById('uc-pre');
-  const lbl   = document.getElementById('user-label');
-  const dot   = document.getElementById('uc-dot');
+  // ── MY PLAN ──
+  function renderMyPlan(person){
+    const contacts=(person.contacts||[]).map(n=>getPerson(n)).filter(Boolean);
+    const todoHtml = person.isMichael ? `
+      <div class="todo-card" style="margin-bottom:20px;">
+        <div class="todo-title">🗒 To Do — Producer Checklist</div>
+        <div class="todo-item">⛅ This week doesn't look good — awaiting sunshine forecast for Fuglafjørður</div>
+        <div class="todo-item">Find the right day for the exterior scene (sunshine + blue skies required)</div>
+      </div>` : '';
 
-  pre.textContent = role;
-  pre.style.opacity = '0.65';
-  lbl.textContent = name;
-  lbl.style.display = 'inline';
-  lbl.style.fontWeight = '600';
-  dot.classList.add('active');
-  chip.classList.add('named');
+    const docsHtml = `
+      <div style="background:rgba(230,51,41,.06);border:1px solid rgba(230,51,41,.2);border-radius:var(--radius);padding:14px 18px;margin-bottom:20px;">
+        <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;">Production Documents</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <a class="doc-btn" href="${MOODBOARD}" target="_blank">🎨 Moodboard</a>
+          <a class="doc-btn" href="${SCRIPT}" target="_blank">📝 Script</a>
+        </div>
+      </div>`;
 
-  document.getElementById('udw').classList.remove('open');
-  document.querySelectorAll('.um-item').forEach(el => el.classList.remove('selected'));
-  event.currentTarget.classList.add('selected');
+    document.getElementById('tab-myplan').innerHTML=`
+      <div style="margin-bottom:20px;">
+        <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;">// Your Schedule</div>
+        <div style="font-family:var(--font-display);font-size:36px;letter-spacing:.04em;color:var(--text);line-height:1;">${esc(person.name)}</div>
+        <div style="font-size:13px;color:var(--text-muted);margin-top:4px;">${esc(person.role)}</div>
+      </div>
+      ${todoHtml}
+      ${docsHtml}
+      <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);">— My Shoot Days</div>
+      <div style="display:grid;gap:10px;margin-bottom:24px;">
+        ${(person.schedule||[]).map(s=>{
+          const parts=s.split('·').map(x=>x.trim());
+          const time=parts[0]||'';
+          const rest=parts.slice(1).join(' · ');
+          const done=s.includes('✓ Done');
+          return`<div style="background:var(--card);border:1px solid ${done?'rgba(34,197,94,.2)':'var(--border)'};border-left:3px solid ${done?'var(--green)':'var(--accent)'};border-radius:var(--radius-sm);padding:14px 18px;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;${done?'opacity:.7':''}">
+            <div style="font-family:var(--font-mono);font-size:11px;color:${done?'var(--green)':'var(--accent)'};font-weight:500;white-space:nowrap;padding-top:1px;${done?'text-decoration:line-through':''};">${esc(time)}</div>
+            <div style="font-size:13px;color:var(--text-mid);line-height:1.5;${done?'text-decoration:line-through;color:var(--text-muted)':''};">${esc(rest)}</div>
+          </div>`;
+        }).join('')}
+      </div>
+      <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);">— My Contacts</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;">
+        ${contacts.map(c=>`
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;">
+            <div style="font-family:var(--font-display);font-size:18px;letter-spacing:.03em;color:var(--text);margin-bottom:2px;">${esc(c.name)}</div>
+            <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px;">${esc(c.role)}</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              ${c.phone?`<a href="${tel(c.phone)}" style="display:inline-flex;align-items:center;gap:6px;padding:7px 12px;background:var(--accent);color:#fff;border-radius:6px;font-size:12px;font-weight:600;text-decoration:none;flex:1;justify-content:center;min-width:100px;">📞 ${esc(c.phone)}</a>`:''}
+              ${c.email?`<a href="mailto:${c.email}" style="display:inline-flex;align-items:center;gap:6px;padding:7px 12px;background:var(--card2);color:var(--text);border:1px solid var(--border);border-radius:6px;font-size:12px;font-weight:600;text-decoration:none;flex:1;justify-content:center;min-width:80px;">✉ Email</a>`:''}
+            </div>
+          </div>`).join('')}
+      </div>`;
+  }
 
-  // Producer todo
-  document.querySelectorAll('.producer-only').forEach(el => {
-    el.style.display = isProducer ? 'block' : 'none';
+  // ── NAME SELECT ──
+  function populateSelect(sel){
+    [...people].sort((a,b)=>a.name.localeCompare(b.name)).forEach(p=>{
+      const o=document.createElement('option');o.value=p.name;o.textContent=`${p.name} · ${p.role}`;sel.appendChild(o);
+    });
+  }
+  function triggerSelect(name){
+    const person=name?getPerson(name):null;
+    const tab=document.getElementById('myplanTab');
+    document.getElementById('personSelect').value=name||'';
+    document.getElementById('personSelectMobile').value=name||'';
+    if(person){tab.style.display='flex';renderMyPlan(person);switchTab('myplan');}
+    else{tab.style.display='none';switchTab('schedule');}
+  }
+  document.getElementById('personSelect').addEventListener('change',function(){triggerSelect(this.value);});
+  document.getElementById('personSelectMobile').addEventListener('change',function(){triggerSelect(this.value);});
+
+  // ── RESPONSIVE ──
+  function checkLayout(){
+    const mob=window.innerWidth<700;
+    document.getElementById('mobilePicker').style.display=mob?'flex':'none';
+    document.getElementById('desktopPicker').style.display=mob?'none':'flex';
+  }
+  checkLayout();
+  window.addEventListener('resize',checkLayout);
+
+  // ── RESET ──
+  document.getElementById('brandHome').addEventListener('click',()=>{
+    triggerSelect('');
+    document.getElementById('searchInput').value='';
+    document.getElementById('groupFilter').value='all';
+    renderContacts();
+    window.scrollTo({top:0,behavior:'smooth'});
   });
 
-  // Schedule filtering
-  const prompt  = document.getElementById('schedule-prompt');
-  const welcome = document.getElementById('schedule-welcome');
-  const blocks  = document.querySelectorAll('.day-block[data-persons]');
-
-  prompt.style.display = 'none';
-
-  let count = 0;
-  blocks.forEach(block => {
-    const persons = block.getAttribute('data-persons');
-    const visible = persons === 'alle' || persons.split(',').map(s => s.trim()).includes(name);
-    block.style.display = visible ? 'block' : 'none';
-    if (visible) count++;
-  });
-
-  welcome.innerHTML = '<strong>' + name + '</strong> — dit program viser ' + count + (count === 1 ? ' begivenhed' : ' begivenheder') + ' du er med på.';
-  welcome.style.display = 'block';
-
-  showTabById('schedule');
-}
-
-function showTab(id, el) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('panel-' + id).classList.add('active');
-  el.classList.add('active');
-}
-
-function showTabById(id) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('panel-' + id).classList.add('active');
-  const tab = document.querySelector('.nav-tab[onclick*="\'' + id + '\'"]');
-  if (tab) tab.classList.add('active');
-}
-
-function toggleTodo(el) {
-  el.classList.toggle('done');
-  el.nextElementSibling.classList.toggle('done');
-}
+  // ── INIT ──
+  renderStats();
+  populateGroups();
+  populateSelect(document.getElementById('personSelect'));
+  populateSelect(document.getElementById('personSelectMobile'));
+  renderContacts();
 </script>
 </body>
 </html>
