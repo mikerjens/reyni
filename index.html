@@ -583,47 +583,84 @@
     window.scrollTo({top:0,behavior:'smooth'});
   });
 
-  // ── WEATHER — Fuglafjørður via Open-Meteo (no API key, CORS-friendly) ──
+  // ── WEATHER — Fuglafjørður via Open-Meteo ──
   async function loadWeather(){
     const LAT = 62.2458, LON = -6.8119;
     try {
-      const url = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&daily=weathercode,temperature_2m_max,temperature_2m_min,windspeed_10m_max,precipitation_sum&timezone=Atlantic%2FFaroe&forecast_days=7`;
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&daily=weathercode,temperature_2m_max,temperature_2m_min,windspeed_10m_max,precipitation_sum,cloudcover_mean&timezone=Atlantic%2FFaroe&forecast_days=7`;
       const res = await fetch(url);
-      if(!res.ok) throw new Error('fetch failed');
+      if(!res.ok) throw new Error();
       const data = await res.json();
       const d = data.daily;
 
-      // WMO weather codes → icon + description
       function wmoInfo(code){
-        if(code===0)  return['☀️','Clear sky',true];
-        if(code===1)  return['🌤','Mainly clear',true];
-        if(code===2)  return['⛅','Partly cloudy',false];
-        if(code===3)  return['☁️','Overcast',false];
-        if(code<=49)  return['🌫','Fog',false];
-        if(code<=55)  return['🌦','Drizzle',false];
-        if(code<=65)  return['🌧','Rain',false];
-        if(code<=75)  return['❄️','Snow',false];
-        if(code<=82)  return['🌧','Showers',false];
-        if(code<=86)  return['🌨','Snow showers',false];
-        if(code<=99)  return['⛈','Thunderstorm',false];
-        return['🌡','Unknown',false];
+        if(code===0)  return['☀️','Clear sky'];
+        if(code===1)  return['🌤','Mainly clear'];
+        if(code===2)  return['⛅','Partly cloudy'];
+        if(code===3)  return['☁️','Overcast'];
+        if(code<=49)  return['🌫','Fog'];
+        if(code<=55)  return['🌦','Drizzle'];
+        if(code<=65)  return['🌧','Rain'];
+        if(code<=75)  return['❄️','Snow'];
+        if(code<=82)  return['🌧','Showers'];
+        if(code<=86)  return['🌨','Snow showers'];
+        if(code<=99)  return['⛈','Thunderstorm'];
+        return['🌡','Unknown'];
       }
 
-      const days = new Date();
+      // Score each day for shoot potential (0–100)
+      // Higher = better for outdoor shoot with sunshine
+      function shootScore(code, rain, wind, cloud){
+        let score = 100;
+        // Weather code penalty
+        if(code===0) score -= 0;
+        else if(code===1) score -= 5;
+        else if(code===2) score -= 20;
+        else if(code===3) score -= 40;
+        else if(code<=49) score -= 50;
+        else score -= 70; // rain/snow/thunder
+        // Rain penalty
+        score -= Math.min(rain * 8, 40);
+        // Wind penalty (above 8 m/s)
+        const windMs = wind / 3.6;
+        if(windMs > 12) score -= 30;
+        else if(windMs > 8) score -= 15;
+        // Cloud penalty
+        score -= Math.round((cloud||0) * 0.25);
+        return Math.max(0, Math.min(100, score));
+      }
+
+      function scoreLabel(score){
+        if(score >= 80) return ['🟢', 'Ideal shoot day',    'rgba(34,197,94,.15)',  'rgba(34,197,94,.5)',  'var(--green)'];
+        if(score >= 55) return ['🟡', 'Potential — monitor','rgba(245,158,11,.1)',  'rgba(245,158,11,.4)', 'var(--amber)'];
+        if(score >= 35) return ['🟠', 'Maybe — watch the forecast', 'rgba(230,100,30,.08)', 'rgba(230,100,30,.3)', '#f97316'];
+        return               ['🔴', 'Not suitable',        'rgba(255,255,255,.02)','var(--border)',       'var(--text-muted)'];
+      }
+
       const html = d.time.map((date, i) => {
-        const [ico, desc, sunny] = wmoInfo(d.weathercode[i]);
-        const maxT = Math.round(d.temperature_2m_max[i]);
-        const minT = Math.round(d.temperature_2m_min[i]);
-        const wind = Math.round(d.windspeed_10m_max[i] / 3.6); // km/h → m/s
-        const rain = d.precipitation_sum[i];
+        const [ico, desc] = wmoInfo(d.weathercode[i]);
+        const maxT  = Math.round(d.temperature_2m_max[i]);
+        const minT  = Math.round(d.temperature_2m_min[i]);
+        const wind  = Math.round(d.windspeed_10m_max[i] / 3.6);
+        const rain  = d.precipitation_sum[i];
+        const cloud = d.cloudcover_mean?.[i] || 0;
+        const score = shootScore(d.weathercode[i], rain, d.windspeed_10m_max[i], cloud);
+        const [dot, label, bg, borderCol, textCol] = scoreLabel(score);
         const dayLabel = new Date(date).toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});
-        return `<div style="background:${sunny?'rgba(34,197,94,.1)':'rgba(255,255,255,.03)'};border:1px solid ${sunny?'rgba(34,197,94,.4)':'var(--border)'};border-radius:var(--radius-sm);padding:12px 10px;text-align:center;position:relative;">
-          ${sunny?'<div style="position:absolute;top:5px;right:5px;font-family:var(--font-mono);font-size:8px;letter-spacing:.04em;text-transform:uppercase;color:var(--green);background:rgba(34,197,94,.15);padding:2px 5px;border-radius:3px;">☀ Sunny</div>':''}
+
+        return `<div style="background:${bg};border:1px solid ${borderCol};border-radius:var(--radius-sm);padding:12px 10px;text-align:center;position:relative;">
           <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-muted);margin-bottom:4px;">${dayLabel}</div>
-          <div style="font-size:26px;margin:4px 0;">${ico}</div>
-          <div style="font-family:var(--font-display);font-size:20px;letter-spacing:.03em;color:${sunny?'var(--green)':'var(--text)'};">${maxT}° <span style="font-size:13px;color:var(--text-muted);">${minT}°</span></div>
-          <div style="font-size:10px;color:var(--text-muted);margin-top:3px;">${desc}</div>
+          <div style="font-size:24px;margin:4px 0;">${ico}</div>
+          <div style="font-family:var(--font-display);font-size:20px;letter-spacing:.03em;color:${textCol};">${maxT}° <span style="font-size:12px;color:var(--text-muted);">${minT}°</span></div>
+          <div style="font-size:10px;color:var(--text-muted);margin-top:2px;">${desc}</div>
           <div style="font-size:10px;color:var(--text-muted);margin-top:2px;">💨 ${wind} m/s · 🌧 ${rain}mm</div>
+          <div style="margin-top:7px;padding-top:7px;border-top:1px solid ${borderCol};">
+            <span style="font-size:10px;">${dot}</span>
+            <span style="font-family:var(--font-mono);font-size:8px;letter-spacing:.04em;text-transform:uppercase;color:${textCol};margin-left:3px;">${label}</span>
+          </div>
+          <div style="margin-top:4px;height:3px;background:var(--border);border-radius:2px;overflow:hidden;">
+            <div style="height:100%;width:${score}%;background:${textCol};border-radius:2px;"></div>
+          </div>
         </div>`;
       }).join('');
 
